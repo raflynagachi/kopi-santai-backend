@@ -15,11 +15,3 @@ func StatusOKResponse(data any) AppResponse {
 		Data:       data,
 	}
 }
-
-func StatusCreatedResponse(data any) AppResponse {
-	return AppResponse{
-		StatusCode: http.StatusCreated,
-		Status:     "CREATED",
-		Data:       data,
-	}
-}
