@@ -2,6 +2,8 @@ package config
 
 import "os"
 
+var Testing = "testing"
+
 type dbConfig struct {
 	Host     string
 	User     string
@@ -24,7 +26,7 @@ var Config = AppConfig{
 	AppName:                getEnv("APP_NAME", "Kopi Santai"),
 	AppBaseURL:             getEnv("APP_BASE_URL", "localhost"),
 	AppPort:                getEnv("APP_PORT", "8080"),
-	ENV:                    getEnv("ENV", "testing"),
+	ENV:                    getEnv("ENV", Testing),
 	JWTSecret:              []byte(getEnv("JWT_SECRET", "p@ssW0rd")),
 	JWTExpiredInMinuteTime: 15,
 	DBConfig: dbConfig{
