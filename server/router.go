@@ -2,6 +2,7 @@ package server
 
 import (
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/httperror"
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/middleware"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -17,6 +18,7 @@ func NoRouteHandler(c *gin.Context) {
 
 func NewRouter(c *RouterConfig) *gin.Engine {
 	r := gin.Default()
+	r.Use(middleware.ErrorHandler)
 	r.NoRoute(NoRouteHandler)
 
 	return r
