@@ -9,6 +9,7 @@ import (
 
 type AuthHandler interface {
 	Login(c *gin.Context)
+	Register(c *gin.Context)
 }
 
 type authHandler struct {
@@ -29,6 +30,20 @@ func (h *authHandler) Login(c *gin.Context) {
 	req = payload.(*dto.LoginPostReq)
 
 	tokenRes, err := h.authService.Login(req)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.StatusOKResponse(tokenRes))
+}
+
+func (h *authHandler) Register(c *gin.Context) {
+	payload, _ := c.Get("payload")
+	var req *dto.RegisterPostReq
+	req = payload.(*dto.RegisterPostReq)
+
+	tokenRes, err := h.authService.Register(req)
 	if err != nil {
 		_ = c.Error(err)
 		return

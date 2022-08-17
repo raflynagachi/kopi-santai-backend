@@ -28,6 +28,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	authHandler := handler.NewAuth(&handler.AuthConfig{AuthService: c.AuthService})
 
 	r.POST("/login", middleware.RequestValidator(&dto.LoginPostReq{}), authHandler.Login)
+	r.POST("/register", middleware.RequestValidator(&dto.RegisterPostReq{}), authHandler.Register)
 
 	return r
 }

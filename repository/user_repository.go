@@ -5,9 +5,11 @@ import (
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dberror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type UserRepository interface {
+	Create(tx *gorm.DB, user *model.User) (*model.User, error)
 	FindByEmail(tx *gorm.DB, email string) (*model.User, error)
 }
 
@@ -15,6 +17,14 @@ type userRepository struct{}
 
 func NewUser() UserRepository {
 	return &userRepository{}
+}
+
+func (_ *userRepository) Create(tx *gorm.DB, user *model.User) (*model.User, error) {
+	result := tx.Clauses(clause.OnConflict{DoNothing: true}).Create(user)
+	if int(result.RowsAffected) == 0 {
+		return nil, new(dberror.EmailAlreadyExistError)
+	}
+	return user, result.Error
 }
 
 func (_ *userRepository) FindByEmail(tx *gorm.DB, email string) (*model.User, error) {
