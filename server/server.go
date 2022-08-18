@@ -15,7 +15,14 @@ func Init() {
 		UserRepository: userRepo,
 		AppConfig:      config.Config,
 	})
+	userService := service.NewUser(&service.UserConfig{
+		DB:             db.Get(),
+		UserRepository: userRepo,
+	})
 
-	router := NewRouter(&RouterConfig{AuthService: authService})
+	router := NewRouter(&RouterConfig{
+		AuthService: authService,
+		UserService: userService,
+	})
 	log.Fatalln(router.Run())
 }
