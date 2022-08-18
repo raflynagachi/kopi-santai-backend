@@ -1,4 +1,4 @@
-package dberror
+package customerror
 
 type EmailAlreadyExistError struct{}
 
