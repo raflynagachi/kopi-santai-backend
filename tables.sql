@@ -1,3 +1,4 @@
+create database kopi_santai_db;
 
 drop table if exists game_leaderboards_tab;
 drop table if exists games_tab;
@@ -6,6 +7,7 @@ drop table if exists order_items_tab;
 drop table if exists orders_tab;
 drop table if exists deliveries_tab;
 drop table if exists promotions_tab;
+drop table if exists menu_option_categories_tab;
 drop table if exists menu_options_tab;
 drop table if exists menus_tab;
 drop table if exists categories_tab;
@@ -21,7 +23,6 @@ create table users_tab(
     full_name varchar not null ,
     phone varchar not null ,
     email varchar not null unique ,
-    username varchar not null unique ,
     role varchar default 'USER' ,
     address varchar not null ,
     password varchar not null ,
@@ -91,15 +92,25 @@ create table menus_tab(
     foreign key (category_id) references categories_tab(id)
 );
 
+create table menu_option_categories_tab(
+    id bigserial primary key ,
+    name varchar not null ,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp,
+    deleted_at timestamp
+);
+
 create table menu_options_tab(
     id bigserial primary key ,
     category_id bigint not null ,
+    menu_option_category_id bigint not null ,
     name varchar not null ,
     price decimal default 0,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     deleted_at timestamp,
-    foreign key (category_id) references categories_tab(id)
+    foreign key (category_id) references categories_tab(id),
+    foreign key (menu_option_category_id) references menu_option_categories_tab(id)
 );
 
 create table deliveries_tab(
