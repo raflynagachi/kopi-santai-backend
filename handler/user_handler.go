@@ -11,6 +11,7 @@ import (
 
 type UserHandler interface {
 	GetProfileDetail(c *gin.Context)
+	UpdateProfile(c *gin.Context)
 }
 
 type userHandler struct {
@@ -35,6 +36,28 @@ func (h *userHandler) GetProfileDetail(c *gin.Context) {
 	}
 
 	userRes, err := h.userService.GetProfileDetail(user.ID)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.StatusOKResponse(userRes))
+}
+
+func (h *userHandler) UpdateProfile(c *gin.Context) {
+	idParam, _ := c.Get("id")
+	payloadJwt, ok := c.Get("user")
+	user := payloadJwt.(*dto.UserJWT)
+	if !ok || idParam != user.ID {
+		_ = c.Error(httperror.UnauthorizedError(new(customerror.UserUnauthorizedError).Error()))
+		return
+	}
+
+	payload, _ := c.Get("payload")
+	var req *dto.UserUpdateReq
+	req = payload.(*dto.UserUpdateReq)
+
+	userRes, err := h.userService.UpdateProfile(user.ID, req)
 	if err != nil {
 		_ = c.Error(err)
 		return

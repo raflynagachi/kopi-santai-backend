@@ -34,5 +34,6 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 
 	r.Use(middleware.AuthorizeJWT)
 	r.GET("/users/:id", middleware.ParamIDValidator, userHandler.GetProfileDetail)
+	r.PATCH("/users/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.UserUpdateReq{}), userHandler.UpdateProfile)
 	return r
 }

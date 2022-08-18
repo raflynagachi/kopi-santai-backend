@@ -5,13 +5,8 @@ import (
 )
 
 type ProfileRes struct {
-	FullName       string       `json:"fullName"`
-	Phone          string       `json:"phone"`
-	Email          string       `json:"email"`
-	Username       string       `json:"username"`
-	Address        string       `json:"address"`
-	ProfilePicture string       `json:"profilePicture"`
-	Coupons        []*CouponRes `json:"coupon"`
+	User    *UserRes     `json:"user"`
+	Coupons []*CouponRes `json:"coupons"`
 }
 
 func couponsToCouponsRes(coupons []*model.Coupon) []*CouponRes {
@@ -23,14 +18,10 @@ func couponsToCouponsRes(coupons []*model.Coupon) []*CouponRes {
 }
 
 func (_ *ProfileRes) FromUser(u *model.User) *ProfileRes {
+	user := new(UserRes).FromUser(u)
 	coupons := couponsToCouponsRes(u.Coupons)
 	return &ProfileRes{
-		FullName:       u.FullName,
-		Phone:          u.Phone,
-		Email:          u.Email,
-		Username:       u.Username,
-		Address:        u.Address,
-		ProfilePicture: u.ProfilePicture,
-		Coupons:        coupons,
+		User:    user,
+		Coupons: coupons,
 	}
 }
