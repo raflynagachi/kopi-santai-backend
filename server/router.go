@@ -30,5 +30,6 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.POST("/login", middleware.RequestValidator(&dto.LoginPostReq{}), authHandler.Login)
 	r.POST("/register", middleware.RequestValidator(&dto.RegisterPostReq{}), authHandler.Register)
 
+	r.Use(middleware.AuthorizeJWT)
 	return r
 }
