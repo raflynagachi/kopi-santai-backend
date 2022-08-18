@@ -16,6 +16,7 @@ type User struct {
 	Address        string
 	Password       string
 	ProfilePicture string
+	Coupons        []*Coupon `gorm:"many2many:users_coupons_tab;"`
 }
 
 func (u *User) TableName() string {

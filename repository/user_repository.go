@@ -39,7 +39,7 @@ func (_ *userRepository) FindByEmail(tx *gorm.DB, email string) (*model.User, er
 
 func (_ *userRepository) FindByID(tx *gorm.DB, id uint) (*model.User, error) {
 	var user *model.User
-	err := tx.First(&user, id).Error
+	err := tx.Preload("Coupons").First(&user, id).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, new(customerror.EmailNotFoundError)
 	}
