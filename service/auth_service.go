@@ -70,7 +70,6 @@ func registerReqToUser(req *dto.RegisterPostReq, password string) *model.User {
 		FullName:       req.FullName,
 		Phone:          req.Phone,
 		Email:          req.Email,
-		Username:       req.Username,
 		Role:           model.UserRole,
 		Address:        req.Address,
 		Password:       password,

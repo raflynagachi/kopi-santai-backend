@@ -36,7 +36,6 @@ func userUpdateReqToUser(req *dto.UserUpdateReq) *model.User {
 		FullName:       req.FullName,
 		Phone:          req.Phone,
 		Email:          req.Email,
-		Username:       req.Username,
 		Address:        req.Address,
 		ProfilePicture: req.ProfilePicture,
 	}

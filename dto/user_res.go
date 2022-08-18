@@ -6,7 +6,6 @@ type UserRes struct {
 	FullName       string `json:"fullName"`
 	Phone          string `json:"phone"`
 	Email          string `json:"email"`
-	Username       string `json:"username"`
 	Address        string `json:"address"`
 	ProfilePicture string `json:"profilePicture"`
 }
@@ -16,7 +15,6 @@ func (r *UserRes) FromUser(u *model.User) *UserRes {
 		FullName:       u.FullName,
 		Phone:          u.Phone,
 		Email:          u.Email,
-		Username:       u.Username,
 		Address:        u.Address,
 		ProfilePicture: u.ProfilePicture,
 	}
