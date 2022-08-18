@@ -1,10 +1,10 @@
 package service
 
 import (
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/config"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/httperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/repository"
 	"github.com/golang-jwt/jwt/v4"
@@ -82,12 +82,12 @@ func (s *authService) Login(req *dto.LoginPostReq) (*dto.TokenRes, error) {
 	user, err := s.userRepository.FindByEmail(tx, req.Email)
 	helper.CommitOrRollback(tx, err)
 	if err != nil {
-		return nil, httperror.NotFoundError(err.Error())
+		return nil, apperror.NotFoundError(err.Error())
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
 	if err != nil {
-		return nil, httperror.UnauthorizedError(err.Error())
+		return nil, apperror.UnauthorizedError(err.Error())
 	}
 
 	userJwt := new(dto.UserJWT).FromUser(user)
@@ -101,7 +101,7 @@ func (s *authService) Register(req *dto.RegisterPostReq) (*dto.TokenRes, error) 
 	if config.Config.ENV != config.Testing {
 		password, err = bcrypt.GenerateFromPassword(password, bcrypt.DefaultCost)
 		if err != nil {
-			return nil, httperror.InternalServerError(err.Error())
+			return nil, apperror.InternalServerError(err.Error())
 		}
 	}
 
@@ -111,7 +111,7 @@ func (s *authService) Register(req *dto.RegisterPostReq) (*dto.TokenRes, error) 
 	user, err = s.userRepository.Create(tx, user)
 	helper.CommitOrRollback(tx, err)
 	if err != nil {
-		return nil, httperror.UnprocessableEntityError(err.Error())
+		return nil, apperror.UnprocessableEntityError(err.Error())
 	}
 
 	userJwt := new(dto.UserJWT).FromUser(user)

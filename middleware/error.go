@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"fmt"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/httperror"
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,12 +15,12 @@ func ErrorHandler(c *gin.Context) {
 	firstError := c.Errors[0].Err
 	fmt.Println("ErrorHandler: ", firstError)
 
-	appErr, isAppErr := firstError.(httperror.AppError)
+	appErr, isAppErr := firstError.(apperror.AppError)
 	if isAppErr {
 		c.JSON(appErr.StatusCode, appErr)
 		return
 	}
 
-	serverErr := httperror.InternalServerError(firstError.Error())
+	serverErr := apperror.InternalServerError(firstError.Error())
 	c.JSON(serverErr.StatusCode, serverErr)
 }

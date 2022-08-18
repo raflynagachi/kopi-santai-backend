@@ -1,9 +1,9 @@
 package service
 
 import (
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/httperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/repository"
 	"gorm.io/gorm"
@@ -44,9 +44,8 @@ func userUpdateReqToUser(req *dto.UserUpdateReq) *model.User {
 func (s *userService) GetProfileDetail(id uint) (*dto.ProfileRes, error) {
 	tx := s.db.Begin()
 	user, err := s.userRepository.FindByIDWithCoupons(tx, id)
-	helper.CommitOrRollback(tx, err)
 	if err != nil {
-		return nil, httperror.NotFoundError(err.Error())
+		return nil, apperror.NotFoundError(err.Error())
 	}
 
 	profileRes := new(dto.ProfileRes).FromUser(user)
@@ -60,7 +59,7 @@ func (s *userService) UpdateProfile(id uint, req *dto.UserUpdateReq) (*dto.UserR
 	user, err := s.userRepository.Update(tx, id, user)
 	helper.CommitOrRollback(tx, err)
 	if err != nil {
-		return nil, httperror.BadRequestError(err.Error())
+		return nil, apperror.BadRequestError(err.Error())
 	}
 
 	userRes := new(dto.UserRes).FromUser(user)

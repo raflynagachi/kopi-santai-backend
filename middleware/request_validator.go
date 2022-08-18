@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/httperror"
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"github.com/gin-gonic/gin"
 	"reflect"
 )
@@ -12,7 +12,7 @@ func RequestValidator(model any) gin.HandlerFunc {
 		modelPtr.Set(reflect.Zero(modelPtr.Type()))
 		c.Set("payload", new(any))
 		if err := c.ShouldBindJSON(model); err != nil {
-			appErr := httperror.BadRequestError(err.Error())
+			appErr := apperror.BadRequestError(err.Error())
 			c.AbortWithStatusJSON(appErr.StatusCode, appErr)
 			return
 		}

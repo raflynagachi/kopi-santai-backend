@@ -1,4 +1,4 @@
-package customerror
+package apperror
 
 type EmailNotFoundError struct{}
 

@@ -1,9 +1,9 @@
 package server
 
 import (
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/handler"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/httperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/middleware"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/service"
 	"github.com/gin-gonic/gin"
@@ -18,7 +18,7 @@ type RouterConfig struct {
 const apiNotFoundMessage = "API not found"
 
 func NoRouteHandler(c *gin.Context) {
-	c.JSON(http.StatusNotFound, httperror.NotFoundError(apiNotFoundMessage))
+	c.JSON(http.StatusNotFound, apperror.NotFoundError(apiNotFoundMessage))
 }
 
 func NewRouter(c *RouterConfig) *gin.Engine {

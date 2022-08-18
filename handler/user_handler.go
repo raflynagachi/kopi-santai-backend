@@ -1,9 +1,8 @@
 package handler
 
 import (
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/customerror"
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/httperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -31,7 +30,7 @@ func (h *userHandler) GetProfileDetail(c *gin.Context) {
 	payload, ok := c.Get("user")
 	user := payload.(*dto.UserJWT)
 	if !ok || idParam != user.ID {
-		_ = c.Error(httperror.UnauthorizedError(new(customerror.UserUnauthorizedError).Error()))
+		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
 		return
 	}
 
@@ -49,7 +48,7 @@ func (h *userHandler) UpdateProfile(c *gin.Context) {
 	payloadJwt, ok := c.Get("user")
 	user := payloadJwt.(*dto.UserJWT)
 	if !ok || idParam != user.ID {
-		_ = c.Error(httperror.UnauthorizedError(new(customerror.UserUnauthorizedError).Error()))
+		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
 		return
 	}
 
