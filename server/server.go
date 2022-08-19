@@ -10,6 +10,8 @@ import (
 
 func Init() {
 	userRepo := repository.NewUser()
+	menuRepo := repository.NewMenu()
+
 	authService := service.NewAuth(&service.AuthConfig{
 		DB:             db.Get(),
 		UserRepository: userRepo,
@@ -19,10 +21,15 @@ func Init() {
 		DB:             db.Get(),
 		UserRepository: userRepo,
 	})
+	menuService := service.NewMenu(&service.MenuConfig{
+		DB:             db.Get(),
+		MenuRepository: menuRepo,
+	})
 
 	router := NewRouter(&RouterConfig{
 		AuthService: authService,
 		UserService: userService,
+		MenuService: menuService,
 	})
 	log.Fatalln(router.Run())
 }

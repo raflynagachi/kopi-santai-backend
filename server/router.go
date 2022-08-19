@@ -13,6 +13,7 @@ import (
 type RouterConfig struct {
 	AuthService service.AuthService
 	UserService service.UserService
+	MenuService service.MenuService
 }
 
 const apiNotFoundMessage = "API not found"
@@ -28,9 +29,12 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 
 	authHandler := handler.NewAuth(&handler.AuthConfig{AuthService: c.AuthService})
 	userHandler := handler.NewUser(&handler.UserConfig{UserService: c.UserService})
+	menuHandler := handler.NewMenu(&handler.MenuConfig{MenuService: c.MenuService})
 
 	r.POST("/login", middleware.RequestValidator(&dto.LoginPostReq{}), authHandler.Login)
 	r.POST("/register", middleware.RequestValidator(&dto.RegisterPostReq{}), authHandler.Register)
+
+	r.GET("/menus", menuHandler.FindAll)
 
 	r.Use(middleware.AuthorizeJWT)
 	r.GET("/users/:id", middleware.ParamIDValidator, userHandler.GetProfileDetail)
