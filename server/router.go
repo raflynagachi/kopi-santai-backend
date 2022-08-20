@@ -11,9 +11,10 @@ import (
 )
 
 type RouterConfig struct {
-	AuthService service.AuthService
-	UserService service.UserService
-	MenuService service.MenuService
+	AuthService  service.AuthService
+	UserService  service.UserService
+	MenuService  service.MenuService
+	OrderService service.OrderService
 }
 
 const apiNotFoundMessage = "API not found"
@@ -30,6 +31,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	authHandler := handler.NewAuth(&handler.AuthConfig{AuthService: c.AuthService})
 	userHandler := handler.NewUser(&handler.UserConfig{UserService: c.UserService})
 	menuHandler := handler.NewMenu(&handler.MenuConfig{MenuService: c.MenuService})
+	orderHandler := handler.NewOrder(&handler.OrderConfig{OrderService: c.OrderService})
 
 	r.POST("/login", middleware.RequestValidator(&dto.LoginPostReq{}), authHandler.Login)
 	r.POST("/register", middleware.RequestValidator(&dto.RegisterPostReq{}), authHandler.Register)
@@ -40,5 +42,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.Use(middleware.AuthorizeJWT)
 	r.GET("/users/:id", middleware.ParamIDValidator, userHandler.GetProfileDetail)
 	r.PATCH("/users/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.UserUpdateReq{}), userHandler.UpdateProfile)
+
+	r.POST("/carts", middleware.RequestValidator(&dto.OrderItemPostReq{}), orderHandler.CreateOrderItem)
 	return r
 }
