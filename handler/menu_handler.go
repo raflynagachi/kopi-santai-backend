@@ -2,10 +2,15 @@ package handler
 
 import (
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
+
+const sortDefaultValue = model.Asc
+const sortByDefaultValue = model.MenuID
 
 type MenuHandler interface {
 	FindAll(c *gin.Context)
@@ -27,7 +32,14 @@ func NewMenu(c *MenuConfig) MenuHandler {
 }
 
 func (h *menuHandler) FindAll(c *gin.Context) {
-	menusRes, err := h.menuService.FindAll()
+	queryParam := &model.QueryParamMenu{
+		Search:   helper.GetQuery(c, "search", ""),
+		SortBy:   helper.GetQuery(c, "sortBy", sortByDefaultValue),
+		Sort:     helper.GetQuery(c, "sort", sortDefaultValue),
+		Category: helper.GetQuery(c, "category", ""),
+	}
+
+	menusRes, err := h.menuService.FindAll(queryParam)
 	if err != nil {
 		_ = c.Error(err)
 		return

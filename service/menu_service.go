@@ -1,15 +1,17 @@
 package service
 
 import (
+	"fmt"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/repository"
 	"gorm.io/gorm"
+	"strings"
 )
 
 type MenuService interface {
-	FindAll() ([]*dto.MenuRes, error)
+	FindAll(q *model.QueryParamMenu) ([]*dto.MenuRes, error)
 	GetMenuDetail(id uint) (*dto.MenuDetailRes, error)
 }
 
@@ -46,9 +48,32 @@ func menuOptionsCategoriesToMenuOptionsRes(menusOptCats []*model.MenuOptionsCate
 	return menuOptRes
 }
 
-func (s *menuService) FindAll() ([]*dto.MenuRes, error) {
+func validateQueryParam(q *model.QueryParamMenu) {
+	if q.Sort != model.Desc && q.Sort != model.Asc {
+		q.Sort = model.Desc
+	}
+
+	if q.SortBy != model.Price {
+		q.SortBy = model.MenuID
+	}
+
+	q.Category = strings.ToLower(q.Category)
+	if q.Category != model.CategoryCoffee && q.Category != model.CategoryNonCoffee && q.Category != model.CategoryBread {
+		q.Category = "%%"
+	}
+
+	if q.Search != "" {
+		q.Search = fmt.Sprintf("%%%s%%", strings.ToLower(q.Search))
+	} else {
+		q.Search = "%%"
+	}
+}
+
+func (s *menuService) FindAll(q *model.QueryParamMenu) ([]*dto.MenuRes, error) {
+	validateQueryParam(q)
+
 	tx := s.db.Begin()
-	menus, err := s.menuRepository.FindAll(tx)
+	menus, err := s.menuRepository.FindAll(tx, q)
 	if err != nil {
 		return nil, apperror.InternalServerError(err.Error())
 	}

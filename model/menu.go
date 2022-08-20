@@ -1,5 +1,22 @@
 package model
 
+const (
+	Price             = "price"
+	MenuID            = "id"
+	Desc              = "desc"
+	Asc               = "asc"
+	CategoryCoffee    = "coffee"
+	CategoryNonCoffee = "non-coffee"
+	CategoryBread     = "bread"
+)
+
+type QueryParamMenu struct {
+	Search   string
+	SortBy   string
+	Sort     string
+	Category string
+}
+
 type Menu struct {
 	ID         uint `gorm:"primaryKey"`
 	CategoryID uint
