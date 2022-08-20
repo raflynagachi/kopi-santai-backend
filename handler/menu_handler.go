@@ -9,6 +9,7 @@ import (
 
 type MenuHandler interface {
 	FindAll(c *gin.Context)
+	GetMenuDetail(c *gin.Context)
 }
 
 type menuHandler struct {
@@ -33,4 +34,15 @@ func (h *menuHandler) FindAll(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, dto.StatusOKResponse(menusRes))
+}
+
+func (h *menuHandler) GetMenuDetail(c *gin.Context) {
+	idParam, _ := c.Get("id")
+	menuRes, err := h.menuService.GetMenuDetail(idParam.(uint))
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.StatusOKResponse(menuRes))
 }
