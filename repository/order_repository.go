@@ -9,8 +9,6 @@ import (
 type OrderRepository interface {
 	FindOrderByUserID(tx *gorm.DB, userID uint) (*model.Order, error)
 	FindOrderItemByUserID(tx *gorm.DB, userID uint) ([]*model.OrderItem, error)
-	CreateCart(tx *gorm.DB, cart *model.Cart) (*model.Cart, error)
-	DeleteCart(tx *gorm.DB, orderItemID, userID uint) (*model.Cart, error)
 	CreateOrderItem(tx *gorm.DB, oi *model.OrderItem) (*model.OrderItem, error)
 	UpdateOrderItemByID(tx *gorm.DB, id uint, oi *model.OrderItem) (*model.OrderItem, error)
 	DeleteOrderItemByID(tx *gorm.DB, id uint) (bool, error)
@@ -36,17 +34,6 @@ func (r *orderRepository) FindOrderItemByUserID(tx *gorm.DB, userID uint) ([]*mo
 	var orderItems []*model.OrderItem
 	err := tx.Preload("Menu").Preload("Menu.Category").Where("user_id = ?", userID).Find(&orderItems).Error
 	return orderItems, err
-}
-
-func (r *orderRepository) CreateCart(tx *gorm.DB, cart *model.Cart) (*model.Cart, error) {
-	err := tx.Create(&cart).Error
-	return cart, err
-}
-
-func (r *orderRepository) DeleteCart(tx *gorm.DB, orderItemID, userID uint) (*model.Cart, error) {
-	var cart *model.Cart
-	err := tx.Where("user_id = ? AND order_item_id = ?", userID, orderItemID).Delete(&cart).Error
-	return cart, err
 }
 
 func (r *orderRepository) CreateOrderItem(tx *gorm.DB, oi *model.OrderItem) (*model.OrderItem, error) {

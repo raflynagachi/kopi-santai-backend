@@ -58,19 +58,10 @@ func (s *orderService) CreateOrderItem(req *dto.OrderItemPostReq, userID uint) (
 
 	tx := s.db.Begin()
 	item, err := s.orderRepository.CreateOrderItem(tx, oi)
+	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.BadRequestError(err.Error())
 	}
-
-	cart := &model.Cart{
-		UserID:      userID,
-		OrderItemID: item.ID,
-	}
-	_, err = s.orderRepository.CreateCart(tx, cart)
-	if err != nil {
-		return nil, apperror.InternalServerError(err.Error())
-	}
-	helper.CommitOrRollback(tx, err)
 
 	menuRes := new(dto.MenuRes).FromMenu(item.Menu)
 	orderItemRes := new(dto.OrderItemRes).From(item, menuRes)
@@ -126,13 +117,9 @@ func (s *orderService) DeleteOrderItemByID(id, userID uint) (gin.H, error) {
 	}
 
 	isDeleted, err := s.orderRepository.DeleteOrderItemByID(tx, id)
-	if err != nil {
-		return gin.H{"isDeleted": false}, apperror.BadRequestError(err.Error())
-	}
-	_, err = s.orderRepository.DeleteCart(tx, id, userID)
 	helper.CommitOrRollback(tx, err)
 	if err != nil {
-		return gin.H{"isDeleted": false}, apperror.InternalServerError(err.Error())
+		return gin.H{"isDeleted": false}, apperror.BadRequestError(err.Error())
 	}
 
 	return gin.H{"isDeleted": isDeleted}, nil
