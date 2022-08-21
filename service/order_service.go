@@ -11,6 +11,7 @@ import (
 
 type OrderService interface {
 	CreateOrderItem(req *dto.OrderItemPostReq, userID uint) (*dto.OrderItemRes, error)
+	FindOrderItemByUserID(userID uint) ([]*dto.OrderItemRes, error)
 }
 
 type orderService struct {
@@ -42,11 +43,6 @@ func (s *orderService) CreateOrderItem(req *dto.OrderItemPostReq, userID uint) (
 	}
 
 	tx := s.db.Begin()
-	menu, err := s.menuRepository.FindByID(tx, oi.MenuID)
-	if err != nil {
-		return nil, apperror.NotFoundError(err.Error())
-	}
-
 	item, err := s.orderRepository.CreateOrderItem(tx, oi)
 	if err != nil {
 		return nil, apperror.BadRequestError(err.Error())
@@ -62,7 +58,23 @@ func (s *orderService) CreateOrderItem(req *dto.OrderItemPostReq, userID uint) (
 	}
 	helper.CommitOrRollback(tx, err)
 
-	menuRes := new(dto.MenuRes).FromMenu(menu)
+	menuRes := new(dto.MenuRes).FromMenu(item.Menu)
 	orderItemRes := new(dto.OrderItemRes).From(item, menuRes)
 	return orderItemRes, nil
+}
+
+func (s *orderService) FindOrderItemByUserID(userID uint) ([]*dto.OrderItemRes, error) {
+	tx := s.db.Begin()
+	orderItems, err := s.orderRepository.FindOrderItemByUserID(tx, userID)
+	if err != nil {
+		return nil, apperror.NotFoundError(err.Error())
+	}
+
+	var orderItemsRes []*dto.OrderItemRes
+	for _, item := range orderItems {
+		menuRes := new(dto.MenuRes).FromMenu(item.Menu)
+		orderItemsRes = append(orderItemsRes, new(dto.OrderItemRes).From(item, menuRes))
+	}
+
+	return orderItemsRes, nil
 }

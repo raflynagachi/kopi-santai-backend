@@ -10,6 +10,7 @@ import (
 
 type OrderHandler interface {
 	CreateOrderItem(c *gin.Context)
+	FindOrderItemByUserID(c *gin.Context)
 }
 
 type orderHandler struct {
@@ -37,6 +38,23 @@ func (h *orderHandler) CreateOrderItem(c *gin.Context) {
 	req = payload.(*dto.OrderItemPostReq)
 
 	orderItemRes, err := h.orderService.CreateOrderItem(req, userID)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.StatusOKResponse(orderItemRes))
+}
+
+func (h *orderHandler) FindOrderItemByUserID(c *gin.Context) {
+	userPayload, ok := c.Get("user")
+	if !ok {
+		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
+		return
+	}
+	userID := userPayload.(*dto.UserJWT).ID
+
+	orderItemRes, err := h.orderService.FindOrderItemByUserID(userID)
 	if err != nil {
 		_ = c.Error(err)
 		return
