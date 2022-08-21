@@ -12,6 +12,10 @@ func Init() {
 	userRepo := repository.NewUser()
 	menuRepo := repository.NewMenu()
 	orderItemRepo := repository.NewOrderItem()
+	orderRepo := repository.NewOrder()
+	paymentOptRepo := repository.NewPaymentOption()
+	couponRepo := repository.NewCoupon()
+	deliveryRepo := repository.NewDelivery()
 
 	authService := service.NewAuth(&service.AuthConfig{
 		DB:             db.Get(),
@@ -31,12 +35,21 @@ func Init() {
 		OrderItemRepository: orderItemRepo,
 		MenuRepository:      menuRepo,
 	})
+	orderService := service.NewOrder(&service.OrderConfig{
+		DB:             db.Get(),
+		DeliveryRepo:   deliveryRepo,
+		PaymentOptRepo: paymentOptRepo,
+		CouponRepo:     couponRepo,
+		OrderRepo:      orderRepo,
+		OrderItemRepo:  orderItemRepo,
+	})
 
 	router := NewRouter(&RouterConfig{
 		AuthService:      authService,
 		UserService:      userService,
 		MenuService:      menuService,
 		OrderItemService: orderItemService,
+		OrderService:     orderService,
 	})
 	log.Fatalln(router.Run())
 }

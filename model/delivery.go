@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+const StatusDefault = "NO DELIVERY YET"
+
 type Delivery struct {
 	gorm.Model
 	ID           uint `gorm:"primaryKey"`

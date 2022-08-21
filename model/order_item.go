@@ -7,8 +7,10 @@ type OrderItem struct {
 	ID          uint `gorm:"primaryKey"`
 	UserID      uint
 	MenuID      uint
+	OrderID     *uint
 	Quantity    int
 	Description string
+	IsActive    bool
 	Menu        *Menu
 }
 

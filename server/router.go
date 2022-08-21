@@ -15,6 +15,7 @@ type RouterConfig struct {
 	UserService      service.UserService
 	MenuService      service.MenuService
 	OrderItemService service.OrderItemService
+	OrderService     service.OrderService
 }
 
 const apiNotFoundMessage = "API not found"
@@ -31,7 +32,10 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	authHandler := handler.NewAuth(&handler.AuthConfig{AuthService: c.AuthService})
 	userHandler := handler.NewUser(&handler.UserConfig{UserService: c.UserService})
 	menuHandler := handler.NewMenu(&handler.MenuConfig{MenuService: c.MenuService})
-	orderHandler := handler.NewOrderItem(&handler.OrderItemConfig{OrderService: c.OrderItemService})
+	orderItemHandler := handler.NewOrderItem(&handler.OrderItemConfig{OrderService: c.OrderItemService})
+	orderHandler := handler.NewOrder(&handler.OrderConfig{
+		OrderService: c.OrderService,
+	})
 
 	r.POST("/login", middleware.RequestValidator(&dto.LoginPostReq{}), authHandler.Login)
 	r.POST("/register", middleware.RequestValidator(&dto.RegisterPostReq{}), authHandler.Register)
@@ -43,10 +47,12 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.GET("/users/:id", middleware.ParamIDValidator, userHandler.GetProfileDetail)
 	r.PATCH("/users/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.UserUpdateReq{}), userHandler.UpdateProfile)
 
-	r.POST("/order-items", middleware.RequestValidator(&dto.OrderItemPostReq{}), orderHandler.CreateOrderItem)
-	r.GET("/order-items", orderHandler.FindOrderItemByUserID)
-	r.PATCH("/order-items/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.OrderItemPatchReq{}), orderHandler.UpdateOrderItemByID)
-	r.DELETE("/order-items/:id", middleware.ParamIDValidator, orderHandler.DeleteOrderItemByID)
+	r.POST("/order-items", middleware.RequestValidator(&dto.OrderItemPostReq{}), orderItemHandler.CreateOrderItem)
+	r.GET("/order-items", orderItemHandler.FindOrderItemByUserID)
+	r.PATCH("/order-items/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.OrderItemPatchReq{}), orderItemHandler.UpdateOrderItemByID)
+	r.DELETE("/order-items/:id", middleware.ParamIDValidator, orderItemHandler.DeleteOrderItemByID)
+
+	r.POST("/orders", middleware.RequestValidator(&dto.OrderPostReq{}), orderHandler.CreateOrder)
 
 	return r
 }

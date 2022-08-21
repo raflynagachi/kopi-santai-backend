@@ -22,8 +22,11 @@ func NewOrderItem() OrderItemRepository {
 
 func (r *orderItemRepository) FindOrderItemByUserID(tx *gorm.DB, userID uint) ([]*model.OrderItem, error) {
 	var orderItems []*model.OrderItem
-	err := tx.Preload("Menu").Preload("Menu.Category").Where("user_id = ? AND is_completed = ?", userID, false).Find(&orderItems).Error
-	return orderItems, err
+	result := tx.Preload("Menu").Preload("Menu.Category").Where("user_id = ? AND is_active = ?", userID, true).Find(&orderItems)
+	if result.RowsAffected == 0 {
+		return orderItems, new(apperror.OrderItemNotFoundError)
+	}
+	return orderItems, result.Error
 }
 
 func (r *orderItemRepository) CreateOrderItem(tx *gorm.DB, oi *model.OrderItem) (*model.OrderItem, error) {
@@ -35,7 +38,7 @@ func (r *orderItemRepository) IsOrderItemOfUserID(tx *gorm.DB, id, userID uint) 
 	var oi *model.OrderItem
 	result := tx.First(&oi, id)
 	if result.RowsAffected == 0 {
-		return false, new(apperror.OrderNotFoundError)
+		return false, new(apperror.OrderItemNotFoundError)
 	}
 
 	result = tx.Where("user_id = ?", userID).First(&oi, id)
