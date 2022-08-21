@@ -13,6 +13,7 @@ import (
 
 type OrderService interface {
 	CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.OrderRes, error)
+	FindActiveOrderByID(id, userID uint) (*dto.OrderRes, error)
 }
 
 type orderService struct {
@@ -102,6 +103,17 @@ func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Ord
 	}
 
 	o.OrderItems = orderItems
+	orderRes := new(dto.OrderRes).From(order)
+	return orderRes, nil
+}
+
+func (s *orderService) FindActiveOrderByID(id, userID uint) (*dto.OrderRes, error) {
+	tx := s.db.Begin()
+	order, err := s.orderRepo.FindActiveOrderByIDAndUserID(tx, id, userID)
+	if err != nil {
+		return nil, apperror.NotFoundError(err.Error())
+	}
+
 	orderRes := new(dto.OrderRes).From(order)
 	return orderRes, nil
 }
