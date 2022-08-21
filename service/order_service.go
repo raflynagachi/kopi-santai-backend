@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
@@ -12,6 +13,7 @@ import (
 type OrderService interface {
 	CreateOrderItem(req *dto.OrderItemPostReq, userID uint) (*dto.OrderItemRes, error)
 	FindOrderItemByUserID(userID uint) ([]*dto.OrderItemRes, error)
+	UpdateOrderItemByID(id, userID uint, req *dto.OrderItemPatchReq) (*dto.OrderItemRes, error)
 }
 
 type orderService struct {
@@ -77,4 +79,28 @@ func (s *orderService) FindOrderItemByUserID(userID uint) ([]*dto.OrderItemRes, 
 	}
 
 	return orderItemsRes, nil
+}
+
+func (s *orderService) UpdateOrderItemByID(id, userID uint, req *dto.OrderItemPatchReq) (*dto.OrderItemRes, error) {
+	orderItem := &model.OrderItem{
+		Quantity:    req.Quantity,
+		Description: req.Description,
+	}
+
+	tx := s.db.Begin()
+	ok := s.orderRepository.IsOrderItemOfUserID(tx, id, userID)
+	if !ok {
+		return nil, apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error())
+	}
+
+	oi, err := s.orderRepository.UpdateOrderItemByID(tx, id, orderItem)
+	helper.CommitOrRollback(tx, err)
+	if err != nil {
+		return nil, apperror.BadRequestError(err.Error())
+	}
+	fmt.Println("oi:::::", oi.Menu)
+
+	menuRes := new(dto.MenuRes).FromMenu(oi.Menu)
+	orderItemRes := new(dto.OrderItemRes).From(oi, menuRes)
+	return orderItemRes, nil
 }

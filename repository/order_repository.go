@@ -11,6 +11,8 @@ type OrderRepository interface {
 	FindOrderItemByUserID(tx *gorm.DB, userID uint) ([]*model.OrderItem, error)
 	CreateCart(tx *gorm.DB, cart *model.Cart) (*model.Cart, error)
 	CreateOrderItem(tx *gorm.DB, oi *model.OrderItem) (*model.OrderItem, error)
+	UpdateOrderItemByID(tx *gorm.DB, id uint, oi *model.OrderItem) (*model.OrderItem, error)
+	IsOrderItemOfUserID(tx *gorm.DB, id, userID uint) bool
 }
 
 type orderRepository struct{}
@@ -42,4 +44,23 @@ func (r *orderRepository) CreateCart(tx *gorm.DB, cart *model.Cart) (*model.Cart
 func (r *orderRepository) CreateOrderItem(tx *gorm.DB, oi *model.OrderItem) (*model.OrderItem, error) {
 	err := tx.Preload("Menu").Preload("Menu.Category").Create(&oi).First(&oi).Error
 	return oi, err
+}
+
+func (r *orderRepository) IsOrderItemOfUserID(tx *gorm.DB, id, userID uint) bool {
+	var oi *model.OrderItem
+	result := tx.Where("user_id = ?", userID).First(&oi, id)
+	if result.RowsAffected == 0 {
+		return false
+	}
+	return true
+}
+
+func (r *orderRepository) UpdateOrderItemByID(tx *gorm.DB, id uint, oi *model.OrderItem) (*model.OrderItem, error) {
+	var updatedOrderItem *model.OrderItem
+	err := tx.First(&updatedOrderItem, id).Updates(&oi).Error
+	if err != nil {
+		return nil, err
+	}
+	_ = tx.Preload("Menu").Preload("Menu.Category").First(&updatedOrderItem, id)
+	return updatedOrderItem, nil
 }

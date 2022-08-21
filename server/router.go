@@ -43,7 +43,8 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.GET("/users/:id", middleware.ParamIDValidator, userHandler.GetProfileDetail)
 	r.PATCH("/users/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.UserUpdateReq{}), userHandler.UpdateProfile)
 
-	r.POST("/carts", middleware.RequestValidator(&dto.OrderItemPostReq{}), orderHandler.CreateOrderItem)
-	r.GET("/carts", orderHandler.FindOrderItemByUserID)
+	r.POST("/order-items", middleware.RequestValidator(&dto.OrderItemPostReq{}), orderHandler.CreateOrderItem)
+	r.GET("/order-items", orderHandler.FindOrderItemByUserID)
+	r.PATCH("/order-items/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.OrderItemPatchReq{}), orderHandler.UpdateOrderItemByID)
 	return r
 }
