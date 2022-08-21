@@ -6,8 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type OrderRepository interface {
-	FindOrderByUserID(tx *gorm.DB, userID uint) (*model.Order, error)
+type OrderItemRepository interface {
 	FindOrderItemByUserID(tx *gorm.DB, userID uint) ([]*model.OrderItem, error)
 	CreateOrderItem(tx *gorm.DB, oi *model.OrderItem) (*model.OrderItem, error)
 	UpdateOrderItemByID(tx *gorm.DB, id uint, oi *model.OrderItem) (*model.OrderItem, error)
@@ -15,33 +14,24 @@ type OrderRepository interface {
 	IsOrderItemOfUserID(tx *gorm.DB, id, userID uint) (bool, error)
 }
 
-type orderRepository struct{}
+type orderItemRepository struct{}
 
-func NewOrder() OrderRepository {
-	return &orderRepository{}
+func NewOrderItem() OrderItemRepository {
+	return &orderItemRepository{}
 }
 
-func (r *orderRepository) FindOrderByUserID(tx *gorm.DB, userID uint) (*model.Order, error) {
-	var o *model.Order
-	result := tx.Where("user_id = ? AND is_completed = false", userID).First(&o)
-	if result.Error != nil && result.RowsAffected == 0 {
-		return nil, new(apperror.OrderNotFoundError)
-	}
-	return o, result.Error
-}
-
-func (r *orderRepository) FindOrderItemByUserID(tx *gorm.DB, userID uint) ([]*model.OrderItem, error) {
+func (r *orderItemRepository) FindOrderItemByUserID(tx *gorm.DB, userID uint) ([]*model.OrderItem, error) {
 	var orderItems []*model.OrderItem
-	err := tx.Preload("Menu").Preload("Menu.Category").Where("user_id = ?", userID).Find(&orderItems).Error
+	err := tx.Preload("Menu").Preload("Menu.Category").Where("user_id = ? AND is_completed = ?", userID, false).Find(&orderItems).Error
 	return orderItems, err
 }
 
-func (r *orderRepository) CreateOrderItem(tx *gorm.DB, oi *model.OrderItem) (*model.OrderItem, error) {
+func (r *orderItemRepository) CreateOrderItem(tx *gorm.DB, oi *model.OrderItem) (*model.OrderItem, error) {
 	err := tx.Preload("Menu").Preload("Menu.Category").Create(&oi).First(&oi).Error
 	return oi, err
 }
 
-func (r *orderRepository) IsOrderItemOfUserID(tx *gorm.DB, id, userID uint) (bool, error) {
+func (r *orderItemRepository) IsOrderItemOfUserID(tx *gorm.DB, id, userID uint) (bool, error) {
 	var oi *model.OrderItem
 	result := tx.First(&oi, id)
 	if result.RowsAffected == 0 {
@@ -55,7 +45,7 @@ func (r *orderRepository) IsOrderItemOfUserID(tx *gorm.DB, id, userID uint) (boo
 	return true, nil
 }
 
-func (r *orderRepository) UpdateOrderItemByID(tx *gorm.DB, id uint, oi *model.OrderItem) (*model.OrderItem, error) {
+func (r *orderItemRepository) UpdateOrderItemByID(tx *gorm.DB, id uint, oi *model.OrderItem) (*model.OrderItem, error) {
 	var updatedOrderItem *model.OrderItem
 	err := tx.First(&updatedOrderItem, id).Updates(&oi).Error
 	if err != nil {
@@ -65,7 +55,7 @@ func (r *orderRepository) UpdateOrderItemByID(tx *gorm.DB, id uint, oi *model.Or
 	return updatedOrderItem, nil
 }
 
-func (r *orderRepository) DeleteOrderItemByID(tx *gorm.DB, id uint) (bool, error) {
+func (r *orderItemRepository) DeleteOrderItemByID(tx *gorm.DB, id uint) (bool, error) {
 	var updatedOrderItem *model.OrderItem
 	err := tx.Delete(&updatedOrderItem, id).Error
 	if err != nil {

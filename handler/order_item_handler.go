@@ -8,26 +8,26 @@ import (
 	"net/http"
 )
 
-type OrderHandler interface {
+type OrderItemHandler interface {
 	CreateOrderItem(c *gin.Context)
 	FindOrderItemByUserID(c *gin.Context)
 	UpdateOrderItemByID(c *gin.Context)
 	DeleteOrderItemByID(c *gin.Context)
 }
 
-type orderHandler struct {
-	orderService service.OrderService
+type orderItemHandler struct {
+	orderItemService service.OrderItemService
 }
 
-type OrderConfig struct {
-	OrderService service.OrderService
+type OrderItemConfig struct {
+	OrderService service.OrderItemService
 }
 
-func NewOrder(c *OrderConfig) OrderHandler {
-	return &orderHandler{orderService: c.OrderService}
+func NewOrderItem(c *OrderItemConfig) OrderItemHandler {
+	return &orderItemHandler{orderItemService: c.OrderService}
 }
 
-func (h *orderHandler) CreateOrderItem(c *gin.Context) {
+func (h *orderItemHandler) CreateOrderItem(c *gin.Context) {
 	userPayload, ok := c.Get("user")
 	if !ok {
 		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
@@ -39,7 +39,7 @@ func (h *orderHandler) CreateOrderItem(c *gin.Context) {
 	var req *dto.OrderItemPostReq
 	req = payload.(*dto.OrderItemPostReq)
 
-	orderItemRes, err := h.orderService.CreateOrderItem(req, userID)
+	orderItemRes, err := h.orderItemService.CreateOrderItem(req, userID)
 	if err != nil {
 		_ = c.Error(err)
 		return
@@ -48,7 +48,7 @@ func (h *orderHandler) CreateOrderItem(c *gin.Context) {
 	c.JSON(http.StatusOK, dto.StatusOKResponse(orderItemRes))
 }
 
-func (h *orderHandler) FindOrderItemByUserID(c *gin.Context) {
+func (h *orderItemHandler) FindOrderItemByUserID(c *gin.Context) {
 	userPayload, ok := c.Get("user")
 	if !ok {
 		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
@@ -56,7 +56,7 @@ func (h *orderHandler) FindOrderItemByUserID(c *gin.Context) {
 	}
 	userID := userPayload.(*dto.UserJWT).ID
 
-	orderItemRes, err := h.orderService.FindOrderItemByUserID(userID)
+	orderItemRes, err := h.orderItemService.FindOrderItemByUserID(userID)
 	if err != nil {
 		_ = c.Error(err)
 		return
@@ -65,7 +65,7 @@ func (h *orderHandler) FindOrderItemByUserID(c *gin.Context) {
 	c.JSON(http.StatusOK, dto.StatusOKResponse(orderItemRes))
 }
 
-func (h *orderHandler) UpdateOrderItemByID(c *gin.Context) {
+func (h *orderItemHandler) UpdateOrderItemByID(c *gin.Context) {
 	idParam, _ := c.Get("id")
 	userPayload, ok := c.Get("user")
 	if !ok {
@@ -78,7 +78,7 @@ func (h *orderHandler) UpdateOrderItemByID(c *gin.Context) {
 	var req *dto.OrderItemPatchReq
 	req = payload.(*dto.OrderItemPatchReq)
 
-	orderItemRes, err := h.orderService.UpdateOrderItemByID(idParam.(uint), userID, req)
+	orderItemRes, err := h.orderItemService.UpdateOrderItemByID(idParam.(uint), userID, req)
 	if err != nil {
 		_ = c.Error(err)
 		return
@@ -87,7 +87,7 @@ func (h *orderHandler) UpdateOrderItemByID(c *gin.Context) {
 	c.JSON(http.StatusOK, dto.StatusOKResponse(orderItemRes))
 }
 
-func (h *orderHandler) DeleteOrderItemByID(c *gin.Context) {
+func (h *orderItemHandler) DeleteOrderItemByID(c *gin.Context) {
 	idParam, _ := c.Get("id")
 	userPayload, ok := c.Get("user")
 	if !ok {
@@ -96,7 +96,7 @@ func (h *orderHandler) DeleteOrderItemByID(c *gin.Context) {
 	}
 	userID := userPayload.(*dto.UserJWT).ID
 
-	orderItemRes, err := h.orderService.DeleteOrderItemByID(idParam.(uint), userID)
+	orderItemRes, err := h.orderItemService.DeleteOrderItemByID(idParam.(uint), userID)
 	if err != nil {
 		_ = c.Error(err)
 		return

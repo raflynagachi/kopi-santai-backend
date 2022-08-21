@@ -11,30 +11,30 @@ import (
 	"gorm.io/gorm"
 )
 
-type OrderService interface {
+type OrderItemService interface {
 	CreateOrderItem(req *dto.OrderItemPostReq, userID uint) (*dto.OrderItemRes, error)
 	FindOrderItemByUserID(userID uint) ([]*dto.OrderItemRes, error)
 	UpdateOrderItemByID(id, userID uint, req *dto.OrderItemPatchReq) (*dto.OrderItemRes, error)
 	DeleteOrderItemByID(id, userID uint) (gin.H, error)
 }
 
-type orderService struct {
-	db              *gorm.DB
-	orderRepository repository.OrderRepository
-	menuRepository  repository.MenuRepository
+type orderItemService struct {
+	db                  *gorm.DB
+	orderItemRepository repository.OrderItemRepository
+	menuRepository      repository.MenuRepository
 }
 
-type OrderConfig struct {
-	DB              *gorm.DB
-	OrderRepository repository.OrderRepository
-	MenuRepository  repository.MenuRepository
+type OrderItemConfig struct {
+	DB                  *gorm.DB
+	OrderItemRepository repository.OrderItemRepository
+	MenuRepository      repository.MenuRepository
 }
 
-func NewOrder(c *OrderConfig) OrderService {
-	return &orderService{
-		db:              c.DB,
-		orderRepository: c.OrderRepository,
-		menuRepository:  c.MenuRepository,
+func NewOrderItem(c *OrderItemConfig) OrderItemService {
+	return &orderItemService{
+		db:                  c.DB,
+		orderItemRepository: c.OrderItemRepository,
+		menuRepository:      c.MenuRepository,
 	}
 }
 
@@ -48,7 +48,7 @@ func checkOrderItem(ok bool, err error) error {
 	return nil
 }
 
-func (s *orderService) CreateOrderItem(req *dto.OrderItemPostReq, userID uint) (*dto.OrderItemRes, error) {
+func (s *orderItemService) CreateOrderItem(req *dto.OrderItemPostReq, userID uint) (*dto.OrderItemRes, error) {
 	oi := &model.OrderItem{
 		UserID:      userID,
 		MenuID:      req.MenuID,
@@ -57,7 +57,7 @@ func (s *orderService) CreateOrderItem(req *dto.OrderItemPostReq, userID uint) (
 	}
 
 	tx := s.db.Begin()
-	item, err := s.orderRepository.CreateOrderItem(tx, oi)
+	item, err := s.orderItemRepository.CreateOrderItem(tx, oi)
 	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.BadRequestError(err.Error())
@@ -68,9 +68,9 @@ func (s *orderService) CreateOrderItem(req *dto.OrderItemPostReq, userID uint) (
 	return orderItemRes, nil
 }
 
-func (s *orderService) FindOrderItemByUserID(userID uint) ([]*dto.OrderItemRes, error) {
+func (s *orderItemService) FindOrderItemByUserID(userID uint) ([]*dto.OrderItemRes, error) {
 	tx := s.db.Begin()
-	orderItems, err := s.orderRepository.FindOrderItemByUserID(tx, userID)
+	orderItems, err := s.orderItemRepository.FindOrderItemByUserID(tx, userID)
 	if err != nil {
 		return nil, apperror.NotFoundError(err.Error())
 	}
@@ -84,20 +84,20 @@ func (s *orderService) FindOrderItemByUserID(userID uint) ([]*dto.OrderItemRes, 
 	return orderItemsRes, nil
 }
 
-func (s *orderService) UpdateOrderItemByID(id, userID uint, req *dto.OrderItemPatchReq) (*dto.OrderItemRes, error) {
+func (s *orderItemService) UpdateOrderItemByID(id, userID uint, req *dto.OrderItemPatchReq) (*dto.OrderItemRes, error) {
 	orderItem := &model.OrderItem{
 		Quantity:    req.Quantity,
 		Description: req.Description,
 	}
 
 	tx := s.db.Begin()
-	ok, err := s.orderRepository.IsOrderItemOfUserID(tx, id, userID)
+	ok, err := s.orderItemRepository.IsOrderItemOfUserID(tx, id, userID)
 	err = checkOrderItem(ok, err)
 	if err != nil {
 		return nil, err
 	}
 
-	oi, err := s.orderRepository.UpdateOrderItemByID(tx, id, orderItem)
+	oi, err := s.orderItemRepository.UpdateOrderItemByID(tx, id, orderItem)
 	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.BadRequestError(err.Error())
@@ -108,15 +108,15 @@ func (s *orderService) UpdateOrderItemByID(id, userID uint, req *dto.OrderItemPa
 	return orderItemRes, nil
 }
 
-func (s *orderService) DeleteOrderItemByID(id, userID uint) (gin.H, error) {
+func (s *orderItemService) DeleteOrderItemByID(id, userID uint) (gin.H, error) {
 	tx := s.db.Begin()
-	ok, err := s.orderRepository.IsOrderItemOfUserID(tx, id, userID)
+	ok, err := s.orderItemRepository.IsOrderItemOfUserID(tx, id, userID)
 	err = checkOrderItem(ok, err)
 	if err != nil {
 		return nil, err
 	}
 
-	isDeleted, err := s.orderRepository.DeleteOrderItemByID(tx, id)
+	isDeleted, err := s.orderItemRepository.DeleteOrderItemByID(tx, id)
 	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return gin.H{"isDeleted": false}, apperror.BadRequestError(err.Error())
