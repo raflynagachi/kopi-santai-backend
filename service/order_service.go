@@ -1,12 +1,13 @@
 package service
 
 import (
-	"fmt"
+	"errors"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/repository"
+	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
@@ -14,6 +15,7 @@ type OrderService interface {
 	CreateOrderItem(req *dto.OrderItemPostReq, userID uint) (*dto.OrderItemRes, error)
 	FindOrderItemByUserID(userID uint) ([]*dto.OrderItemRes, error)
 	UpdateOrderItemByID(id, userID uint, req *dto.OrderItemPatchReq) (*dto.OrderItemRes, error)
+	DeleteOrderItemByID(id, userID uint) (gin.H, error)
 }
 
 type orderService struct {
@@ -34,6 +36,16 @@ func NewOrder(c *OrderConfig) OrderService {
 		orderRepository: c.OrderRepository,
 		menuRepository:  c.MenuRepository,
 	}
+}
+
+func checkOrderItem(ok bool, err error) error {
+	if !ok && errors.Is(err, new(apperror.UserUnauthorizedError)) {
+		return apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error())
+	}
+	if !ok && errors.Is(err, new(apperror.OrderNotFoundError)) {
+		return apperror.NotFoundError(err.Error())
+	}
+	return nil
 }
 
 func (s *orderService) CreateOrderItem(req *dto.OrderItemPostReq, userID uint) (*dto.OrderItemRes, error) {
@@ -88,9 +100,10 @@ func (s *orderService) UpdateOrderItemByID(id, userID uint, req *dto.OrderItemPa
 	}
 
 	tx := s.db.Begin()
-	ok := s.orderRepository.IsOrderItemOfUserID(tx, id, userID)
-	if !ok {
-		return nil, apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error())
+	ok, err := s.orderRepository.IsOrderItemOfUserID(tx, id, userID)
+	err = checkOrderItem(ok, err)
+	if err != nil {
+		return nil, err
 	}
 
 	oi, err := s.orderRepository.UpdateOrderItemByID(tx, id, orderItem)
@@ -98,9 +111,29 @@ func (s *orderService) UpdateOrderItemByID(id, userID uint, req *dto.OrderItemPa
 	if err != nil {
 		return nil, apperror.BadRequestError(err.Error())
 	}
-	fmt.Println("oi:::::", oi.Menu)
 
 	menuRes := new(dto.MenuRes).FromMenu(oi.Menu)
 	orderItemRes := new(dto.OrderItemRes).From(oi, menuRes)
 	return orderItemRes, nil
+}
+
+func (s *orderService) DeleteOrderItemByID(id, userID uint) (gin.H, error) {
+	tx := s.db.Begin()
+	ok, err := s.orderRepository.IsOrderItemOfUserID(tx, id, userID)
+	err = checkOrderItem(ok, err)
+	if err != nil {
+		return nil, err
+	}
+
+	isDeleted, err := s.orderRepository.DeleteOrderItemByID(tx, id)
+	if err != nil {
+		return gin.H{"isDeleted": false}, apperror.BadRequestError(err.Error())
+	}
+	_, err = s.orderRepository.DeleteCart(tx, id, userID)
+	helper.CommitOrRollback(tx, err)
+	if err != nil {
+		return gin.H{"isDeleted": false}, apperror.InternalServerError(err.Error())
+	}
+
+	return gin.H{"isDeleted": isDeleted}, nil
 }
