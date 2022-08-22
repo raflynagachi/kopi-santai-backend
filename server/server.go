@@ -16,6 +16,7 @@ func Init() {
 	paymentOptRepo := repository.NewPaymentOption()
 	couponRepo := repository.NewCoupon()
 	deliveryRepo := repository.NewDelivery()
+	reviewRepo := repository.NewReview()
 
 	authService := service.NewAuth(&service.AuthConfig{
 		DB:             db.Get(),
@@ -43,6 +44,10 @@ func Init() {
 		OrderRepo:      orderRepo,
 		OrderItemRepo:  orderItemRepo,
 	})
+	reviewService := service.NewReview(&service.ReviewConfig{
+		DB:         db.Get(),
+		ReviewRepo: reviewRepo,
+	})
 
 	router := NewRouter(&RouterConfig{
 		AuthService:      authService,
@@ -50,6 +55,7 @@ func Init() {
 		MenuService:      menuService,
 		OrderItemService: orderItemService,
 		OrderService:     orderService,
+		ReviewService:    reviewService,
 	})
 	log.Fatalln(router.Run())
 }

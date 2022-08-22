@@ -16,6 +16,7 @@ type RouterConfig struct {
 	MenuService      service.MenuService
 	OrderItemService service.OrderItemService
 	OrderService     service.OrderService
+	ReviewService    service.ReviewService
 }
 
 const apiNotFoundMessage = "API not found"
@@ -33,9 +34,8 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	userHandler := handler.NewUser(&handler.UserConfig{UserService: c.UserService})
 	menuHandler := handler.NewMenu(&handler.MenuConfig{MenuService: c.MenuService})
 	orderItemHandler := handler.NewOrderItem(&handler.OrderItemConfig{OrderService: c.OrderItemService})
-	orderHandler := handler.NewOrder(&handler.OrderConfig{
-		OrderService: c.OrderService,
-	})
+	orderHandler := handler.NewOrder(&handler.OrderConfig{OrderService: c.OrderService})
+	reviewHandler := handler.NewReview(&handler.ReviewConfig{ReviewService: c.ReviewService})
 
 	r.POST("/login", middleware.RequestValidator(&dto.LoginPostReq{}), authHandler.Login)
 	r.POST("/register", middleware.RequestValidator(&dto.RegisterPostReq{}), authHandler.Register)
@@ -55,6 +55,8 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.POST("/orders", middleware.RequestValidator(&dto.OrderPostReq{}), orderHandler.CreateOrder)
 	r.GET("/orders", orderHandler.FindOrderByUserID)
 	r.GET("/orders/:id", middleware.ParamIDValidator, orderHandler.FindOrderByIDAndUserID)
+
+	r.POST("/reviews", middleware.RequestValidator(&dto.ReviewPostReq{}), reviewHandler.Create)
 
 	return r
 }
