@@ -11,6 +11,7 @@ import (
 
 type ReviewService interface {
 	Create(req *dto.ReviewPostReq, userID uint) (*dto.ReviewRes, error)
+	FindByMenuID(menuID uint) ([]*dto.ReviewRes, error)
 }
 
 type reviewService struct {
@@ -47,4 +48,18 @@ func (s *reviewService) Create(req *dto.ReviewPostReq, userID uint) (*dto.Review
 
 	reviewRes := new(dto.ReviewRes).FromReview(review)
 	return reviewRes, nil
+}
+
+func (s *reviewService) FindByMenuID(menuID uint) ([]*dto.ReviewRes, error) {
+	tx := s.db.Begin()
+	reviews, err := s.reviewRepo.FindByMenuID(tx, menuID)
+	if err != nil {
+		return nil, apperror.BadRequestError(err.Error())
+	}
+
+	var reviewsRes []*dto.ReviewRes
+	for _, review := range reviews {
+		reviewsRes = append(reviewsRes, new(dto.ReviewRes).FromReview(review))
+	}
+	return reviewsRes, nil
 }

@@ -1,6 +1,9 @@
 package dto
 
-import "git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
+import (
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
+)
 
 type MenuRes struct {
 	ID           uint    `json:"id"`
@@ -27,6 +30,6 @@ func (_ *MenuRes) FromMenu(m *model.Menu) *MenuRes {
 		Name:         m.Name,
 		Price:        m.Price,
 		Image:        m.Image,
-		Rating:       rating,
+		Rating:       helper.ToFixed(rating, 2),
 	}
 }

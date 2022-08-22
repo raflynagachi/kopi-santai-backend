@@ -66,5 +66,6 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.POST("/menus", middleware.RequestValidator(&dto.MenuPostReq{}), menuHandler.CreateMenu)
 	r.PATCH("/menus/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.MenuUpdateReq{}), menuHandler.UpdateMenu)
 	r.DELETE("/menus/:id", middleware.ParamIDValidator, menuHandler.DeleteByID)
+	r.GET("/menus/:id/reviews", middleware.ParamIDValidator, reviewHandler.FindByMenuID)
 	return r
 }
