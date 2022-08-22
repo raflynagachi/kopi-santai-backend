@@ -3,6 +3,7 @@ package model
 import "gorm.io/gorm"
 
 var UserRole = "USER"
+var AdminRole = "ADMIN"
 var ImagePlaceholder = "https://via.placeholder.com/150"
 
 type User struct {

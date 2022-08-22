@@ -13,6 +13,7 @@ import (
 
 type OrderService interface {
 	CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.OrderRes, error)
+	FindAll(q *model.QueryParamOrder) ([]*dto.OrderRes, error)
 	FindOrderByIDAndUserID(id, userID uint) (*dto.OrderRes, error)
 	FindOrderByUserID(userID uint) ([]*dto.OrderRes, error)
 }
@@ -46,6 +47,19 @@ func NewOrder(c *OrderConfig) OrderService {
 	}
 }
 
+func validateQueryParamOrder(q *model.QueryParamOrder) time.Time {
+	if q.Date == "lastWeek" {
+		return time.Now().AddDate(0, 0, -7)
+	}
+	if q.Date == "lastMonth" {
+		return time.Now().AddDate(0, -1, 0)
+	}
+	if q.Date == "lastYear" {
+		return time.Now().AddDate(-1, 0, 0)
+	}
+	return time.Time{}
+}
+
 func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.OrderRes, error) {
 	o := &model.Order{
 		UserID:          userID,
@@ -69,7 +83,7 @@ func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Ord
 	}
 
 	d := &model.Delivery{
-		DeliveryDate: time.Now(),
+		DeliveryDate: req.OrderedDate,
 		Status:       model.StatusDefault,
 	}
 	delivery, err := s.deliveryRepo.Create(tx, d)
@@ -144,6 +158,28 @@ func (s *orderService) FindOrderByUserID(userID uint) ([]*dto.OrderRes, error) {
 
 	for _, o := range order {
 		orderItems, err := s.orderItemRepo.FindOrderItemByUserIDAndOrderID(tx, userID, o.ID)
+		if err != nil {
+			return nil, apperror.NotFoundError(err.Error())
+		}
+		o.OrderItems = orderItems
+		ordersRes = append(ordersRes, new(dto.OrderRes).From(o))
+	}
+
+	return ordersRes, nil
+}
+
+func (s *orderService) FindAll(q *model.QueryParamOrder) ([]*dto.OrderRes, error) {
+	var ordersRes []*dto.OrderRes
+	t := validateQueryParamOrder(q)
+
+	tx := s.db.Begin()
+	order, err := s.orderRepo.FindAll(tx, &t)
+	if err != nil {
+		return nil, apperror.NotFoundError(err.Error())
+	}
+
+	for _, o := range order {
+		orderItems, err := s.orderItemRepo.FindOrderItemByOrderID(tx, o.ID)
 		if err != nil {
 			return nil, apperror.NotFoundError(err.Error())
 		}

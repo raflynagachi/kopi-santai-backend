@@ -3,6 +3,8 @@ package handler
 import (
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -12,6 +14,7 @@ type OrderHandler interface {
 	CreateOrder(c *gin.Context)
 	FindOrderByIDAndUserID(c *gin.Context)
 	FindOrderByUserID(c *gin.Context)
+	FindAll(c *gin.Context)
 }
 
 type orderHandler struct {
@@ -74,6 +77,31 @@ func (h *orderHandler) FindOrderByUserID(c *gin.Context) {
 	userID := userPayload.(*dto.UserJWT).ID
 
 	orderItemRes, err := h.orderService.FindOrderByUserID(userID)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.StatusOKResponse(orderItemRes))
+}
+
+func (h *orderHandler) FindAll(c *gin.Context) {
+	userPayload, ok := c.Get("user")
+	if !ok {
+		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
+		return
+	}
+	role := userPayload.(*dto.UserJWT).Role
+	if role != model.AdminRole {
+		_ = c.Error(apperror.ForbiddenError(new(apperror.ForbiddenAccessError).Error()))
+		return
+	}
+
+	queryParam := &model.QueryParamOrder{
+		Date: helper.GetQuery(c, "date", ""),
+	}
+
+	orderItemRes, err := h.orderService.FindAll(queryParam)
 	if err != nil {
 		_ = c.Error(err)
 		return

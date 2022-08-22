@@ -30,6 +30,14 @@ func UnprocessableEntityError(message string) AppError {
 	}
 }
 
+func ForbiddenError(message string) AppError {
+	return AppError{
+		Status:     "FORBIDDEN_ERROR",
+		Message:    message,
+		StatusCode: http.StatusForbidden,
+	}
+}
+
 func NotFoundError(message string) AppError {
 	return AppError{
 		Status:     "NOT_FOUND_ERROR",

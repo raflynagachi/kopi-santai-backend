@@ -5,6 +5,10 @@ import (
 	"time"
 )
 
+type QueryParamOrder struct {
+	Date string
+}
+
 type Order struct {
 	gorm.Model
 	ID              uint `gorm:"primaryKey"`

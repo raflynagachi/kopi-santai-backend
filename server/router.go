@@ -58,5 +58,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 
 	r.POST("/reviews", middleware.RequestValidator(&dto.ReviewPostReq{}), reviewHandler.Create)
 
+	// ADMIN
+	r.GET("/internal/orders", orderHandler.FindAll)
 	return r
 }
