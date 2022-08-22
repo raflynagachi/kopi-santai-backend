@@ -55,14 +55,13 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.DELETE("/order-items/:id", middleware.ParamIDValidator, orderItemHandler.DeleteOrderItemByID)
 
 	r.POST("/orders", middleware.RequestValidator(&dto.OrderPostReq{}), orderHandler.CreateOrder)
-	r.GET("/orders", orderHandler.FindOrderByUserID)
 	r.GET("/orders/:id", middleware.ParamIDValidator, orderHandler.FindOrderByIDAndUserID)
 
 	r.POST("/reviews", middleware.RequestValidator(&dto.ReviewPostReq{}), reviewHandler.Create)
 
 	// ADMIN
-	r.GET("/internal/orders", orderHandler.FindAll)
-	r.PATCH("/internal/deliveries/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.DeliveryUpdateStatusReq{}), deliveryHandler.UpdateStatus)
+	r.GET("/orders", orderHandler.FindAll)
+	r.PATCH("/deliveries/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.DeliveryUpdateStatusReq{}), deliveryHandler.UpdateStatus)
 	r.POST("/menus", middleware.RequestValidator(&dto.MenuPostReq{}), menuHandler.CreateMenu)
 	r.PATCH("/menus/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.MenuUpdateReq{}), menuHandler.UpdateMenu)
 	r.DELETE("/menus/:id", middleware.ParamIDValidator, menuHandler.DeleteByID)
