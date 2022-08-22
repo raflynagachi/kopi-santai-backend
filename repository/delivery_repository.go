@@ -9,6 +9,7 @@ type DeliveryRepository interface {
 	Create(tx *gorm.DB, d *model.Delivery) (*model.Delivery, error)
 	FindAll(tx *gorm.DB) ([]*model.Delivery, error)
 	FindByID(tx *gorm.DB, id uint) (*model.Delivery, error)
+	Update(tx *gorm.DB, id uint, d *model.Delivery) (*model.Delivery, error)
 }
 
 type deliveryRepository struct{}
@@ -32,4 +33,14 @@ func (r *deliveryRepository) FindByID(tx *gorm.DB, id uint) (*model.Delivery, er
 	var d *model.Delivery
 	err := tx.First(&d, id).Error
 	return d, err
+}
+
+func (r *deliveryRepository) Update(tx *gorm.DB, id uint, d *model.Delivery) (*model.Delivery, error) {
+	var updatedDelivery *model.Delivery
+	err := tx.First(&updatedDelivery, id).Updates(&d).Error
+	if err != nil {
+		return nil, err
+	}
+	_ = tx.First(&updatedDelivery, id)
+	return updatedDelivery, nil
 }

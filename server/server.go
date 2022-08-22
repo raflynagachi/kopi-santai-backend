@@ -48,6 +48,10 @@ func Init() {
 		DB:         db.Get(),
 		ReviewRepo: reviewRepo,
 	})
+	deliveryService := service.NewDelivery(&service.DeliveryConfig{
+		DB:           db.Get(),
+		DeliveryRepo: deliveryRepo,
+	})
 
 	router := NewRouter(&RouterConfig{
 		AuthService:      authService,
@@ -56,6 +60,7 @@ func Init() {
 		OrderItemService: orderItemService,
 		OrderService:     orderService,
 		ReviewService:    reviewService,
+		DeliveryService:  deliveryService,
 	})
 	log.Fatalln(router.Run())
 }
