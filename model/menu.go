@@ -1,5 +1,7 @@
 package model
 
+import "gorm.io/gorm"
+
 const (
 	Price             = "price"
 	ID                = "id"
@@ -18,6 +20,7 @@ type QueryParamMenu struct {
 }
 
 type Menu struct {
+	gorm.Model
 	ID         uint `gorm:"primaryKey"`
 	CategoryID uint
 	Name       string
