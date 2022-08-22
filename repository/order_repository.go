@@ -8,8 +8,8 @@ import (
 
 type OrderRepository interface {
 	CreateOrder(tx *gorm.DB, o *model.Order) (*model.Order, error)
-	FindActiveOrderByIDAndUserID(tx *gorm.DB, id, userID uint) (*model.Order, error)
-	FindAllOrderByUserID(tx *gorm.DB, userID uint) ([]*model.Order, error)
+	FindOrderByIDAndUserID(tx *gorm.DB, id, userID uint) (*model.Order, error)
+	FindOrderByUserID(tx *gorm.DB, userID uint) ([]*model.Order, error)
 }
 
 type orderRepository struct{}
@@ -23,16 +23,16 @@ func (r *orderRepository) CreateOrder(tx *gorm.DB, o *model.Order) (*model.Order
 	return o, err
 }
 
-func (r *orderRepository) FindActiveOrderByIDAndUserID(tx *gorm.DB, id, userID uint) (*model.Order, error) {
+func (r *orderRepository) FindOrderByIDAndUserID(tx *gorm.DB, id, userID uint) (*model.Order, error) {
 	var o *model.Order
-	result := tx.Preload("Coupon").Preload("Delivery").Preload("PaymentOption").Where("user_id = ? AND is_active = true", userID).First(&o, id)
+	result := tx.Preload("Coupon").Preload("Delivery").Preload("PaymentOption").Where("user_id = ?", userID).First(&o, id)
 	if result.Error != nil && result.RowsAffected == 0 {
 		return nil, new(apperror.OrderNotFoundError)
 	}
 	return o, result.Error
 }
 
-func (r *orderRepository) FindAllOrderByUserID(tx *gorm.DB, userID uint) ([]*model.Order, error) {
+func (r *orderRepository) FindOrderByUserID(tx *gorm.DB, userID uint) ([]*model.Order, error) {
 	var orders []*model.Order
 	result := tx.Preload("Coupon").Preload("Delivery").Preload("PaymentOption").Where("user_id = ?", userID).Find(&orders)
 	if result.Error != nil && result.RowsAffected == 0 {

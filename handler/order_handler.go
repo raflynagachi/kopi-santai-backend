@@ -11,6 +11,7 @@ import (
 type OrderHandler interface {
 	CreateOrder(c *gin.Context)
 	FindOrderByIDAndUserID(c *gin.Context)
+	FindOrderByUserID(c *gin.Context)
 }
 
 type orderHandler struct {
@@ -55,7 +56,24 @@ func (h *orderHandler) FindOrderByIDAndUserID(c *gin.Context) {
 	}
 	userID := userPayload.(*dto.UserJWT).ID
 
-	orderItemRes, err := h.orderService.FindActiveOrderByID(idParam.(uint), userID)
+	orderItemRes, err := h.orderService.FindOrderByIDAndUserID(idParam.(uint), userID)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.StatusOKResponse(orderItemRes))
+}
+
+func (h *orderHandler) FindOrderByUserID(c *gin.Context) {
+	userPayload, ok := c.Get("user")
+	if !ok {
+		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
+		return
+	}
+	userID := userPayload.(*dto.UserJWT).ID
+
+	orderItemRes, err := h.orderService.FindOrderByUserID(userID)
 	if err != nil {
 		_ = c.Error(err)
 		return

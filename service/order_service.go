@@ -13,7 +13,8 @@ import (
 
 type OrderService interface {
 	CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.OrderRes, error)
-	FindActiveOrderByID(id, userID uint) (*dto.OrderRes, error)
+	FindOrderByIDAndUserID(id, userID uint) (*dto.OrderRes, error)
+	FindOrderByUserID(userID uint) ([]*dto.OrderRes, error)
 }
 
 type orderService struct {
@@ -116,9 +117,9 @@ func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Ord
 	return orderRes, nil
 }
 
-func (s *orderService) FindActiveOrderByID(id, userID uint) (*dto.OrderRes, error) {
+func (s *orderService) FindOrderByIDAndUserID(id, userID uint) (*dto.OrderRes, error) {
 	tx := s.db.Begin()
-	order, err := s.orderRepo.FindActiveOrderByIDAndUserID(tx, id, userID)
+	order, err := s.orderRepo.FindOrderByIDAndUserID(tx, id, userID)
 	if err != nil {
 		return nil, apperror.NotFoundError(err.Error())
 	}
@@ -130,4 +131,23 @@ func (s *orderService) FindActiveOrderByID(id, userID uint) (*dto.OrderRes, erro
 	order.OrderItems = orderItems
 	orderRes := new(dto.OrderRes).From(order)
 	return orderRes, nil
+}
+
+func (s *orderService) FindOrderByUserID(userID uint) ([]*dto.OrderRes, error) {
+	var ordersRes []*dto.OrderRes
+	tx := s.db.Begin()
+	order, err := s.orderRepo.FindOrderByUserID(tx, userID)
+	if err != nil {
+		return nil, apperror.NotFoundError(err.Error())
+	}
+	for _, o := range order {
+		orderItems, err := s.orderItemRepo.FindOrderItemByUserIDAndOrderID(tx, userID, o.ID)
+		if err != nil {
+			return nil, apperror.NotFoundError(err.Error())
+		}
+		o.OrderItems = orderItems
+		ordersRes = append(ordersRes, new(dto.OrderRes).From(o))
+	}
+
+	return ordersRes, nil
 }
