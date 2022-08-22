@@ -7,6 +7,8 @@ import (
 
 type CouponRepository interface {
 	FindByID(tx *gorm.DB, id uint) (*model.Coupon, error)
+	Create(tx *gorm.DB, c *model.Coupon) (*model.Coupon, error)
+	DeleteByID(tx *gorm.DB, id uint) (bool, error)
 }
 
 type couponRepository struct{}
@@ -19,4 +21,18 @@ func (r *couponRepository) FindByID(tx *gorm.DB, id uint) (*model.Coupon, error)
 	var coupon *model.Coupon
 	err := tx.First(&coupon, id).Error
 	return coupon, err
+}
+
+func (r *couponRepository) Create(tx *gorm.DB, c *model.Coupon) (*model.Coupon, error) {
+	err := tx.Create(&c).Error
+	return c, err
+}
+
+func (r *couponRepository) DeleteByID(tx *gorm.DB, id uint) (bool, error) {
+	var deletedCoupon *model.Coupon
+	err := tx.Delete(&deletedCoupon, id).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }

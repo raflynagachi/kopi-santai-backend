@@ -18,6 +18,7 @@ type RouterConfig struct {
 	OrderService     service.OrderService
 	ReviewService    service.ReviewService
 	DeliveryService  service.DeliveryService
+	CouponService    service.CouponService
 }
 
 const apiNotFoundMessage = "API not found"
@@ -38,6 +39,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	orderHandler := handler.NewOrder(&handler.OrderConfig{OrderService: c.OrderService})
 	reviewHandler := handler.NewReview(&handler.ReviewConfig{ReviewService: c.ReviewService})
 	deliveryHandler := handler.NewDelivery(&handler.DeliveryConfig{DeliveryService: c.DeliveryService})
+	couponHandler := handler.NewCoupon(&handler.CouponConfig{CouponService: c.CouponService})
 
 	r.POST("/login", middleware.RequestValidator(&dto.LoginPostReq{}), authHandler.Login)
 	r.POST("/register", middleware.RequestValidator(&dto.RegisterPostReq{}), authHandler.Register)
@@ -66,5 +68,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.PATCH("/menus/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.MenuUpdateReq{}), menuHandler.UpdateMenu)
 	r.DELETE("/menus/:id", middleware.ParamIDValidator, menuHandler.DeleteByID)
 	r.GET("/menus/:id/reviews", middleware.ParamIDValidator, reviewHandler.FindByMenuID)
+	r.POST("/coupons", middleware.RequestValidator(&dto.CouponPostReq{}), couponHandler.Create)
+	r.DELETE("/coupons/:id", middleware.ParamIDValidator, couponHandler.DeleteByID)
 	return r
 }

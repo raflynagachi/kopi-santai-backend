@@ -145,7 +145,7 @@ func (s *menuService) Update(id uint, req *dto.MenuUpdateReq) (*dto.MenuRes, err
 func (s *menuService) DeleteByID(id uint) (gin.H, error) {
 	tx := s.db.Begin()
 	isDeleted, err := s.menuRepository.DeleteByID(tx, id)
-	//helper.CommitOrRollback(tx, err)
+	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return gin.H{"isDeleted": false}, apperror.BadRequestError(err.Error())
 	}

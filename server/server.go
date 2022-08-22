@@ -52,6 +52,10 @@ func Init() {
 		DB:           db.Get(),
 		DeliveryRepo: deliveryRepo,
 	})
+	couponService := service.NewCoupon(&service.CouponConfig{
+		DB:         db.Get(),
+		CouponRepo: couponRepo,
+	})
 
 	router := NewRouter(&RouterConfig{
 		AuthService:      authService,
@@ -61,6 +65,7 @@ func Init() {
 		OrderService:     orderService,
 		ReviewService:    reviewService,
 		DeliveryService:  deliveryService,
+		CouponService:    couponService,
 	})
 	log.Fatalln(router.Run())
 }
