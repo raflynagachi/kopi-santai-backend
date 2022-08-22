@@ -27,6 +27,7 @@ type Menu struct {
 	Price      float64
 	Image      string
 	Category   *Category
+	Reviews    []*Review
 }
 
 func (_ *Menu) TableName() string {

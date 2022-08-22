@@ -35,7 +35,7 @@ func (r *menuRepository) FindAll(tx *gorm.DB, q *model.QueryParamMenu) ([]*model
 		ids = append(ids, category.ID)
 	}
 
-	err = tx.Preload("Category").Where("category_id IN (?) AND LOWER(name) LIKE ?", ids, q.Search).Order(orderStatement).Find(&menus).Error
+	err = tx.Preload("Category").Preload("Reviews").Where("category_id IN (?) AND LOWER(name) LIKE ?", ids, q.Search).Order(orderStatement).Find(&menus).Error
 	return menus, err
 }
 

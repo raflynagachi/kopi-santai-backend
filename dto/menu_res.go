@@ -9,9 +9,17 @@ type MenuRes struct {
 	Name         string  `json:"name"`
 	Price        float64 `json:"price"`
 	Image        string  `json:"image"`
+	Rating       float64 `json:"rating"`
 }
 
 func (_ *MenuRes) FromMenu(m *model.Menu) *MenuRes {
+	var rating float64
+	if len(m.Reviews) != 0 {
+		for _, review := range m.Reviews {
+			rating += review.Rating
+		}
+		rating /= float64(len(m.Reviews))
+	}
 	return &MenuRes{
 		ID:           m.ID,
 		CategoryID:   m.CategoryID,
@@ -19,5 +27,6 @@ func (_ *MenuRes) FromMenu(m *model.Menu) *MenuRes {
 		Name:         m.Name,
 		Price:        m.Price,
 		Image:        m.Image,
+		Rating:       rating,
 	}
 }
