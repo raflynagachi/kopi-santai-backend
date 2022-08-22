@@ -97,10 +97,19 @@ func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Ord
 
 	o.TotalPrice = totalPrice
 	order, err := s.orderRepo.CreateOrder(tx, o)
-	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.InternalServerError(err.Error())
 	}
+
+	for _, item := range orderItems {
+		item.IsActive = false
+		item.OrderID = &order.ID
+		item, err = s.orderItemRepo.UpdateOrderItemByID(tx, item.ID, item)
+		if err != nil {
+			return nil, apperror.InternalServerError(err.Error())
+		}
+	}
+	helper.CommitOrRollback(tx, err)
 
 	o.OrderItems = orderItems
 	orderRes := new(dto.OrderRes).From(order)
@@ -113,7 +122,12 @@ func (s *orderService) FindActiveOrderByID(id, userID uint) (*dto.OrderRes, erro
 	if err != nil {
 		return nil, apperror.NotFoundError(err.Error())
 	}
+	orderItems, err := s.orderItemRepo.FindOrderItemByUserIDAndOrderID(tx, userID, id)
+	if err != nil {
+		return nil, apperror.NotFoundError(err.Error())
+	}
 
+	order.OrderItems = orderItems
 	orderRes := new(dto.OrderRes).From(order)
 	return orderRes, nil
 }

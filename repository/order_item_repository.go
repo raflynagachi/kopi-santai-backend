@@ -7,6 +7,7 @@ import (
 )
 
 type OrderItemRepository interface {
+	FindOrderItemByUserIDAndOrderID(tx *gorm.DB, userID, orderID uint) ([]*model.OrderItem, error)
 	FindOrderItemByUserID(tx *gorm.DB, userID uint) ([]*model.OrderItem, error)
 	CreateOrderItem(tx *gorm.DB, oi *model.OrderItem) (*model.OrderItem, error)
 	UpdateOrderItemByID(tx *gorm.DB, id uint, oi *model.OrderItem) (*model.OrderItem, error)
@@ -20,9 +21,18 @@ func NewOrderItem() OrderItemRepository {
 	return &orderItemRepository{}
 }
 
+func (r *orderItemRepository) FindOrderItemByUserIDAndOrderID(tx *gorm.DB, userID, orderID uint) ([]*model.OrderItem, error) {
+	var orderItems []*model.OrderItem
+	result := tx.Preload("Menu").Preload("Menu.Category").Where("user_id = ? AND order_id = ?", userID, orderID).Find(&orderItems)
+	if result.RowsAffected == 0 {
+		return orderItems, new(apperror.OrderItemNotFoundError)
+	}
+	return orderItems, result.Error
+}
+
 func (r *orderItemRepository) FindOrderItemByUserID(tx *gorm.DB, userID uint) ([]*model.OrderItem, error) {
 	var orderItems []*model.OrderItem
-	result := tx.Preload("Menu").Preload("Menu.Category").Where("user_id = ? AND is_active = ?", userID, true).Find(&orderItems)
+	result := tx.Preload("Menu").Preload("Menu.Category").Where("user_id = ? AND is_active = ? AND order_id = ?", userID, true, nil).Find(&orderItems)
 	if result.RowsAffected == 0 {
 		return orderItems, new(apperror.OrderItemNotFoundError)
 	}
