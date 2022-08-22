@@ -12,6 +12,7 @@ type MenuRepository interface {
 	FindAll(tx *gorm.DB, q *model.QueryParamMenu) ([]*model.Menu, error)
 	FindByID(tx *gorm.DB, id uint) (*model.Menu, error)
 	FindMenuOptions(tx *gorm.DB, categoryID uint) ([]*model.MenuOptionsCategories, error)
+	Create(tx *gorm.DB, menu *model.Menu) (*model.Menu, error)
 	Update(tx *gorm.DB, id uint, d *model.Menu) (*model.Menu, error)
 	DeleteByID(tx *gorm.DB, id uint) (bool, error)
 }
@@ -51,6 +52,11 @@ func (r *menuRepository) FindMenuOptions(tx *gorm.DB, categoryID uint) ([]*model
 	var menuOptionCategories []*model.MenuOptionsCategories
 	err := tx.Preload("MenuOption").Find(&menuOptionCategories, "category_id = ?", categoryID).Error
 	return menuOptionCategories, err
+}
+
+func (r *menuRepository) Create(tx *gorm.DB, menu *model.Menu) (*model.Menu, error) {
+	err := tx.Preload("Category").Create(&menu).First(&menu).Error
+	return menu, err
 }
 
 func (r *menuRepository) Update(tx *gorm.DB, id uint, d *model.Menu) (*model.Menu, error) {

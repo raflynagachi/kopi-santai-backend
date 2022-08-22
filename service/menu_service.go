@@ -15,6 +15,7 @@ import (
 type MenuService interface {
 	FindAll(q *model.QueryParamMenu) ([]*dto.MenuRes, error)
 	GetMenuDetail(id uint) (*dto.MenuDetailRes, error)
+	Create(req *dto.MenuPostReq) (*dto.MenuRes, error)
 	Update(id uint, req *dto.MenuUpdateReq) (*dto.MenuRes, error)
 	DeleteByID(id uint) (gin.H, error)
 }
@@ -101,6 +102,25 @@ func (s *menuService) GetMenuDetail(id uint) (*dto.MenuDetailRes, error) {
 	menuOptionsRes := menuOptionsCategoriesToMenuOptionsRes(menuOptions)
 	menuDetailRes := new(dto.MenuDetailRes).From(menuRes, menuOptionsRes)
 	return menuDetailRes, nil
+}
+
+func (s *menuService) Create(req *dto.MenuPostReq) (*dto.MenuRes, error) {
+	d := &model.Menu{
+		CategoryID: req.CategoryID,
+		Name:       req.Name,
+		Price:      req.Price,
+		Image:      req.Image,
+	}
+
+	tx := s.db.Begin()
+	menu, err := s.menuRepository.Create(tx, d)
+	helper.CommitOrRollback(tx, err)
+	if err != nil {
+		return nil, apperror.BadRequestError(err.Error())
+	}
+
+	menuRes := new(dto.MenuRes).FromMenu(menu)
+	return menuRes, nil
 }
 
 func (s *menuService) Update(id uint, req *dto.MenuUpdateReq) (*dto.MenuRes, error) {

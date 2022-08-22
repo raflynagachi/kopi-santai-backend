@@ -16,6 +16,7 @@ const sortMenuByDefaultValue = model.ID
 type MenuHandler interface {
 	FindAll(c *gin.Context)
 	GetMenuDetail(c *gin.Context)
+	CreateMenu(c *gin.Context)
 	UpdateMenu(c *gin.Context)
 	DeleteByID(c *gin.Context)
 }
@@ -60,6 +61,31 @@ func (h *menuHandler) GetMenuDetail(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, dto.StatusOKResponse(menuRes))
+}
+
+func (h *menuHandler) CreateMenu(c *gin.Context) {
+	userPayload, ok := c.Get("user")
+	if !ok {
+		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
+		return
+	}
+	role := userPayload.(*dto.UserJWT).Role
+	if role != model.AdminRole {
+		_ = c.Error(apperror.ForbiddenError(new(apperror.ForbiddenAccessError).Error()))
+		return
+	}
+
+	payload, _ := c.Get("payload")
+	var req *dto.MenuPostReq
+	req = payload.(*dto.MenuPostReq)
+
+	orderItemRes, err := h.menuService.Create(req)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.StatusOKResponse(orderItemRes))
 }
 
 func (h *menuHandler) UpdateMenu(c *gin.Context) {
