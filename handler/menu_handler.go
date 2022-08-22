@@ -9,8 +9,8 @@ import (
 	"net/http"
 )
 
-const sortDefaultValue = model.Asc
-const sortByDefaultValue = model.MenuID
+const sortMenuDefaultValue = model.Asc
+const sortMenuByDefaultValue = model.ID
 
 type MenuHandler interface {
 	FindAll(c *gin.Context)
@@ -34,8 +34,8 @@ func NewMenu(c *MenuConfig) MenuHandler {
 func (h *menuHandler) FindAll(c *gin.Context) {
 	queryParam := &model.QueryParamMenu{
 		Search:   helper.GetQuery(c, "search", ""),
-		SortBy:   helper.GetQuery(c, "sortBy", sortByDefaultValue),
-		Sort:     helper.GetQuery(c, "sort", sortDefaultValue),
+		SortBy:   helper.GetQuery(c, "sortBy", sortMenuByDefaultValue),
+		Sort:     helper.GetQuery(c, "sort", sortMenuDefaultValue),
 		Category: helper.GetQuery(c, "category", ""),
 	}
 

@@ -135,11 +135,13 @@ func (s *orderService) FindOrderByIDAndUserID(id, userID uint) (*dto.OrderRes, e
 
 func (s *orderService) FindOrderByUserID(userID uint) ([]*dto.OrderRes, error) {
 	var ordersRes []*dto.OrderRes
+
 	tx := s.db.Begin()
 	order, err := s.orderRepo.FindOrderByUserID(tx, userID)
 	if err != nil {
 		return nil, apperror.NotFoundError(err.Error())
 	}
+
 	for _, o := range order {
 		orderItems, err := s.orderItemRepo.FindOrderItemByUserIDAndOrderID(tx, userID, o.ID)
 		if err != nil {

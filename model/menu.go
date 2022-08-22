@@ -2,7 +2,7 @@ package model
 
 const (
 	Price             = "price"
-	MenuID            = "id"
+	ID                = "id"
 	Desc              = "desc"
 	Asc               = "asc"
 	CategoryCoffee    = "coffee"

@@ -48,13 +48,13 @@ func menuOptionsCategoriesToMenuOptionsRes(menusOptCats []*model.MenuOptionsCate
 	return menuOptRes
 }
 
-func validateQueryParam(q *model.QueryParamMenu) {
+func validateQueryParamMenu(q *model.QueryParamMenu) {
 	if q.Sort != model.Desc && q.Sort != model.Asc {
 		q.Sort = model.Desc
 	}
 
 	if q.SortBy != model.Price {
-		q.SortBy = model.MenuID
+		q.SortBy = model.ID
 	}
 
 	q.Category = strings.ToLower(q.Category)
@@ -70,7 +70,7 @@ func validateQueryParam(q *model.QueryParamMenu) {
 }
 
 func (s *menuService) FindAll(q *model.QueryParamMenu) ([]*dto.MenuRes, error) {
-	validateQueryParam(q)
+	validateQueryParamMenu(q)
 
 	tx := s.db.Begin()
 	menus, err := s.menuRepository.FindAll(tx, q)

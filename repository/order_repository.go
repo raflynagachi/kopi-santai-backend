@@ -34,6 +34,7 @@ func (r *orderRepository) FindOrderByIDAndUserID(tx *gorm.DB, id, userID uint) (
 
 func (r *orderRepository) FindOrderByUserID(tx *gorm.DB, userID uint) ([]*model.Order, error) {
 	var orders []*model.Order
+
 	result := tx.Preload("Coupon").Preload("Delivery").Preload("PaymentOption").Where("user_id = ?", userID).Find(&orders)
 	if result.Error != nil && result.RowsAffected == 0 {
 		return nil, new(apperror.OrderNotFoundError)
