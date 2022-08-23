@@ -19,6 +19,7 @@ type RouterConfig struct {
 	ReviewService    service.ReviewService
 	DeliveryService  service.DeliveryService
 	CouponService    service.CouponService
+	GameService      service.GameService
 }
 
 const apiNotFoundMessage = "API not found"
@@ -40,6 +41,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	reviewHandler := handler.NewReview(&handler.ReviewConfig{ReviewService: c.ReviewService})
 	deliveryHandler := handler.NewDelivery(&handler.DeliveryConfig{DeliveryService: c.DeliveryService})
 	couponHandler := handler.NewCoupon(&handler.CouponConfig{CouponService: c.CouponService})
+	gameHandler := handler.NewGame(&handler.GameConfig{GameService: c.GameService})
 
 	r.POST("/login", middleware.RequestValidator(&dto.LoginPostReq{}), authHandler.Login)
 	r.POST("/register", middleware.RequestValidator(&dto.RegisterPostReq{}), authHandler.Register)
@@ -60,6 +62,9 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.GET("/orders/:id", middleware.ParamIDValidator, orderHandler.FindOrderByIDAndUserID)
 
 	r.POST("/reviews", middleware.RequestValidator(&dto.ReviewPostReq{}), reviewHandler.Create)
+
+	r.GET("/games", gameHandler.FindAll)
+	r.GET("/games/:id", middleware.ParamIDValidator, gameHandler.FindByUserID)
 
 	// ADMIN
 	r.GET("/orders", orderHandler.FindAll)

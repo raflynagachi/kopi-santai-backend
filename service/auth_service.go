@@ -21,12 +21,14 @@ type AuthService interface {
 type authService struct {
 	db             *gorm.DB
 	userRepository repository.UserRepository
+	gameRepository repository.GameRepository
 	appConfig      config.AppConfig
 }
 
 type AuthConfig struct {
 	DB             *gorm.DB
 	UserRepository repository.UserRepository
+	GameRepository repository.GameRepository
 	AppConfig      config.AppConfig
 }
 
@@ -34,6 +36,7 @@ func NewAuth(c *AuthConfig) AuthService {
 	return &authService{
 		db:             c.DB,
 		userRepository: c.UserRepository,
+		gameRepository: c.GameRepository,
 		appConfig:      c.AppConfig,
 	}
 }
@@ -109,10 +112,13 @@ func (s *authService) Register(req *dto.RegisterPostReq) (*dto.TokenRes, error) 
 
 	tx := s.db.Begin()
 	user, err = s.userRepository.Create(tx, user)
-	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.UnprocessableEntityError(err.Error())
 	}
+
+	gl := &model.GameLeaderboard{UserID: user.ID}
+	_, err = s.gameRepository.CreateLeaderboard(tx, gl)
+	helper.CommitOrRollback(tx, err)
 
 	userJwt := new(dto.UserJWT).FromUser(user)
 	tokenRes, err := s.generateJWTToken(userJwt)

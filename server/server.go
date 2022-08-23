@@ -17,6 +17,7 @@ func Init() {
 	couponRepo := repository.NewCoupon()
 	deliveryRepo := repository.NewDelivery()
 	reviewRepo := repository.NewReview()
+	gameRepo := repository.NewGame()
 
 	authService := service.NewAuth(&service.AuthConfig{
 		DB:             db.Get(),
@@ -56,6 +57,10 @@ func Init() {
 		DB:         db.Get(),
 		CouponRepo: couponRepo,
 	})
+	gameService := service.NewGame(&service.GameConfig{
+		DB:       db.Get(),
+		GameRepo: gameRepo,
+	})
 
 	router := NewRouter(&RouterConfig{
 		AuthService:      authService,
@@ -66,6 +71,7 @@ func Init() {
 		ReviewService:    reviewService,
 		DeliveryService:  deliveryService,
 		CouponService:    couponService,
+		GameService:      gameService,
 	})
 	log.Fatalln(router.Run())
 }
