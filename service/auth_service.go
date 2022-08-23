@@ -119,6 +119,9 @@ func (s *authService) Register(req *dto.RegisterPostReq) (*dto.TokenRes, error) 
 	gl := &model.GameLeaderboard{UserID: user.ID}
 	_, err = s.gameRepository.CreateLeaderboard(tx, gl)
 	helper.CommitOrRollback(tx, err)
+	if err != nil {
+		return nil, apperror.InternalServerError(err.Error())
+	}
 
 	userJwt := new(dto.UserJWT).FromUser(user)
 	tokenRes, err := s.generateJWTToken(userJwt)

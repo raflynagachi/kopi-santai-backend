@@ -22,6 +22,7 @@ func Init() {
 	authService := service.NewAuth(&service.AuthConfig{
 		DB:             db.Get(),
 		UserRepository: userRepo,
+		GameRepository: gameRepo,
 		AppConfig:      config.Config,
 	})
 	userService := service.NewUser(&service.UserConfig{

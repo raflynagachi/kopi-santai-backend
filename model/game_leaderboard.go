@@ -7,7 +7,7 @@ type GameLeaderboard struct {
 	ID     uint `gorm:"primaryKey"`
 	UserID uint
 	Score  uint
-	User   User
+	User   *User
 }
 
 func (_ *GameLeaderboard) TableName() string {

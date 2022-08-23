@@ -22,7 +22,7 @@ func NewGame() GameRepository {
 }
 
 func (r *gameRepository) CreateLeaderboard(tx *gorm.DB, gl *model.GameLeaderboard) (*model.GameLeaderboard, error) {
-	result := tx.Clauses(clause.OnConflict{DoNothing: true}).Create(gl)
+	result := tx.Clauses(clause.OnConflict{DoNothing: true}).Create(&gl)
 	if int(result.RowsAffected) == 0 {
 		return nil, new(apperror.GameLeaderboardAlreadyExistError)
 	}
