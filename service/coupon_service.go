@@ -37,8 +37,6 @@ func (s *couponService) Create(req *dto.CouponPostReq) (*dto.CouponRes, error) {
 		Name:        req.Name,
 		Amount:      req.Amount,
 		IsAvailable: true,
-		MinSpent:    req.MinSpent,
-		ExpiredDate: req.ExpiredDate,
 	}
 
 	tx := s.db.Begin()

@@ -16,6 +16,6 @@ func (r *UserRes) FromUser(u *model.User) *UserRes {
 		Phone:          u.Phone,
 		Email:          u.Email,
 		Address:        u.Address,
-		ProfilePicture: u.ProfilePicture,
+		ProfilePicture: string(u.ProfilePicture),
 	}
 }

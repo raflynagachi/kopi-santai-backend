@@ -102,12 +102,8 @@ func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Ord
 		if err != nil {
 			return nil, apperror.NotFoundError(err.Error())
 		}
-		if time.Now().Before(coupon.ExpiredDate) && coupon.IsAvailable && coupon.MinSpent <= totalPrice {
-			totalPrice -= coupon.Amount
-			o.CouponID = &req.CouponID
-		} else {
-			return nil, apperror.BadRequestError(new(apperror.CouponFailedError).Error())
-		}
+		totalPrice -= (totalPrice * coupon.Amount) / 100
+		o.CouponID = &req.CouponID
 	}
 
 	o.TotalPrice = totalPrice

@@ -25,7 +25,7 @@ type Menu struct {
 	CategoryID uint
 	Name       string
 	Price      float64
-	Image      string
+	Image      []byte
 	Category   *Category
 	Reviews    []*Review
 }

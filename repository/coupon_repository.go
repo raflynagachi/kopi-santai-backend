@@ -20,7 +20,7 @@ func NewCoupon() CouponRepository {
 
 func (r *couponRepository) FindByID(tx *gorm.DB, id uint) (*model.Coupon, error) {
 	var coupon *model.Coupon
-	err := tx.First(&coupon, id).Error
+	err := tx.Where("is_available = true").First(&coupon, id).Error
 	return coupon, err
 }
 

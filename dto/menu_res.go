@@ -29,7 +29,7 @@ func (_ *MenuRes) FromMenu(m *model.Menu) *MenuRes {
 		CategoryName: m.Category.Name,
 		Name:         m.Name,
 		Price:        m.Price,
-		Image:        m.Image,
+		Image:        string(m.Image),
 		Rating:       helper.ToFixed(rating, 2),
 	}
 }
