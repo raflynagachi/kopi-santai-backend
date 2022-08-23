@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
@@ -44,7 +43,6 @@ func (s *couponService) Create(req *dto.CouponPostReq) (*dto.CouponRes, error) {
 
 	tx := s.db.Begin()
 	coupon, err := s.couponRepo.Create(tx, c)
-	fmt.Printf("MANTAP: %+v", coupon)
 	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.BadRequestError(err.Error())

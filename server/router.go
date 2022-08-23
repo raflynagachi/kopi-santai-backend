@@ -65,6 +65,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 
 	r.GET("/games", gameHandler.FindAll)
 	r.GET("/games/:id", middleware.ParamIDValidator, gameHandler.FindByUserID)
+	r.POST("/game-prize", middleware.RequestValidator(&dto.GameResultPostReq{}), gameHandler.AddCouponPrizeToUser)
 
 	// ADMIN
 	r.GET("/orders", orderHandler.FindAll)

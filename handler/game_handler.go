@@ -11,6 +11,7 @@ import (
 type GameHandler interface {
 	FindByUserID(c *gin.Context)
 	FindAll(c *gin.Context)
+	AddCouponPrizeToUser(c *gin.Context)
 }
 
 type gameHandler struct {
@@ -57,4 +58,25 @@ func (h *gameHandler) FindAll(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, dto.StatusOKResponse(glRes))
+}
+
+func (h *gameHandler) AddCouponPrizeToUser(c *gin.Context) {
+	userPayload, ok := c.Get("user")
+	if !ok {
+		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
+		return
+	}
+	userID := userPayload.(*dto.UserJWT).ID
+
+	payload, _ := c.Get("payload")
+	var req *dto.GameResultPostReq
+	req = payload.(*dto.GameResultPostReq)
+
+	userCouponRes, err := h.gameService.AddCouponPrizeToUser(req, userID)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.StatusOKResponse(userCouponRes))
 }

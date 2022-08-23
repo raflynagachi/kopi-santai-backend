@@ -59,8 +59,9 @@ func Init() {
 		CouponRepo: couponRepo,
 	})
 	gameService := service.NewGame(&service.GameConfig{
-		DB:       db.Get(),
-		GameRepo: gameRepo,
+		DB:         db.Get(),
+		GameRepo:   gameRepo,
+		CouponRepo: couponRepo,
 	})
 
 	router := NewRouter(&RouterConfig{

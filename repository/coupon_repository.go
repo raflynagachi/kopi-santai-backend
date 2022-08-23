@@ -8,6 +8,7 @@ import (
 type CouponRepository interface {
 	FindByID(tx *gorm.DB, id uint) (*model.Coupon, error)
 	Create(tx *gorm.DB, c *model.Coupon) (*model.Coupon, error)
+	AddCouponToUser(tx *gorm.DB, uc *model.UserCoupon) (*model.UserCoupon, error)
 	DeleteByID(tx *gorm.DB, id uint) (bool, error)
 }
 
@@ -26,6 +27,11 @@ func (r *couponRepository) FindByID(tx *gorm.DB, id uint) (*model.Coupon, error)
 func (r *couponRepository) Create(tx *gorm.DB, c *model.Coupon) (*model.Coupon, error) {
 	err := tx.Create(&c).Error
 	return c, err
+}
+
+func (r *couponRepository) AddCouponToUser(tx *gorm.DB, uc *model.UserCoupon) (*model.UserCoupon, error) {
+	err := tx.Preload("User").Preload("Coupon").Create(&uc).First(&uc).Error
+	return uc, err
 }
 
 func (r *couponRepository) DeleteByID(tx *gorm.DB, id uint) (bool, error) {
