@@ -54,7 +54,6 @@ func (s *orderItemService) CreateOrderItem(req *dto.OrderItemPostReq, userID uin
 		MenuID:      req.MenuID,
 		Quantity:    req.Quantity,
 		Description: req.Description,
-		IsActive:    true,
 	}
 
 	tx := s.db.Begin()

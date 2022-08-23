@@ -10,7 +10,6 @@ type OrderItem struct {
 	OrderID     *uint
 	Quantity    int
 	Description string
-	IsActive    bool
 	Menu        *Menu
 }
 

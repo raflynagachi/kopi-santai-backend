@@ -12,6 +12,7 @@ type OrderRepository interface {
 	FindAll(tx *gorm.DB, t *time.Time) ([]*model.Order, error)
 	FindOrderByIDAndUserID(tx *gorm.DB, id, userID uint) (*model.Order, error)
 	FindOrderByUserID(tx *gorm.DB, userID uint) ([]*model.Order, error)
+	Update(tx *gorm.DB, id uint, ord *model.Order) (*model.Order, error)
 }
 
 type orderRepository struct{}
@@ -52,4 +53,14 @@ func (r *orderRepository) FindOrderByUserID(tx *gorm.DB, userID uint) ([]*model.
 		return nil, new(apperror.OrderNotFoundError)
 	}
 	return orders, result.Error
+}
+
+func (r *orderRepository) Update(tx *gorm.DB, id uint, ord *model.Order) (*model.Order, error) {
+	var updatedOrder *model.Order
+	err := tx.First(&updatedOrder, id).Updates(&ord).Error
+	if err != nil {
+		return nil, err
+	}
+	_ = tx.First(&updatedOrder, id)
+	return updatedOrder, nil
 }

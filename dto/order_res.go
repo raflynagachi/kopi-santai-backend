@@ -38,7 +38,6 @@ func (_ *OrderRes) From(o *model.Order) *OrderRes {
 		CouponID:      couponID,
 		OrderedDate:   o.OrderedDate,
 		TotalPrice:    o.TotalPrice,
-		IsActive:      o.IsActive,
 		Coupon:        coupon,
 		Delivery:      delivery,
 		PaymentOption: paymentOpt,

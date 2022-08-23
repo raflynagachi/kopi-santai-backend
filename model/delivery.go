@@ -6,6 +6,7 @@ import (
 )
 
 const StatusDefault = "NO DELIVERY YET"
+const StatusDelivered = "DELIVERED"
 
 type Delivery struct {
 	gorm.Model

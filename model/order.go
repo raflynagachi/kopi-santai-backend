@@ -18,7 +18,6 @@ type Order struct {
 	PaymentOptionID uint
 	OrderedDate     time.Time
 	TotalPrice      float64
-	IsActive        bool
 	Coupon          *Coupon
 	Delivery        *Delivery
 	PaymentOption   *PaymentOption

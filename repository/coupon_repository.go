@@ -9,6 +9,8 @@ type CouponRepository interface {
 	FindByID(tx *gorm.DB, id uint) (*model.Coupon, error)
 	Create(tx *gorm.DB, c *model.Coupon) (*model.Coupon, error)
 	AddCouponToUser(tx *gorm.DB, uc *model.UserCoupon) (*model.UserCoupon, error)
+	FindUserCouponByCouponID(tx *gorm.DB, id, userID uint) (*model.UserCoupon, error)
+	DeleteUserCoupon(tx *gorm.DB, id uint) (bool, error)
 	DeleteByID(tx *gorm.DB, id uint) (bool, error)
 }
 
@@ -32,6 +34,21 @@ func (r *couponRepository) Create(tx *gorm.DB, c *model.Coupon) (*model.Coupon, 
 func (r *couponRepository) AddCouponToUser(tx *gorm.DB, uc *model.UserCoupon) (*model.UserCoupon, error) {
 	err := tx.Preload("User").Preload("Coupon").Create(&uc).First(&uc).Error
 	return uc, err
+}
+
+func (r *couponRepository) FindUserCouponByCouponID(tx *gorm.DB, id, userID uint) (*model.UserCoupon, error) {
+	var coupon *model.UserCoupon
+	err := tx.Preload("Coupon").Where("coupon_id = ? AND user_id = ?", id, userID).First(&coupon).Error
+	return coupon, err
+}
+
+func (r *couponRepository) DeleteUserCoupon(tx *gorm.DB, id uint) (bool, error) {
+	var deletedCoupon *model.UserCoupon
+	err := tx.Delete(&deletedCoupon, id).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }
 
 func (r *couponRepository) DeleteByID(tx *gorm.DB, id uint) (bool, error) {

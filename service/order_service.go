@@ -65,7 +65,6 @@ func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Ord
 		UserID:          userID,
 		PaymentOptionID: req.PaymentOptID,
 		OrderedDate:     req.OrderedDate,
-		IsActive:        true,
 	}
 
 	tx := s.db.Begin()
@@ -98,12 +97,16 @@ func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Ord
 	}
 
 	if req.CouponID != 0 {
-		coupon, err := s.couponRepo.FindByID(tx, req.CouponID)
+		userCoupon, err := s.couponRepo.FindUserCouponByCouponID(tx, req.CouponID, userID)
 		if err != nil {
 			return nil, apperror.NotFoundError(err.Error())
 		}
-		totalPrice -= (totalPrice * coupon.Amount) / 100
+		totalPrice -= (totalPrice * userCoupon.Coupon.Amount) / 100
 		o.CouponID = &req.CouponID
+		ok, err := s.couponRepo.DeleteUserCoupon(tx, userCoupon.ID)
+		if err != nil || !ok {
+			return nil, apperror.InternalServerError(err.Error())
+		}
 	}
 
 	o.TotalPrice = totalPrice
@@ -113,7 +116,6 @@ func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Ord
 	}
 
 	for _, item := range orderItems {
-		item.IsActive = false
 		item.OrderID = &order.ID
 		item, err = s.orderItemRepo.UpdateOrderItemByID(tx, item.ID, item)
 		if err != nil {
