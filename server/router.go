@@ -36,6 +36,8 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.Use(cors.Default())
 	r.NoRoute(NoRouteHandler)
 
+	r.Static("/docs", "swaggerui")
+
 	authHandler := handler.NewAuth(&handler.AuthConfig{AuthService: c.AuthService})
 	userHandler := handler.NewUser(&handler.UserConfig{UserService: c.UserService})
 	menuHandler := handler.NewMenu(&handler.MenuConfig{MenuService: c.MenuService})

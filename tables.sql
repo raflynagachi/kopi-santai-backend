@@ -6,15 +6,14 @@ drop table if exists users_menus_favorite_tab;
 drop table if exists order_items_tab;
 drop table if exists orders_tab;
 drop table if exists deliveries_tab;
+drop table if exists reviews_tab;
 drop table if exists promotions_tab;
-drop table if exists menu_option_categories_tab;
+drop table if exists menu_options_categories_tab;
 drop table if exists menu_options_tab;
 drop table if exists menus_tab;
 drop table if exists categories_tab;
 drop table if exists users_coupons_tab;
 drop table if exists coupons_tab;
-drop table if exists reviews_tab;
-drop table if exists payments_tab;
 drop table if exists payment_options_tab;
 drop table if exists users_tab;
 
@@ -26,7 +25,7 @@ create table users_tab(
     role varchar default 'USER' ,
     address varchar not null ,
     password varchar not null ,
-    profile_picture varchar,
+    profile_picture bytea not null ,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     deleted_at timestamp
@@ -40,24 +39,11 @@ create table payment_options_tab(
     deleted_at timestamp
 );
 
-create table reviews_tab(
-    id bigserial primary key ,
-    user_id bigint not null ,
-    description varchar ,
-    rating decimal not null ,
-    created_at timestamp default current_timestamp,
-    updated_at timestamp default current_timestamp,
-    deleted_at timestamp,
-    foreign key (user_id) references users_tab(id)
-);
-
 create table coupons_tab(
     id bigserial primary key ,
     name varchar not null ,
-    amount varchar not null ,
+    amount decimal not null ,
     is_available bool default FALSE,
-    min_spent decimal ,
-    expired_date timestamp ,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     deleted_at timestamp
@@ -67,9 +53,8 @@ create table users_coupons_tab(
     id bigserial primary key ,
     user_id bigint not null ,
     coupon_id bigint not null ,
-    redeemed_date timestamp ,
     foreign key (user_id) references users_tab(id) ,
-    foreign key (coupon_id) references coupons_tab(id)
+    foreign key (coupon_id) references coupons_tab(id) on delete cascade
 );
 
 create table categories_tab(
@@ -85,14 +70,14 @@ create table menus_tab(
     category_id bigint not null ,
     name varchar not null ,
     price decimal not null ,
-    image varchar not null ,
+    image bytea not null ,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     deleted_at timestamp,
     foreign key (category_id) references categories_tab(id)
 );
 
-create table menu_option_categories_tab(
+create table menu_options_tab(
     id bigserial primary key ,
     name varchar not null ,
     created_at timestamp default current_timestamp,
@@ -100,23 +85,37 @@ create table menu_option_categories_tab(
     deleted_at timestamp
 );
 
-create table menu_options_tab(
+create table menu_options_categories_tab(
     id bigserial primary key ,
     category_id bigint not null ,
-    menu_option_category_id bigint not null ,
+    menu_option_id bigint not null ,
     name varchar not null ,
-    price decimal default 0,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     deleted_at timestamp,
     foreign key (category_id) references categories_tab(id),
-    foreign key (menu_option_category_id) references menu_option_categories_tab(id)
+    foreign key (menu_option_id) references menu_options_tab(id)
+);
+
+
+create table reviews_tab(
+    id bigint not null ,
+    user_id bigint not null ,
+    menu_id bigint not null ,
+    description varchar ,
+    rating decimal not null ,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp,
+    deleted_at timestamp,
+    foreign key (user_id) references users_tab(id),
+    foreign key (menu_id) references menus_tab(id),
+    primary key (user_id, menu_id)
 );
 
 create table deliveries_tab(
     id bigserial primary key ,
     delivery_date timestamp not null ,
-    status varchar default 'ON PROCESS',
+    status varchar default 'IN PROCESS',
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     deleted_at timestamp
@@ -124,27 +123,15 @@ create table deliveries_tab(
 
 create table promotions_tab(
     id bigserial primary key ,
-    menu_id bigint not null ,
+    coupon_id bigint not null ,
     name varchar not null ,
     description varchar,
-    image varchar not null ,
-    discount int not null ,
-    expired_date timestamp ,
+    image bytea not null ,
+    min_spent decimal not null ,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     deleted_at timestamp,
-    foreign key (menu_id) references menus_tab(id)
-);
-
-create table payments_tab(
-    id bigserial primary key ,
-    payment_option_id bigint not null ,
-    payment_date timestamp not null ,
-    status varchar default 'PENDING' ,
-    created_at timestamp default current_timestamp,
-    updated_at timestamp default current_timestamp,
-    deleted_at timestamp,
-    foreign key (payment_option_id) references payment_options_tab(id)
+    foreign key (coupon_id) references coupons_tab(id) on delete cascade
 );
 
 create table orders_tab(
@@ -152,28 +139,31 @@ create table orders_tab(
     user_id bigint not null ,
     coupon_id bigint ,
     delivery_id bigint not null ,
-    payment_id bigint not null ,
+    payment_option_id bigint not null ,
     ordered_date timestamp not null ,
     total_price decimal not null ,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     deleted_at timestamp,
     foreign key (user_id) references users_tab(id),
-    foreign key (coupon_id) references coupons_tab(id),
+    foreign key (coupon_id) references coupons_tab(id) on delete set null,
     foreign key (delivery_id) references deliveries_tab(id),
-    foreign key (payment_id) references payments_tab(id)
+    foreign key (payment_option_id) references payment_options_tab(id)
 );
 
 create table order_items_tab(
     id bigserial primary key ,
-    order_id bigint not null ,
+    user_id bigint not null ,
     menu_id bigint not null ,
+    order_id bigint ,
     quantity int not null ,
+    description varchar ,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     deleted_at timestamp,
-    foreign key (order_id) references orders_tab(id),
-    foreign key (menu_id) references menus_tab(id)
+    foreign key (user_id) references users_tab(id),
+    foreign key (menu_id) references menus_tab(id),
+    foreign key (order_id) references orders_tab(id)
 );
 
 create table users_menus_favorite_tab(
@@ -191,17 +181,15 @@ create table games_tab(
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     deleted_at timestamp,
-    foreign key (coupon_id) references coupons_tab(id)
+    foreign key (coupon_id) references coupons_tab(id) on delete set null
 );
 
 create table game_leaderboards_tab(
     id bigserial primary key ,
     user_id bigint not null ,
-    game_id bigint not null ,
     score bigint default 0,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     deleted_at timestamp,
-    foreign key (user_id) references users_tab(id),
-    foreign key (game_id) references games_tab(id)
+    foreign key (user_id) references users_tab(id)
 );
