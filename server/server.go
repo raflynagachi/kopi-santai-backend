@@ -65,6 +65,10 @@ func Init() {
 		GameRepo:   gameRepo,
 		CouponRepo: couponRepo,
 	})
+	promoService := service.NewPromo(&service.PromoConfig{
+		DB:        db.Get(),
+		PromoRepo: promoRepo,
+	})
 
 	router := NewRouter(&RouterConfig{
 		AuthService:      authService,
@@ -76,6 +80,7 @@ func Init() {
 		DeliveryService:  deliveryService,
 		CouponService:    couponService,
 		GameService:      gameService,
+		PromoService:     promoService,
 	})
 	log.Fatalln(router.Run())
 }

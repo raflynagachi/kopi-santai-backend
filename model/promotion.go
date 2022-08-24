@@ -10,6 +10,7 @@ type Promotion struct {
 	Description string
 	Image       []byte
 	MinSpent    uint
+	Coupon      *Coupon
 }
 
 func (_ *Promotion) TableName() string {
