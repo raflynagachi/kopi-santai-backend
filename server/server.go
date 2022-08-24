@@ -18,6 +18,7 @@ func Init() {
 	deliveryRepo := repository.NewDelivery()
 	reviewRepo := repository.NewReview()
 	gameRepo := repository.NewGame()
+	promoRepo := repository.NewPromo()
 
 	authService := service.NewAuth(&service.AuthConfig{
 		DB:             db.Get(),
@@ -45,6 +46,7 @@ func Init() {
 		CouponRepo:     couponRepo,
 		OrderRepo:      orderRepo,
 		OrderItemRepo:  orderItemRepo,
+		PromotionRepo:  promoRepo,
 	})
 	reviewService := service.NewReview(&service.ReviewConfig{
 		DB:         db.Get(),

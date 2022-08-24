@@ -25,6 +25,7 @@ type orderService struct {
 	couponRepo     repository.CouponRepository
 	orderRepo      repository.OrderRepository
 	orderItemRepo  repository.OrderItemRepository
+	promotionRepo  repository.PromotionRepository
 }
 
 type OrderConfig struct {
@@ -34,6 +35,7 @@ type OrderConfig struct {
 	CouponRepo     repository.CouponRepository
 	OrderRepo      repository.OrderRepository
 	OrderItemRepo  repository.OrderItemRepository
+	PromotionRepo  repository.PromotionRepository
 }
 
 func NewOrder(c *OrderConfig) OrderService {
@@ -44,6 +46,7 @@ func NewOrder(c *OrderConfig) OrderService {
 		couponRepo:     c.CouponRepo,
 		orderRepo:      c.OrderRepo,
 		orderItemRepo:  c.OrderItemRepo,
+		promotionRepo:  c.PromotionRepo,
 	}
 }
 
@@ -118,6 +121,21 @@ func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Ord
 	for _, item := range orderItems {
 		item.OrderID = &order.ID
 		item, err = s.orderItemRepo.UpdateOrderItemByID(tx, item.ID, item)
+		if err != nil {
+			return nil, apperror.InternalServerError(err.Error())
+		}
+	}
+	promos, err := s.promotionRepo.FindByMinSpent(tx, uint(o.TotalPrice))
+	if err != nil {
+		return nil, apperror.InternalServerError(err.Error())
+	}
+
+	for _, promo := range promos {
+		uc := &model.UserCoupon{
+			UserID:   userID,
+			CouponID: promo.CouponID,
+		}
+		_, err := s.couponRepo.AddCouponToUser(tx, uc)
 		if err != nil {
 			return nil, apperror.InternalServerError(err.Error())
 		}

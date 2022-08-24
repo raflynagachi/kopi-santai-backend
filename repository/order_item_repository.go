@@ -33,7 +33,7 @@ func (r *orderItemRepository) FindOrderItemByUserIDAndOrderID(tx *gorm.DB, userI
 
 func (r *orderItemRepository) FindOrderItemByUserID(tx *gorm.DB, userID uint) ([]*model.OrderItem, error) {
 	var orderItems []*model.OrderItem
-	result := tx.Preload("Menu").Preload("Menu.Category").Where("user_id = ? AND is_active = ? AND order_id IS NULL", userID, true).Find(&orderItems)
+	result := tx.Preload("Menu").Preload("Menu.Category").Where("user_id = ? AND order_id IS NULL", userID).Find(&orderItems)
 	if result.RowsAffected == 0 {
 		return orderItems, new(apperror.OrderItemNotFoundError)
 	}
