@@ -59,7 +59,7 @@ func (_ *userRepository) FindByID(tx *gorm.DB, id uint) (*model.User, error) {
 
 func (_ *userRepository) Update(tx *gorm.DB, id uint, user *model.User) (*model.User, error) {
 	var updatedUser *model.User
-	err := tx.First(&updatedUser, id).Updates(user).Error
+	err := tx.First(&updatedUser, id).Updates(&user).Error
 	if err != nil {
 		return nil, err
 	}

@@ -7,7 +7,7 @@ type UserRes struct {
 	Phone          string `json:"phone"`
 	Email          string `json:"email"`
 	Address        string `json:"address"`
-	ProfilePicture string `json:"profilePicture"`
+	ProfilePicture []byte `json:"profilePicture"`
 }
 
 func (r *UserRes) FromUser(u *model.User) *UserRes {
@@ -16,6 +16,6 @@ func (r *UserRes) FromUser(u *model.User) *UserRes {
 		Phone:          u.Phone,
 		Email:          u.Email,
 		Address:        u.Address,
-		ProfilePicture: string(u.ProfilePicture),
+		ProfilePicture: u.ProfilePicture,
 	}
 }

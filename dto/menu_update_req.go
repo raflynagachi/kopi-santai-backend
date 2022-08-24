@@ -4,5 +4,5 @@ type MenuUpdateReq struct {
 	CategoryID uint    `json:"categoryID" binding:"omitempty,numeric"`
 	Name       string  `json:"name"`
 	Price      float64 `json:"price" binding:"omitempty,numeric,gte=0"`
-	Image      string  `json:"image"`
+	Image      []byte  `json:"image"`
 }

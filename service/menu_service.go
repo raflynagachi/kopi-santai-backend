@@ -109,7 +109,7 @@ func (s *menuService) Create(req *dto.MenuPostReq) (*dto.MenuRes, error) {
 		CategoryID: req.CategoryID,
 		Name:       req.Name,
 		Price:      req.Price,
-		Image:      []byte(req.Image),
+		Image:      req.Image,
 	}
 
 	tx := s.db.Begin()
@@ -128,7 +128,7 @@ func (s *menuService) Update(id uint, req *dto.MenuUpdateReq) (*dto.MenuRes, err
 		CategoryID: req.CategoryID,
 		Name:       req.Name,
 		Price:      req.Price,
-		Image:      []byte(req.Image),
+		Image:      req.Image,
 	}
 
 	tx := s.db.Begin()

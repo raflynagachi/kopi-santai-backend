@@ -11,7 +11,7 @@ type MenuRes struct {
 	CategoryName string  `json:"categoryName"`
 	Name         string  `json:"name"`
 	Price        float64 `json:"price"`
-	Image        string  `json:"image"`
+	Image        []byte  `json:"image"`
 	Rating       float64 `json:"rating"`
 }
 
@@ -29,7 +29,7 @@ func (_ *MenuRes) FromMenu(m *model.Menu) *MenuRes {
 		CategoryName: m.Category.Name,
 		Name:         m.Name,
 		Price:        m.Price,
-		Image:        string(m.Image),
+		Image:        m.Image,
 		Rating:       helper.ToFixed(rating, 2),
 	}
 }
