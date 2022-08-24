@@ -13,6 +13,7 @@ import (
 type OrderHandler interface {
 	CreateOrder(c *gin.Context)
 	FindOrderByIDAndUserID(c *gin.Context)
+	FindByUserID(c *gin.Context)
 	FindAll(c *gin.Context)
 }
 
@@ -74,15 +75,9 @@ func (h *orderHandler) FindAll(c *gin.Context) {
 		return
 	}
 	role := userPayload.(*dto.UserJWT).Role
-	userID := userPayload.(*dto.UserJWT).ID
 
 	if role != model.AdminRole {
-		orderItemRes, err := h.orderService.FindOrderByUserID(userID)
-		if err != nil {
-			_ = c.Error(err)
-			return
-		}
-		c.JSON(http.StatusOK, dto.StatusOKResponse(orderItemRes))
+		_ = c.Error(apperror.ForbiddenError(new(apperror.ForbiddenAccessError).Error()))
 		return
 	}
 
@@ -97,4 +92,21 @@ func (h *orderHandler) FindAll(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, dto.StatusOKResponse(orderItemRes))
+}
+
+func (h *orderHandler) FindByUserID(c *gin.Context) {
+	userPayload, ok := c.Get("user")
+	if !ok {
+		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
+		return
+	}
+	userID := userPayload.(*dto.UserJWT).ID
+
+	orderItemRes, err := h.orderService.FindOrderByUserID(userID)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+	c.JSON(http.StatusOK, dto.StatusOKResponse(orderItemRes))
+	return
 }

@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"errors"
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
 	"gorm.io/gorm"
 )
@@ -39,6 +41,9 @@ func (r *couponRepository) AddCouponToUser(tx *gorm.DB, uc *model.UserCoupon) (*
 func (r *couponRepository) FindUserCouponByCouponID(tx *gorm.DB, id, userID uint) (*model.UserCoupon, error) {
 	var coupon *model.UserCoupon
 	err := tx.Preload("Coupon").Where("coupon_id = ? AND user_id = ?", id, userID).First(&coupon).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, new(apperror.CouponNotFoundError)
+	}
 	return coupon, err
 }
 

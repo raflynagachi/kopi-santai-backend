@@ -63,6 +63,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.DELETE("/order-items/:id", middleware.ParamIDValidator, orderItemHandler.DeleteOrderItemByID)
 
 	r.POST("/orders", middleware.RequestValidator(&dto.OrderPostReq{}), orderHandler.CreateOrder)
+	r.GET("/orders", orderHandler.FindByUserID)
 	r.GET("/orders/:id", middleware.ParamIDValidator, orderHandler.FindOrderByIDAndUserID)
 
 	r.POST("/reviews", middleware.RequestValidator(&dto.ReviewPostReq{}), reviewHandler.Create)
@@ -71,13 +72,17 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.GET("/games/:id", middleware.ParamIDValidator, gameHandler.FindByUserID)
 	r.POST("/game-prize", middleware.RequestValidator(&dto.GameResultPostReq{}), gameHandler.AddCouponPrizeToUser)
 
-	// ADMIN
-	r.GET("/orders", orderHandler.FindAll)
+	// ADMIN Order
+	r.GET("/internal/orders", orderHandler.FindAll)
 	r.PATCH("/deliveries/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.DeliveryUpdateStatusReq{}), deliveryHandler.UpdateStatus)
+
+	// ADMIN menu and review
 	r.POST("/menus", middleware.RequestValidator(&dto.MenuPostReq{}), menuHandler.CreateMenu)
 	r.PATCH("/menus/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.MenuUpdateReq{}), menuHandler.UpdateMenu)
 	r.DELETE("/menus/:id", middleware.ParamIDValidator, menuHandler.DeleteByID)
 	r.GET("/menus/:id/reviews", middleware.ParamIDValidator, reviewHandler.FindByMenuID)
+
+	// ADMIN coupon and promo
 	r.POST("/coupons", middleware.RequestValidator(&dto.CouponPostReq{}), couponHandler.Create)
 	r.DELETE("/coupons/:id", middleware.ParamIDValidator, couponHandler.DeleteByID)
 	r.GET("/promotions", promoHandler.FindAll)

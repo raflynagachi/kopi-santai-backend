@@ -1,8 +1,8 @@
 package apperror
 
-type CouponFailedError struct {
+type CouponNotFoundError struct {
 }
 
-func (e *CouponFailedError) Error() string {
-	return "coupon failed - requirement doesn't match"
+func (e *CouponNotFoundError) Error() string {
+	return "coupon not found"
 }
