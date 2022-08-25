@@ -6,7 +6,6 @@ import (
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/handler"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/middleware"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/service"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -32,8 +31,8 @@ func NoRouteHandler(c *gin.Context) {
 
 func NewRouter(c *RouterConfig) *gin.Engine {
 	r := gin.Default()
+	r.Use(middleware.CORSMiddleware())
 	r.Use(middleware.ErrorHandler)
-	r.Use(cors.Default())
 	r.NoRoute(NoRouteHandler)
 
 	r.Static("/docs", "swaggerui")

@@ -90,7 +90,7 @@ func (s *authService) Login(req *dto.LoginPostReq) (*dto.TokenRes, error) {
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
 	if err != nil {
-		return nil, apperror.UnauthorizedError(err.Error())
+		return nil, apperror.UnauthorizedError(new(apperror.PasswordError).Error())
 	}
 
 	userJwt := new(dto.UserJWT).FromUser(user)
