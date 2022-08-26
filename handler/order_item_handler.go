@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/service"
 	"github.com/gin-gonic/gin"
@@ -28,11 +27,7 @@ func NewOrderItem(c *OrderItemConfig) OrderItemHandler {
 }
 
 func (h *orderItemHandler) CreateOrderItem(c *gin.Context) {
-	userPayload, ok := c.Get("user")
-	if !ok {
-		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
-		return
-	}
+	userPayload, _ := c.Get("user")
 	userID := userPayload.(*dto.UserJWT).ID
 
 	payload, _ := c.Get("payload")
@@ -49,11 +44,7 @@ func (h *orderItemHandler) CreateOrderItem(c *gin.Context) {
 }
 
 func (h *orderItemHandler) FindOrderItemByUserID(c *gin.Context) {
-	userPayload, ok := c.Get("user")
-	if !ok {
-		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
-		return
-	}
+	userPayload, _ := c.Get("user")
 	userID := userPayload.(*dto.UserJWT).ID
 
 	orderItemRes, err := h.orderItemService.FindOrderItemByUserID(userID)
@@ -67,11 +58,7 @@ func (h *orderItemHandler) FindOrderItemByUserID(c *gin.Context) {
 
 func (h *orderItemHandler) UpdateOrderItemByID(c *gin.Context) {
 	idParam, _ := c.Get("id")
-	userPayload, ok := c.Get("user")
-	if !ok {
-		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
-		return
-	}
+	userPayload, _ := c.Get("user")
 	userID := userPayload.(*dto.UserJWT).ID
 
 	payload, _ := c.Get("payload")
@@ -89,11 +76,7 @@ func (h *orderItemHandler) UpdateOrderItemByID(c *gin.Context) {
 
 func (h *orderItemHandler) DeleteOrderItemByID(c *gin.Context) {
 	idParam, _ := c.Get("id")
-	userPayload, ok := c.Get("user")
-	if !ok {
-		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
-		return
-	}
+	userPayload, _ := c.Get("user")
 	userID := userPayload.(*dto.UserJWT).ID
 
 	orderItemRes, err := h.orderItemService.DeleteOrderItemByID(idParam.(uint), userID)

@@ -55,6 +55,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.GET("/menus/:id", middleware.ParamIDValidator, menuHandler.GetMenuDetail)
 
 	r.Use(middleware.AuthorizeJWT)
+	r.Use(middleware.AuthorizeUser)
 	r.GET("/users/:id", middleware.ParamIDValidator, userHandler.GetProfileDetail)
 	r.PATCH("/users/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.UserUpdateReq{}), userHandler.UpdateProfile)
 
@@ -76,6 +77,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.POST("/game-prize", middleware.RequestValidator(&dto.GameResultPostReq{}), gameHandler.AddCouponPrizeToUser)
 
 	// ADMIN Order
+	r.Use(middleware.AuthorizeAdmin)
 	r.GET("/internal/orders", orderHandler.FindAll)
 	r.PATCH("/deliveries/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.DeliveryUpdateStatusReq{}), deliveryHandler.UpdateStatus)
 

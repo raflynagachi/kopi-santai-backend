@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
@@ -30,11 +29,7 @@ func NewOrder(c *OrderConfig) OrderHandler {
 }
 
 func (h *orderHandler) CreateOrder(c *gin.Context) {
-	userPayload, ok := c.Get("user")
-	if !ok {
-		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
-		return
-	}
+	userPayload, _ := c.Get("user")
 	userID := userPayload.(*dto.UserJWT).ID
 
 	payload, _ := c.Get("payload")
@@ -52,11 +47,7 @@ func (h *orderHandler) CreateOrder(c *gin.Context) {
 
 func (h *orderHandler) FindOrderByIDAndUserID(c *gin.Context) {
 	idParam, _ := c.Get("id")
-	userPayload, ok := c.Get("user")
-	if !ok {
-		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
-		return
-	}
+	userPayload, _ := c.Get("user")
 	userID := userPayload.(*dto.UserJWT).ID
 
 	orderItemRes, err := h.orderService.FindOrderByIDAndUserID(idParam.(uint), userID)
@@ -69,18 +60,6 @@ func (h *orderHandler) FindOrderByIDAndUserID(c *gin.Context) {
 }
 
 func (h *orderHandler) FindAll(c *gin.Context) {
-	userPayload, ok := c.Get("user")
-	if !ok {
-		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
-		return
-	}
-	role := userPayload.(*dto.UserJWT).Role
-
-	if role != model.AdminRole {
-		_ = c.Error(apperror.ForbiddenError(new(apperror.ForbiddenAccessError).Error()))
-		return
-	}
-
 	queryParam := &model.QueryParamOrder{
 		Date: helper.GetQuery(c, "date", ""),
 	}
@@ -95,11 +74,7 @@ func (h *orderHandler) FindAll(c *gin.Context) {
 }
 
 func (h *orderHandler) FindByUserID(c *gin.Context) {
-	userPayload, ok := c.Get("user")
-	if !ok {
-		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
-		return
-	}
+	userPayload, _ := c.Get("user")
 	userID := userPayload.(*dto.UserJWT).ID
 
 	orderItemRes, err := h.orderService.FindOrderByUserID(userID)

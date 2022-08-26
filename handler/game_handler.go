@@ -45,12 +45,6 @@ func (h *gameHandler) FindByUserID(c *gin.Context) {
 }
 
 func (h *gameHandler) FindAll(c *gin.Context) {
-	_, ok := c.Get("user")
-	if !ok {
-		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
-		return
-	}
-
 	glRes, err := h.gameService.FindAll()
 	if err != nil {
 		_ = c.Error(err)
@@ -61,11 +55,7 @@ func (h *gameHandler) FindAll(c *gin.Context) {
 }
 
 func (h *gameHandler) AddCouponPrizeToUser(c *gin.Context) {
-	userPayload, ok := c.Get("user")
-	if !ok {
-		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
-		return
-	}
+	userPayload, _ := c.Get("user")
 	userID := userPayload.(*dto.UserJWT).ID
 
 	payload, _ := c.Get("payload")
