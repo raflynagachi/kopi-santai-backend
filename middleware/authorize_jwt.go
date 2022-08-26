@@ -22,6 +22,12 @@ func validateToken(encoded string) (*jwt.Token, error) {
 
 func AuthorizeJWT(c *gin.Context) {
 	if config.Config.ENV == "testing" {
+		userJwt := &dto.UserJWT{
+			ID:    1,
+			Email: "john.doe@mail,com",
+			Role:  "ADMIN",
+		}
+		c.Set("user", userJwt)
 		fmt.Println("disable JWT authentication on dev env")
 		return
 	}
