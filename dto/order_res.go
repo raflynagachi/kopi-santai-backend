@@ -10,7 +10,6 @@ type OrderRes struct {
 	CouponID      uint
 	OrderedDate   time.Time
 	TotalPrice    float64
-	IsActive      bool
 	Coupon        *CouponRes
 	Delivery      *DeliveryRes
 	PaymentOption *PaymentOptionRes
