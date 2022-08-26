@@ -67,13 +67,13 @@ func (h *menuHandler) CreateMenu(c *gin.Context) {
 	var req *dto.MenuPostReq
 	req = payload.(*dto.MenuPostReq)
 
-	orderItemRes, err := h.menuService.Create(req)
+	menuRes, err := h.menuService.Create(req)
 	if err != nil {
 		_ = c.Error(err)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.StatusOKResponse(orderItemRes))
+	c.JSON(http.StatusOK, dto.StatusOKResponse(menuRes))
 }
 
 func (h *menuHandler) UpdateMenu(c *gin.Context) {
@@ -83,13 +83,13 @@ func (h *menuHandler) UpdateMenu(c *gin.Context) {
 	var req *dto.MenuUpdateReq
 	req = payload.(*dto.MenuUpdateReq)
 
-	orderItemRes, err := h.menuService.Update(idParam.(uint), req)
+	menuRes, err := h.menuService.Update(idParam.(uint), req)
 	if err != nil {
 		_ = c.Error(err)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.StatusOKResponse(orderItemRes))
+	c.JSON(http.StatusOK, dto.StatusOKResponse(menuRes))
 }
 
 func (h *menuHandler) DeleteByID(c *gin.Context) {

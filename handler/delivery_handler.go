@@ -30,11 +30,11 @@ func (h *deliveryHandler) UpdateStatus(c *gin.Context) {
 	var req *dto.DeliveryUpdateStatusReq
 	req = payload.(*dto.DeliveryUpdateStatusReq)
 
-	orderItemRes, err := h.deliveryService.UpdateStatus(idParam.(uint), req)
+	deliveryRes, err := h.deliveryService.UpdateStatus(idParam.(uint), req)
 	if err != nil {
 		_ = c.Error(err)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.StatusOKResponse(orderItemRes))
+	c.JSON(http.StatusOK, dto.StatusOKResponse(deliveryRes))
 }
