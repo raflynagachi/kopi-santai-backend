@@ -38,6 +38,7 @@ func NewGame(c *GameConfig) GameService {
 func (s *gameService) FindByUserID(userID uint) (*dto.GameLeaderboardRes, error) {
 	tx := s.db.Begin()
 	gl, err := s.gameRepo.FindByUserID(tx, userID)
+	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.BadRequestError(err.Error())
 	}
@@ -49,6 +50,7 @@ func (s *gameService) FindByUserID(userID uint) (*dto.GameLeaderboardRes, error)
 func (s *gameService) FindAll() ([]*dto.GameLeaderboardRes, error) {
 	tx := s.db.Begin()
 	gls, err := s.gameRepo.FindAll(tx)
+	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.InternalServerError(err.Error())
 	}

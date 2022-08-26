@@ -12,6 +12,7 @@ import (
 
 type CouponService interface {
 	Create(req *dto.CouponPostReq) (*dto.CouponRes, error)
+	FindCouponByUserID(userID uint) ([]*dto.CouponRes, error)
 	DeleteByID(id uint) (gin.H, error)
 }
 
@@ -47,6 +48,22 @@ func (s *couponService) Create(req *dto.CouponPostReq) (*dto.CouponRes, error) {
 	}
 
 	couponRes := new(dto.CouponRes).FromCoupon(coupon)
+	return couponRes, nil
+}
+
+func (s *couponService) FindCouponByUserID(userID uint) ([]*dto.CouponRes, error) {
+	tx := s.db.Begin()
+	promos, err := s.couponRepo.FindCouponByUserID(tx, userID)
+	helper.CommitOrRollback(tx, err)
+	if err != nil {
+		return nil, apperror.InternalServerError(err.Error())
+	}
+
+	var couponRes []*dto.CouponRes
+	for _, promo := range promos {
+		couponRes = append(couponRes, new(dto.CouponRes).FromCoupon(promo.Coupon))
+	}
+
 	return couponRes, nil
 }
 

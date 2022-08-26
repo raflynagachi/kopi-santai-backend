@@ -79,6 +79,7 @@ func (s *menuService) FindAll(q *model.QueryParamMenu) ([]*dto.MenuRes, error) {
 
 	tx := s.db.Begin()
 	menus, err := s.menuRepository.FindAll(tx, q)
+	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.InternalServerError(err.Error())
 	}

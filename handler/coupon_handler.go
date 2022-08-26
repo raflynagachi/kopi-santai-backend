@@ -11,6 +11,7 @@ import (
 
 type CouponHandler interface {
 	Create(c *gin.Context)
+	FindCouponByUserID(c *gin.Context)
 	DeleteByID(c *gin.Context)
 }
 
@@ -49,6 +50,23 @@ func (h *couponHandler) Create(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, dto.StatusOKResponse(coupon))
+}
+
+func (h *couponHandler) FindCouponByUserID(c *gin.Context) {
+	userPayload, ok := c.Get("user")
+	if !ok {
+		_ = c.Error(apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error()))
+		return
+	}
+	userID := userPayload.(*dto.UserJWT).ID
+
+	userCouponRes, err := h.couponService.FindCouponByUserID(userID)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.StatusOKResponse(userCouponRes))
 }
 
 func (h *couponHandler) DeleteByID(c *gin.Context) {

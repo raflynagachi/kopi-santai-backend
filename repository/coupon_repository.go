@@ -12,6 +12,7 @@ type CouponRepository interface {
 	Create(tx *gorm.DB, c *model.Coupon) (*model.Coupon, error)
 	AddCouponToUser(tx *gorm.DB, uc *model.UserCoupon) (*model.UserCoupon, error)
 	FindUserCouponByCouponID(tx *gorm.DB, id, userID uint) (*model.UserCoupon, error)
+	FindCouponByUserID(tx *gorm.DB, userID uint) ([]*model.UserCoupon, error)
 	DeleteUserCoupon(tx *gorm.DB, id uint) (bool, error)
 	DeleteByID(tx *gorm.DB, id uint) (bool, error)
 }
@@ -45,6 +46,15 @@ func (r *couponRepository) FindUserCouponByCouponID(tx *gorm.DB, id, userID uint
 		return nil, new(apperror.CouponNotFoundError)
 	}
 	return coupon, err
+}
+
+func (r *couponRepository) FindCouponByUserID(tx *gorm.DB, userID uint) ([]*model.UserCoupon, error) {
+	var coupons []*model.UserCoupon
+	err := tx.Preload("Coupon").Where("user_id = ?", userID).Find(&coupons).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, new(apperror.CouponNotFoundError)
+	}
+	return coupons, err
 }
 
 func (r *couponRepository) DeleteUserCoupon(tx *gorm.DB, id uint) (bool, error) {
