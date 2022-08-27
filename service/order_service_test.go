@@ -514,6 +514,7 @@ func TestOrderService_FindOrderByIDAndUserID(t *testing.T) {
 		assert.Equal(t, expectedErr, err)
 		assert.ErrorContains(t, err, expectedErr.Error())
 	})
+
 }
 
 func TestOrderService_FindOrderByUserID(t *testing.T) {
@@ -572,35 +573,6 @@ func TestOrderService_FindOrderByUserID(t *testing.T) {
 		assert.Equal(t, expectedErr, err)
 		assert.ErrorContains(t, err, expectedErr.Error())
 	})
-
-	t.Run("should return error when failed to find order item", func(t *testing.T) {
-		gormDB := testutils.MockDB()
-		mockRepository := new(mocks.OrderRepository)
-		deliveryMockRepository := new(mocks.DeliveryRepository)
-		paymentOptMockRepository := new(mocks.PaymentOptionRepository)
-		couponMockRepository := new(mocks.CouponRepository)
-		orderItemMockRepository := new(mocks.OrderItemRepository)
-		promoMockRepository := new(mocks.PromotionRepository)
-		cfg := &service.OrderConfig{
-			DB:             gormDB,
-			DeliveryRepo:   deliveryMockRepository,
-			PaymentOptRepo: paymentOptMockRepository,
-			CouponRepo:     couponMockRepository,
-			OrderRepo:      mockRepository,
-			OrderItemRepo:  orderItemMockRepository,
-			PromotionRepo:  promoMockRepository,
-		}
-		s := service.NewOrder(cfg)
-		dbErr := errors.New("db error")
-		mockRepository.On("FindOrderByUserID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return([]*model.Order{order}, nil)
-		orderItemMockRepository.On("FindOrderItemByUserIDAndOrderID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1), uint(1)).Return(nil, dbErr)
-		expectedErr := apperror.NotFoundError(dbErr.Error())
-
-		_, err := s.FindOrderByUserID(uint(1))
-
-		assert.Equal(t, expectedErr, err)
-		assert.ErrorContains(t, err, expectedErr.Error())
-	})
 }
 
 func TestOrderService_FindAll(t *testing.T) {
@@ -633,7 +605,38 @@ func TestOrderService_FindAll(t *testing.T) {
 		assert.Equal(t, expectedRes, menuRes)
 	})
 
-	t.Run("should return response when find all orders with query param success", func(t *testing.T) {
+	t.Run("should return response when find all orders with query param lastMonth success", func(t *testing.T) {
+		gormDB := testutils.MockDB()
+		mockRepository := new(mocks.OrderRepository)
+		deliveryMockRepository := new(mocks.DeliveryRepository)
+		paymentOptMockRepository := new(mocks.PaymentOptionRepository)
+		couponMockRepository := new(mocks.CouponRepository)
+		orderItemMockRepository := new(mocks.OrderItemRepository)
+		promoMockRepository := new(mocks.PromotionRepository)
+		cfg := &service.OrderConfig{
+			DB:             gormDB,
+			DeliveryRepo:   deliveryMockRepository,
+			PaymentOptRepo: paymentOptMockRepository,
+			CouponRepo:     couponMockRepository,
+			OrderRepo:      mockRepository,
+			OrderItemRepo:  orderItemMockRepository,
+			PromotionRepo:  promoMockRepository,
+		}
+		s := service.NewOrder(cfg)
+		expectedRes := []*dto.OrderRes{orderRes}
+		q := &model.QueryParamOrder{
+			Date: "lastMonth",
+		}
+		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time")).Return([]*model.Order{order}, nil)
+		orderItemMockRepository.On("FindOrderItemByOrderID", mock.AnythingOfType(testutils.GormDBPointerType), orderID).Return([]*model.OrderItem{orderItem}, nil)
+
+		menuRes, err := s.FindAll(q)
+
+		assert.Nil(t, err)
+		assert.Equal(t, expectedRes, menuRes)
+	})
+
+	t.Run("should return response when find all orders with query param lastYear success", func(t *testing.T) {
 		gormDB := testutils.MockDB()
 		mockRepository := new(mocks.OrderRepository)
 		deliveryMockRepository := new(mocks.DeliveryRepository)
@@ -687,38 +690,6 @@ func TestOrderService_FindAll(t *testing.T) {
 		}
 		dbErr := errors.New("db error")
 		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time")).Return([]*model.Order{order}, dbErr)
-		expectedErr := apperror.NotFoundError(dbErr.Error())
-
-		_, err := s.FindAll(q)
-
-		assert.Equal(t, expectedErr, err)
-		assert.ErrorContains(t, err, expectedErr.Error())
-	})
-
-	t.Run("should return error when failed to find order items", func(t *testing.T) {
-		gormDB := testutils.MockDB()
-		mockRepository := new(mocks.OrderRepository)
-		deliveryMockRepository := new(mocks.DeliveryRepository)
-		paymentOptMockRepository := new(mocks.PaymentOptionRepository)
-		couponMockRepository := new(mocks.CouponRepository)
-		orderItemMockRepository := new(mocks.OrderItemRepository)
-		promoMockRepository := new(mocks.PromotionRepository)
-		cfg := &service.OrderConfig{
-			DB:             gormDB,
-			DeliveryRepo:   deliveryMockRepository,
-			PaymentOptRepo: paymentOptMockRepository,
-			CouponRepo:     couponMockRepository,
-			OrderRepo:      mockRepository,
-			OrderItemRepo:  orderItemMockRepository,
-			PromotionRepo:  promoMockRepository,
-		}
-		s := service.NewOrder(cfg)
-		q := &model.QueryParamOrder{
-			Date: "lastMonth",
-		}
-		dbErr := errors.New("db error")
-		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time")).Return([]*model.Order{order}, nil)
-		orderItemMockRepository.On("FindOrderItemByOrderID", mock.AnythingOfType(testutils.GormDBPointerType), orderID).Return(nil, dbErr)
 		expectedErr := apperror.NotFoundError(dbErr.Error())
 
 		_, err := s.FindAll(q)
