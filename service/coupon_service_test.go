@@ -111,11 +111,28 @@ func TestCouponService_DeleteByID(t *testing.T) {
 		s := service.NewCoupon(couponConfig)
 		expectedRes := gin.H{"isDeleted": true}
 		mockRepository.On("DeleteByID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return(true, nil)
+		mockRepository.On("DeleteUserCoupon", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return(true, nil)
 
 		actualRes, err := s.DeleteByID(uint(1))
 
 		assert.Nil(t, err)
 		assert.Equal(t, expectedRes, actualRes)
+	})
+
+	t.Run("should return error when delete user coupon failed", func(t *testing.T) {
+		gormDB := testutils.MockDB()
+		mockRepository := new(mocks.CouponRepository)
+		couponConfig := &service.CouponConfig{DB: gormDB, CouponRepo: mockRepository}
+		s := service.NewCoupon(couponConfig)
+		dbErr := errors.New("db error")
+		mockRepository.On("DeleteByID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return(true, nil)
+		mockRepository.On("DeleteUserCoupon", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return(false, dbErr)
+		expectedErr := apperror.InternalServerError(dbErr.Error())
+
+		_, err := s.DeleteByID(uint(1))
+
+		assert.Equal(t, expectedErr, err)
+		assert.ErrorContains(t, err, expectedErr.Error())
 	})
 
 	t.Run("should return error when delete coupon failed", func(t *testing.T) {
