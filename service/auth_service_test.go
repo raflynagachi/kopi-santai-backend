@@ -1,6 +1,7 @@
 package service_test
 
 import (
+	"errors"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/config"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
@@ -28,20 +29,28 @@ func TestAuthService_Register(t *testing.T) {
 	t.Run("should return token when register success", func(t *testing.T) {
 		gormDB := testutils.MockDB()
 		mockRepository := new(mocks.UserRepository)
-		authConfig := service.AuthConfig{DB: gormDB, UserRepository: mockRepository, AppConfig: config.Config}
+		gameMockRepository := new(mocks.GameRepository)
+		authConfig := service.AuthConfig{
+			DB:             gormDB,
+			UserRepository: mockRepository,
+			GameRepository: gameMockRepository,
+			AppConfig:      config.Config,
+		}
 		s := service.NewAuth(&authConfig)
 		userCreated := user
 		userCreated.ID = 1
-		registerReq := dto.RegisterPostReq{
+		registerReq := &dto.RegisterPostReq{
 			FullName: "John Doe",
 			Phone:    "+6282211223344",
 			Address:  "Jl. Nusa Indah, Desa Beligan",
 			Email:    "john.doe@mail.com",
 			Password: user.Password,
 		}
+		gl := &model.GameLeaderboard{UserID: userCreated.ID}
 		mockRepository.On("Create", mock.AnythingOfType(testutils.GormDBPointerType), &user).Return(&userCreated, nil)
+		gameMockRepository.On("CreateLeaderboard", mock.AnythingOfType(testutils.GormDBPointerType), gl).Return(nil, nil)
 
-		tokenRes, err := s.Register(&registerReq)
+		tokenRes, err := s.Register(registerReq)
 
 		assert.Nil(t, err)
 		assert.NotNil(t, tokenRes)
@@ -59,19 +68,53 @@ func TestAuthService_Register(t *testing.T) {
 			Email:    "john.doe@mail.com",
 			Password: user.Password,
 		}
-		errMessage := new(apperror.EmailAlreadyExistError).Error()
+		dbErr := new(apperror.EmailAlreadyExistError)
 		mockRepository.On(
 			"Create",
 			mock.AnythingOfType(testutils.GormDBPointerType),
 			&user,
-		).Return(nil, apperror.UnprocessableEntityError(errMessage))
-		expectedErr := apperror.UnprocessableEntityError(errMessage)
+		).Return(nil, dbErr)
+		expectedErr := apperror.BadRequestError(dbErr.Error())
 
 		tokenRes, err := s.Register(&registerReq)
 
 		assert.NotNil(t, err)
 		assert.Equal(t, expectedErr, err)
-		assert.ErrorContains(t, err, errMessage)
+		assert.ErrorContains(t, err, expectedErr.Error())
+		assert.Nil(t, tokenRes)
+	})
+
+	t.Run("should return error when create game leaderboard failed", func(t *testing.T) {
+		gormDB := testutils.MockDB()
+		mockRepository := new(mocks.UserRepository)
+		gameMockRepository := new(mocks.GameRepository)
+		authConfig := service.AuthConfig{
+			DB:             gormDB,
+			UserRepository: mockRepository,
+			GameRepository: gameMockRepository,
+			AppConfig:      config.Config,
+		}
+		s := service.NewAuth(&authConfig)
+		userCreated := user
+		userCreated.ID = 1
+		registerReq := dto.RegisterPostReq{
+			FullName: "John Doe",
+			Phone:    "+6282211223344",
+			Address:  "Jl. Nusa Indah, Desa Beligan",
+			Email:    "john.doe@mail.com",
+			Password: user.Password,
+		}
+		dbErr := errors.New("db error")
+		gl := &model.GameLeaderboard{UserID: userCreated.ID}
+		mockRepository.On("Create", mock.AnythingOfType(testutils.GormDBPointerType), &user).Return(&userCreated, nil)
+		gameMockRepository.On("CreateLeaderboard", mock.AnythingOfType(testutils.GormDBPointerType), gl).Return(nil, dbErr)
+		expectedErr := apperror.InternalServerError(dbErr.Error())
+
+		tokenRes, err := s.Register(&registerReq)
+
+		assert.NotNil(t, err)
+		assert.Equal(t, expectedErr, err)
+		assert.ErrorContains(t, err, expectedErr.Error())
 		assert.Nil(t, tokenRes)
 	})
 }
@@ -109,18 +152,18 @@ func TestAuthService_Login(t *testing.T) {
 			Email:    "johnfake@mail.com",
 			Password: "password",
 		}
-		errMessage := new(apperror.EmailNotFoundError).Error()
+		dbErr := new(apperror.EmailNotFoundError)
 		mockRepository.On(
 			"FindByEmail",
 			mock.AnythingOfType(testutils.GormDBPointerType),
 			loginReq.Email,
-		).Return(nil, apperror.NotFoundError(errMessage))
-		expectedErr := apperror.NotFoundError(errMessage)
+		).Return(nil, dbErr)
+		expectedErr := apperror.NotFoundError(dbErr.Error())
 
 		_, err := s.Login(&loginReq)
 
 		assert.Equal(t, expectedErr, err)
-		assert.ErrorContains(t, err, errMessage)
+		assert.ErrorContains(t, err, expectedErr.Error())
 	})
 
 	t.Run("should return UnauthorizedError when email and password doesn't match", func(t *testing.T) {
@@ -132,17 +175,17 @@ func TestAuthService_Login(t *testing.T) {
 			Email:    "johnfake@mail.com",
 			Password: "passwordWrong",
 		}
-		errMessage := "crypto/bcrypt: hashedPassword is not the hash of the given password"
+		dbErr := new(apperror.PasswordError)
 		mockRepository.On(
 			"FindByEmail",
 			mock.AnythingOfType(testutils.GormDBPointerType),
 			loginReq.Email,
 		).Return(&user, nil)
-		expectedErr := apperror.UnauthorizedError(errMessage)
+		expectedErr := apperror.UnauthorizedError(dbErr.Error())
 
 		_, err := s.Login(&loginReq)
 
 		assert.Equal(t, expectedErr, err)
-		assert.ErrorContains(t, err, errMessage)
+		assert.ErrorContains(t, err, expectedErr.Error())
 	})
 }
