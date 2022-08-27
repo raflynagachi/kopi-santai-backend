@@ -42,7 +42,7 @@ func checkOrderItem(ok bool, err error) error {
 	if !ok && errors.Is(err, new(apperror.UserUnauthorizedError)) {
 		return apperror.UnauthorizedError(new(apperror.UserUnauthorizedError).Error())
 	}
-	if !ok && errors.Is(err, new(apperror.OrderNotFoundError)) {
+	if !ok && errors.Is(err, new(apperror.OrderItemNotFoundError)) {
 		return apperror.NotFoundError(err.Error())
 	}
 	return nil
