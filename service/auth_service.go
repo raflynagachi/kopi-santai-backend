@@ -113,7 +113,7 @@ func (s *authService) Register(req *dto.RegisterPostReq) (*dto.TokenRes, error) 
 	tx := s.db.Begin()
 	user, err = s.userRepository.Create(tx, user)
 	if err != nil {
-		return nil, apperror.UnprocessableEntityError(err.Error())
+		return nil, apperror.BadRequestError(err.Error())
 	}
 
 	gl := &model.GameLeaderboard{UserID: user.ID}

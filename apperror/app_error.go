@@ -22,14 +22,6 @@ func BadRequestError(message string) AppError {
 	}
 }
 
-func UnprocessableEntityError(message string) AppError {
-	return AppError{
-		Status:     "UNPROCESSABLE_ENTITY_ERROR",
-		Message:    message,
-		StatusCode: http.StatusUnprocessableEntity,
-	}
-}
-
 func ForbiddenError(message string) AppError {
 	return AppError{
 		Status:     "FORBIDDEN_ERROR",

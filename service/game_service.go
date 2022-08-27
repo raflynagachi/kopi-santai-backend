@@ -82,7 +82,7 @@ func (s *gameService) AddCouponPrizeToUser(req *dto.GameResultPostReq, userID ui
 	tx = s.db.Begin()
 	game, err := s.gameRepo.IsTargetScoreReached(tx, gl.Score, req.Score)
 	if err != nil {
-		return nil, apperror.UnprocessableEntityError(err.Error())
+		return nil, apperror.BadRequestError(err.Error())
 	}
 
 	uc := &model.UserCoupon{
