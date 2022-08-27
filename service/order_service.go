@@ -89,10 +89,10 @@ func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Ord
 		Status:       model.StatusDefault,
 	}
 	delivery, err := s.deliveryRepo.Create(tx, d)
-	o.DeliveryID = delivery.ID
 	if err != nil {
 		return nil, apperror.InternalServerError(err.Error())
 	}
+	o.DeliveryID = delivery.ID
 
 	_, err = s.paymentOptRepo.FindByID(tx, req.PaymentOptID)
 	if err != nil {
