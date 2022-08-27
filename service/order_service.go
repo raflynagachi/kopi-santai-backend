@@ -175,7 +175,7 @@ func (s *orderService) FindOrderByUserID(userID uint) ([]*dto.OrderRes, error) {
 	for _, o := range order {
 		orderItems, err := s.orderItemRepo.FindOrderItemByUserIDAndOrderID(tx, userID, o.ID)
 		if err != nil {
-			return nil, apperror.NotFoundError(err.Error())
+			continue
 		}
 		o.OrderItems = orderItems
 		ordersRes = append(ordersRes, new(dto.OrderRes).From(o))
@@ -197,7 +197,7 @@ func (s *orderService) FindAll(q *model.QueryParamOrder) ([]*dto.OrderRes, error
 	for _, o := range order {
 		orderItems, err := s.orderItemRepo.FindOrderItemByOrderID(tx, o.ID)
 		if err != nil {
-			return nil, apperror.NotFoundError(err.Error())
+			continue
 		}
 		o.OrderItems = orderItems
 		ordersRes = append(ordersRes, new(dto.OrderRes).From(o))
