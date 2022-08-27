@@ -37,7 +37,9 @@ func (s *promotionService) FindAll() ([]*dto.PromotionRes, error) {
 
 	var promosRes []*dto.PromotionRes
 	for _, promo := range promos {
-		promosRes = append(promosRes, new(dto.PromotionRes).FromPromotion(promo))
+		if promo.Coupon != nil {
+			promosRes = append(promosRes, new(dto.PromotionRes).FromPromotion(promo))
+		}
 	}
 
 	return promosRes, nil

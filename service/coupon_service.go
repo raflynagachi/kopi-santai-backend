@@ -70,9 +70,13 @@ func (s *couponService) FindCouponByUserID(userID uint) ([]*dto.CouponRes, error
 func (s *couponService) DeleteByID(id uint) (gin.H, error) {
 	tx := s.db.Begin()
 	isDeleted, err := s.couponRepo.DeleteByID(tx, id)
-	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return gin.H{"isDeleted": false}, apperror.BadRequestError(err.Error())
+	}
+	_, err = s.couponRepo.DeleteUserCoupon(tx, id)
+	helper.CommitOrRollback(tx, err)
+	if err != nil {
+		return gin.H{"isDeleted": false}, apperror.InternalServerError(err.Error())
 	}
 
 	return gin.H{"isDeleted": isDeleted}, nil

@@ -14,6 +14,7 @@ type CouponRepository interface {
 	FindUserCouponByCouponID(tx *gorm.DB, id, userID uint) (*model.UserCoupon, error)
 	FindCouponByUserID(tx *gorm.DB, userID uint) ([]*model.UserCoupon, error)
 	DeleteUserCoupon(tx *gorm.DB, id uint) (bool, error)
+	DeleteUserCouponByCouponID(tx *gorm.DB, couponID uint) (bool, error)
 	DeleteByID(tx *gorm.DB, id uint) (bool, error)
 }
 
@@ -60,6 +61,15 @@ func (r *couponRepository) FindCouponByUserID(tx *gorm.DB, userID uint) ([]*mode
 func (r *couponRepository) DeleteUserCoupon(tx *gorm.DB, id uint) (bool, error) {
 	var deletedCoupon *model.UserCoupon
 	err := tx.Delete(&deletedCoupon, id).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
+func (r *couponRepository) DeleteUserCouponByCouponID(tx *gorm.DB, couponID uint) (bool, error) {
+	var deletedCoupon *model.UserCoupon
+	err := tx.Where("coupon_id = ?", couponID).Delete(&deletedCoupon).Error
 	if err != nil {
 		return false, err
 	}

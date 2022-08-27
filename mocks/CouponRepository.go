@@ -13,6 +13,11 @@ type CouponRepository struct {
 	mock.Mock
 }
 
+func (_m *CouponRepository) DeleteUserCouponByCouponID(tx *gorm.DB, couponID uint) (bool, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
 // AddCouponToUser provides a mock function with given fields: tx, uc
 func (_m *CouponRepository) AddCouponToUser(tx *gorm.DB, uc *model.UserCoupon) (*model.UserCoupon, error) {
 	ret := _m.Called(tx, uc)
