@@ -21,6 +21,7 @@ type RouterConfig struct {
 	CouponService    service.CouponService
 	GameService      service.GameService
 	PromoService     service.PromotionService
+	PaymentOpt       service.PaymentOptionService
 }
 
 const apiNotFoundMessage = "API not found"
@@ -47,6 +48,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	couponHandler := handler.NewCoupon(&handler.CouponConfig{CouponService: c.CouponService})
 	gameHandler := handler.NewGame(&handler.GameConfig{GameService: c.GameService})
 	promoHandler := handler.NewPromo(&handler.PromoConfig{PromoService: c.PromoService})
+	paymentOptHandler := handler.NewPaymentOpt(&handler.PaymentOptConfig{PaymentOptService: c.PaymentOpt})
 
 	r.POST("/login", middleware.RequestValidator(&dto.LoginPostReq{}), authHandler.Login)
 	r.POST("/register", middleware.RequestValidator(&dto.RegisterPostReq{}), authHandler.Register)
@@ -60,6 +62,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.PATCH("/users/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.UserUpdateReq{}), userHandler.UpdateProfile)
 
 	r.GET("/coupons", couponHandler.FindCouponByUserID)
+	r.GET("/payment-options", paymentOptHandler.FindAll)
 
 	r.POST("/order-items", middleware.RequestValidator(&dto.OrderItemPostReq{}), orderItemHandler.CreateOrderItem)
 	r.GET("/order-items", orderItemHandler.FindOrderItemByUserID)

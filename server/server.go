@@ -69,6 +69,10 @@ func Init() {
 		DB:        db.Get(),
 		PromoRepo: promoRepo,
 	})
+	paymentOptService := service.NewPaymentOpt(&service.PaymentOptConfig{
+		DB:             db.Get(),
+		PaymentOptRepo: paymentOptRepo,
+	})
 
 	router := NewRouter(&RouterConfig{
 		AuthService:      authService,
@@ -81,6 +85,7 @@ func Init() {
 		CouponService:    couponService,
 		GameService:      gameService,
 		PromoService:     promoService,
+		PaymentOpt:       paymentOptService,
 	})
 	log.Fatalln(router.Run())
 }
