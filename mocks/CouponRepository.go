@@ -13,11 +13,6 @@ type CouponRepository struct {
 	mock.Mock
 }
 
-func (_m *CouponRepository) DeleteUserCouponByCouponID(tx *gorm.DB, couponID uint) (bool, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
 // AddCouponToUser provides a mock function with given fields: tx, uc
 func (_m *CouponRepository) AddCouponToUser(tx *gorm.DB, uc *model.UserCoupon) (*model.UserCoupon, error) {
 	ret := _m.Called(tx, uc)
@@ -99,6 +94,27 @@ func (_m *CouponRepository) DeleteUserCoupon(tx *gorm.DB, id uint) (bool, error)
 	var r1 error
 	if rf, ok := ret.Get(1).(func(*gorm.DB, uint) error); ok {
 		r1 = rf(tx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// DeleteUserCouponByCouponID provides a mock function with given fields: tx, couponID
+func (_m *CouponRepository) DeleteUserCouponByCouponID(tx *gorm.DB, couponID uint) (bool, error) {
+	ret := _m.Called(tx, couponID)
+
+	var r0 bool
+	if rf, ok := ret.Get(0).(func(*gorm.DB, uint) bool); ok {
+		r0 = rf(tx, couponID)
+	} else {
+		r0 = ret.Get(0).(bool)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(*gorm.DB, uint) error); ok {
+		r1 = rf(tx, couponID)
 	} else {
 		r1 = ret.Error(1)
 	}

@@ -3,6 +3,7 @@ package service
 import (
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/repository"
 	"gorm.io/gorm"
 )
@@ -31,6 +32,7 @@ func NewPromo(c *PromoConfig) PromotionService {
 func (s *promotionService) FindAll() ([]*dto.PromotionRes, error) {
 	tx := s.db.Begin()
 	promos, err := s.promoRepo.FindAll(tx)
+	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.InternalServerError(err.Error())
 	}

@@ -53,6 +53,7 @@ func (s *reviewService) Create(req *dto.ReviewPostReq, userID uint) (*dto.Review
 func (s *reviewService) FindByMenuID(menuID uint) ([]*dto.ReviewRes, error) {
 	tx := s.db.Begin()
 	reviews, err := s.reviewRepo.FindByMenuID(tx, menuID)
+	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.BadRequestError(err.Error())
 	}

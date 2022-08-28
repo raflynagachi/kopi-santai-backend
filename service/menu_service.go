@@ -92,9 +92,11 @@ func (s *menuService) GetMenuDetail(id uint) (*dto.MenuDetailRes, error) {
 	tx := s.db.Begin()
 	menu, err := s.menuRepository.FindByID(tx, id)
 	if err != nil {
+		tx.Rollback()
 		return nil, apperror.NotFoundError(err.Error())
 	}
 	menuOptions, err := s.menuRepository.FindMenuOptions(tx, menu.CategoryID)
+	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.InternalServerError(err.Error())
 	}

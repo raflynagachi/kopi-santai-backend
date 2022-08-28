@@ -71,6 +71,7 @@ func (s *orderItemService) CreateOrderItem(req *dto.OrderItemPostReq, userID uin
 func (s *orderItemService) FindOrderItemByUserID(userID uint) ([]*dto.OrderItemRes, error) {
 	tx := s.db.Begin()
 	orderItems, err := s.orderItemRepository.FindOrderItemByUserID(tx, userID)
+	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.NotFoundError(err.Error())
 	}
@@ -94,6 +95,7 @@ func (s *orderItemService) UpdateOrderItemByID(id, userID uint, req *dto.OrderIt
 	ok, err := s.orderItemRepository.IsOrderItemOfUserID(tx, id, userID)
 	err = checkOrderItem(ok, err)
 	if err != nil {
+		tx.Rollback()
 		return nil, err
 	}
 
@@ -113,6 +115,7 @@ func (s *orderItemService) DeleteOrderItemByID(id, userID uint) (gin.H, error) {
 	ok, err := s.orderItemRepository.IsOrderItemOfUserID(tx, id, userID)
 	err = checkOrderItem(ok, err)
 	if err != nil {
+		tx.Rollback()
 		return nil, err
 	}
 

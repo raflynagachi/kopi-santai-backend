@@ -75,6 +75,7 @@ func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Ord
 	var totalPrice float64
 	orderItems, err := s.orderItemRepo.FindOrderItemByUserID(tx, userID)
 	if err != nil {
+		tx.Rollback()
 		if errors.Is(err, new(apperror.OrderItemNotFoundError)) {
 			return nil, apperror.BadRequestError(new(apperror.OrderItemsEmptyError).Error())
 		}
@@ -90,24 +91,28 @@ func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Ord
 	}
 	delivery, err := s.deliveryRepo.Create(tx, d)
 	if err != nil {
+		tx.Rollback()
 		return nil, apperror.InternalServerError(err.Error())
 	}
 	o.DeliveryID = delivery.ID
 
 	_, err = s.paymentOptRepo.FindByID(tx, req.PaymentOptID)
 	if err != nil {
+		tx.Rollback()
 		return nil, apperror.NotFoundError(err.Error())
 	}
 
 	if req.CouponID != 0 {
 		userCoupon, err := s.couponRepo.FindUserCouponByCouponID(tx, req.CouponID, userID)
 		if err != nil {
+			tx.Rollback()
 			return nil, apperror.NotFoundError(err.Error())
 		}
 		totalPrice -= (totalPrice * userCoupon.Coupon.Amount) / 100
 		o.CouponID = &req.CouponID
 		ok, err := s.couponRepo.DeleteUserCoupon(tx, userCoupon.ID)
 		if err != nil || !ok {
+			tx.Rollback()
 			return nil, apperror.InternalServerError(err.Error())
 		}
 	}
@@ -115,6 +120,7 @@ func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Ord
 	o.TotalPrice = totalPrice
 	order, err := s.orderRepo.CreateOrder(tx, o)
 	if err != nil {
+		tx.Rollback()
 		return nil, apperror.InternalServerError(err.Error())
 	}
 
@@ -122,11 +128,13 @@ func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Ord
 		item.OrderID = &order.ID
 		item, err = s.orderItemRepo.UpdateOrderItemByID(tx, item.ID, item)
 		if err != nil {
+			tx.Rollback()
 			return nil, apperror.InternalServerError(err.Error())
 		}
 	}
 	promos, err := s.promotionRepo.FindByMinSpent(tx, uint(o.TotalPrice))
 	if err != nil {
+		tx.Rollback()
 		return nil, apperror.InternalServerError(err.Error())
 	}
 
@@ -137,6 +145,7 @@ func (s *orderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Ord
 		}
 		_, err := s.couponRepo.AddCouponToUser(tx, uc)
 		if err != nil {
+			tx.Rollback()
 			return nil, apperror.InternalServerError(err.Error())
 		}
 	}
@@ -151,12 +160,15 @@ func (s *orderService) FindOrderByIDAndUserID(id, userID uint) (*dto.OrderRes, e
 	tx := s.db.Begin()
 	order, err := s.orderRepo.FindOrderByIDAndUserID(tx, id, userID)
 	if err != nil {
+		tx.Rollback()
 		return nil, apperror.NotFoundError(err.Error())
 	}
 	orderItems, err := s.orderItemRepo.FindOrderItemByUserIDAndOrderID(tx, userID, id)
 	if err != nil {
+		tx.Rollback()
 		return nil, apperror.NotFoundError(err.Error())
 	}
+	helper.CommitOrRollback(tx, err)
 
 	order.OrderItems = orderItems
 	orderRes := new(dto.OrderRes).From(order)
@@ -169,6 +181,7 @@ func (s *orderService) FindOrderByUserID(userID uint) ([]*dto.OrderRes, error) {
 	tx := s.db.Begin()
 	order, err := s.orderRepo.FindOrderByUserID(tx, userID)
 	if err != nil {
+		tx.Rollback()
 		return nil, apperror.NotFoundError(err.Error())
 	}
 
@@ -179,6 +192,7 @@ func (s *orderService) FindOrderByUserID(userID uint) ([]*dto.OrderRes, error) {
 			ordersRes = append(ordersRes, new(dto.OrderRes).From(o))
 		}
 	}
+	helper.CommitOrRollback(tx, err)
 
 	return ordersRes, nil
 }
@@ -190,6 +204,7 @@ func (s *orderService) FindAll(q *model.QueryParamOrder) ([]*dto.OrderRes, error
 	tx := s.db.Begin()
 	order, err := s.orderRepo.FindAll(tx, &t)
 	if err != nil {
+		tx.Rollback()
 		return nil, apperror.NotFoundError(err.Error())
 	}
 
@@ -200,6 +215,7 @@ func (s *orderService) FindAll(q *model.QueryParamOrder) ([]*dto.OrderRes, error
 			ordersRes = append(ordersRes, new(dto.OrderRes).From(o))
 		}
 	}
+	helper.CommitOrRollback(tx, err)
 
 	return ordersRes, nil
 }

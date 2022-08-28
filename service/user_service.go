@@ -44,6 +44,7 @@ func userUpdateReqToUser(req *dto.UserUpdateReq) *model.User {
 func (s *userService) GetProfileDetail(id uint) (*dto.ProfileRes, error) {
 	tx := s.db.Begin()
 	user, err := s.userRepository.FindByIDWithCoupons(tx, id)
+	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.NotFoundError(err.Error())
 	}

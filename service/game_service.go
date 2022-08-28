@@ -67,6 +67,7 @@ func (s *gameService) AddCouponPrizeToUser(req *dto.GameResultPostReq, userID ui
 	tx := s.db.Begin()
 	gl, err := s.gameRepo.FindByUserID(tx, userID)
 	if err != nil {
+		tx.Rollback()
 		return nil, apperror.NotFoundError(err.Error())
 	}
 
@@ -82,6 +83,7 @@ func (s *gameService) AddCouponPrizeToUser(req *dto.GameResultPostReq, userID ui
 	tx = s.db.Begin()
 	game, err := s.gameRepo.IsTargetScoreReached(tx, gl.Score, req.Score)
 	if err != nil {
+		tx.Rollback()
 		return nil, apperror.BadRequestError(err.Error())
 	}
 

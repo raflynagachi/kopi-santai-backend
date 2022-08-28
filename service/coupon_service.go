@@ -71,6 +71,7 @@ func (s *couponService) DeleteByID(id uint) (gin.H, error) {
 	tx := s.db.Begin()
 	isDeleted, err := s.couponRepo.DeleteByID(tx, id)
 	if err != nil {
+		tx.Rollback()
 		return gin.H{"isDeleted": false}, apperror.BadRequestError(err.Error())
 	}
 	_, err = s.couponRepo.DeleteUserCoupon(tx, id)

@@ -113,6 +113,7 @@ func (s *authService) Register(req *dto.RegisterPostReq) (*dto.TokenRes, error) 
 	tx := s.db.Begin()
 	user, err = s.userRepository.Create(tx, user)
 	if err != nil {
+		tx.Rollback()
 		return nil, apperror.BadRequestError(err.Error())
 	}
 
