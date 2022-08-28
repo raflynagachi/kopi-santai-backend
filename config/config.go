@@ -1,6 +1,9 @@
 package config
 
-import "os"
+import (
+	_ "github.com/joho/godotenv/autoload"
+	"os"
+)
 
 var Testing = "testing"
 
