@@ -5,7 +5,7 @@ RESTful API Food Ordering System for Kopi Santai built with Golang and PostgreSQ
 https://dbdiagram.io/embed/6305fffcf1a9b01b0fd380d8
 
 ### Coverage
-![Coverage](https://heroku.example.com/cover.png "coverage")
+![Coverage](https://heroku.example.com/assets/docs/coverage.png "coverage")
   
   
 ## Setup Project
@@ -15,13 +15,16 @@ https://dbdiagram.io/embed/6305fffcf1a9b01b0fd380d8
 
 ## How to run test
 Run go project in testing environment  
-```ENV=testing go test ./... -cover```
-
+```ENV=testing go test ./... -cover```  
+  
+## OpenAPI Documentation
+[OpenAPI documentation](https://heroku.example.com/docs)  
+  
 ## How to import postman
 Exported json postman automatically set bearer token every login or register with user account.
 Make sure to run login/register first to get the token.
-1. Download [exported postman](https://heroku.example.com/final-project-backend.postman_collection.json)
+1. Download [exported postman](https://heroku.example.com/openapi.json)
 2. Open postman -> File -> Import (Ctrl+O)
-3. Drag and drop downloaded file to the box
-4. Check your collection with name _example.json_
+3. Copy json text to raw text in Postman
+4. Check your API documentation with name Kopi Santai - OpenAPI 3.0
 5. Let's play the postman
