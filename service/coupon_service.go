@@ -61,7 +61,9 @@ func (s *couponService) FindCouponByUserID(userID uint) ([]*dto.CouponRes, error
 
 	var couponRes []*dto.CouponRes
 	for _, promo := range promos {
-		couponRes = append(couponRes, new(dto.CouponRes).FromCoupon(promo.Coupon))
+		if promo.Coupon != nil {
+			couponRes = append(couponRes, new(dto.CouponRes).FromCoupon(promo.Coupon))
+		}
 	}
 
 	return couponRes, nil

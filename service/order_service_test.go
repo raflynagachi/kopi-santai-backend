@@ -16,13 +16,22 @@ import (
 
 var orderID uint = 1
 
+var orderItemTest = &model.OrderItem{
+	ID:      1,
+	OrderID: &orderID,
+	Menu: &model.Menu{
+		Category: &model.Category{},
+		Reviews:  []*model.Review{{}},
+	},
+}
+
 var order = &model.Order{
 	ID:            1,
 	CouponID:      &orderID,
 	Coupon:        &model.Coupon{ID: 1},
 	Delivery:      &delivery,
 	PaymentOption: &model.PaymentOption{},
-	OrderItems:    []*model.OrderItem{orderItem},
+	OrderItems:    []*model.OrderItem{orderItemTest},
 }
 
 var orderRes = &dto.OrderRes{
@@ -31,10 +40,12 @@ var orderRes = &dto.OrderRes{
 		ID: 1,
 	},
 	Delivery: &dto.DeliveryRes{
+		ID:     1,
 		Status: model.StatusDefault,
 	},
 	PaymentOption: &dto.PaymentOptionRes{},
 	OrderItems: []*dto.OrderItemRes{{
+		ID:   1,
 		Menu: &dto.MenuRes{},
 	}},
 }
@@ -450,7 +461,7 @@ func TestOrderService_FindOrderByIDAndUserID(t *testing.T) {
 		s := service.NewOrder(cfg)
 		expectedRes := orderRes
 		mockRepository.On("FindOrderByIDAndUserID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1), uint(1)).Return(order, nil)
-		orderItemMockRepository.On("FindOrderItemByUserIDAndOrderID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1), uint(1)).Return([]*model.OrderItem{orderItem}, nil)
+		orderItemMockRepository.On("FindOrderItemByUserIDAndOrderID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1), uint(1)).Return([]*model.OrderItem{orderItemTest}, nil)
 
 		menuRes, err := s.FindOrderByIDAndUserID(uint(1), uint(1))
 
@@ -538,7 +549,7 @@ func TestOrderService_FindOrderByUserID(t *testing.T) {
 		s := service.NewOrder(cfg)
 		expectedRes := []*dto.OrderRes{orderRes}
 		mockRepository.On("FindOrderByUserID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return([]*model.Order{order}, nil)
-		orderItemMockRepository.On("FindOrderItemByUserIDAndOrderID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1), uint(1)).Return([]*model.OrderItem{orderItem}, nil)
+		orderItemMockRepository.On("FindOrderItemByUserIDAndOrderID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1), uint(1)).Return([]*model.OrderItem{orderItemTest}, nil)
 
 		menuRes, err := s.FindOrderByUserID(uint(1))
 
@@ -597,7 +608,7 @@ func TestOrderService_FindAll(t *testing.T) {
 		expectedRes := []*dto.OrderRes{orderRes}
 		q := &model.QueryParamOrder{}
 		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), &time.Time{}).Return([]*model.Order{order}, nil)
-		orderItemMockRepository.On("FindOrderItemByOrderID", mock.AnythingOfType(testutils.GormDBPointerType), orderID).Return([]*model.OrderItem{orderItem}, nil)
+		orderItemMockRepository.On("FindOrderItemByOrderID", mock.AnythingOfType(testutils.GormDBPointerType), orderID).Return([]*model.OrderItem{orderItemTest}, nil)
 
 		menuRes, err := s.FindAll(q)
 
@@ -628,7 +639,7 @@ func TestOrderService_FindAll(t *testing.T) {
 			Date: "lastMonth",
 		}
 		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time")).Return([]*model.Order{order}, nil)
-		orderItemMockRepository.On("FindOrderItemByOrderID", mock.AnythingOfType(testutils.GormDBPointerType), orderID).Return([]*model.OrderItem{orderItem}, nil)
+		orderItemMockRepository.On("FindOrderItemByOrderID", mock.AnythingOfType(testutils.GormDBPointerType), orderID).Return([]*model.OrderItem{orderItemTest}, nil)
 
 		menuRes, err := s.FindAll(q)
 
@@ -659,7 +670,7 @@ func TestOrderService_FindAll(t *testing.T) {
 			Date: "lastYear",
 		}
 		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time")).Return([]*model.Order{order}, nil)
-		orderItemMockRepository.On("FindOrderItemByOrderID", mock.AnythingOfType(testutils.GormDBPointerType), orderID).Return([]*model.OrderItem{orderItem}, nil)
+		orderItemMockRepository.On("FindOrderItemByOrderID", mock.AnythingOfType(testutils.GormDBPointerType), orderID).Return([]*model.OrderItem{orderItemTest}, nil)
 
 		menuRes, err := s.FindAll(q)
 

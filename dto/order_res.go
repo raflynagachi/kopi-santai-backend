@@ -6,14 +6,15 @@ import (
 )
 
 type OrderRes struct {
-	UserID        uint
-	CouponID      uint
-	OrderedDate   time.Time
-	TotalPrice    float64
-	Coupon        *CouponRes
-	Delivery      *DeliveryRes
-	PaymentOption *PaymentOptionRes
-	OrderItems    []*OrderItemRes
+	ID            uint              `json:"id"`
+	UserID        uint              `json:"userID"`
+	CouponID      uint              `json:"couponID"`
+	OrderedDate   time.Time         `json:"orderedDate"`
+	TotalPrice    float64           `json:"totalPrice"`
+	Coupon        *CouponRes        `json:"coupon"`
+	Delivery      *DeliveryRes      `json:"delivery"`
+	PaymentOption *PaymentOptionRes `json:"paymentOption"`
+	OrderItems    []*OrderItemRes   `json:"orderItems"`
 }
 
 func (_ *OrderRes) From(o *model.Order) *OrderRes {

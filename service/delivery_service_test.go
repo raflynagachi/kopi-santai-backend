@@ -28,6 +28,7 @@ func TestDeliveryService_UpdateStatus(t *testing.T) {
 			Status: model.StatusDefault,
 		}
 		expectedRes := &dto.DeliveryRes{
+			ID:     1,
 			Status: model.StatusDefault,
 		}
 		mockRepository.On("Update", mock.AnythingOfType(testutils.GormDBPointerType), uint(1), mock.AnythingOfType("*model.Delivery")).Return(&delivery, nil)
