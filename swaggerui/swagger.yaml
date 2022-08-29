@@ -27,6 +27,7 @@ tags:
   - name: Promotions
   - name: Deliveries
   - name: PaymentOptions
+  - name: Categories
 security:
   - BearerAuth: []
 paths:
@@ -877,6 +878,12 @@ paths:
       tags:
         - Order
       summary: GetAllOrder
+      parameters:
+        - name: date
+          in: query
+          schema:
+            type: string
+          example: lastWeek
       responses:
         '200':
           description: OK
@@ -1631,6 +1638,46 @@ paths:
                     name: Gopay
                   - id: 3
                     name: OVO
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /categories:
+    get:
+      tags:
+        - Categories
+      summary: FindAllCategories
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - id: 1
+                    name: Coffee
+                  - id: 2
+                    name: Non-Coffee
+                  - id: 3
+                    name: Bread
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
         '500':
           description: Internal Server Error
           content:

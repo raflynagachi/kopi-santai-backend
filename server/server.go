@@ -19,6 +19,7 @@ func Init() {
 	reviewRepo := repository.NewReview()
 	gameRepo := repository.NewGame()
 	promoRepo := repository.NewPromo()
+	categoryRepo := repository.NewCategory()
 
 	authService := service.NewAuth(&service.AuthConfig{
 		DB:             db.Get(),
@@ -73,19 +74,24 @@ func Init() {
 		DB:             db.Get(),
 		PaymentOptRepo: paymentOptRepo,
 	})
+	categoryService := service.NewCategory(&service.CategoryConfig{
+		DB:           db.Get(),
+		CategoryRepo: categoryRepo,
+	})
 
 	router := NewRouter(&RouterConfig{
-		AuthService:      authService,
-		UserService:      userService,
-		MenuService:      menuService,
-		OrderItemService: orderItemService,
-		OrderService:     orderService,
-		ReviewService:    reviewService,
-		DeliveryService:  deliveryService,
-		CouponService:    couponService,
-		GameService:      gameService,
-		PromoService:     promoService,
-		PaymentOpt:       paymentOptService,
+		AuthService:       authService,
+		UserService:       userService,
+		MenuService:       menuService,
+		OrderItemService:  orderItemService,
+		OrderService:      orderService,
+		ReviewService:     reviewService,
+		DeliveryService:   deliveryService,
+		CouponService:     couponService,
+		GameService:       gameService,
+		PromoService:      promoService,
+		PaymentOptService: paymentOptService,
+		CategoryService:   categoryService,
 	})
 	log.Fatalln(router.Run())
 }

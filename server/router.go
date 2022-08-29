@@ -11,17 +11,18 @@ import (
 )
 
 type RouterConfig struct {
-	AuthService      service.AuthService
-	UserService      service.UserService
-	MenuService      service.MenuService
-	OrderItemService service.OrderItemService
-	OrderService     service.OrderService
-	ReviewService    service.ReviewService
-	DeliveryService  service.DeliveryService
-	CouponService    service.CouponService
-	GameService      service.GameService
-	PromoService     service.PromotionService
-	PaymentOpt       service.PaymentOptionService
+	AuthService       service.AuthService
+	UserService       service.UserService
+	MenuService       service.MenuService
+	OrderItemService  service.OrderItemService
+	OrderService      service.OrderService
+	ReviewService     service.ReviewService
+	DeliveryService   service.DeliveryService
+	CouponService     service.CouponService
+	GameService       service.GameService
+	PromoService      service.PromotionService
+	PaymentOptService service.PaymentOptionService
+	CategoryService   service.CategoryService
 }
 
 const apiNotFoundMessage = "API not found"
@@ -48,7 +49,8 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	couponHandler := handler.NewCoupon(&handler.CouponConfig{CouponService: c.CouponService})
 	gameHandler := handler.NewGame(&handler.GameConfig{GameService: c.GameService})
 	promoHandler := handler.NewPromo(&handler.PromoConfig{PromoService: c.PromoService})
-	paymentOptHandler := handler.NewPaymentOpt(&handler.PaymentOptConfig{PaymentOptService: c.PaymentOpt})
+	paymentOptHandler := handler.NewPaymentOpt(&handler.PaymentOptConfig{PaymentOptService: c.PaymentOptService})
+	categoryHandler := handler.NewCategory(&handler.CategoryConfig{CategoryService: c.CategoryService})
 
 	r.POST("/login", middleware.RequestValidator(&dto.LoginPostReq{}), authHandler.Login)
 	r.POST("/register", middleware.RequestValidator(&dto.RegisterPostReq{}), authHandler.Register)
@@ -63,6 +65,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 
 	r.GET("/coupons", couponHandler.FindCouponByUserID)
 	r.GET("/payment-options", paymentOptHandler.FindAll)
+	r.GET("/categories", categoryHandler.FindAll)
 
 	r.POST("/order-items", middleware.RequestValidator(&dto.OrderItemPostReq{}), orderItemHandler.CreateOrderItem)
 	r.GET("/order-items", orderItemHandler.FindOrderItemByUserID)
