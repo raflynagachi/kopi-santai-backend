@@ -38,8 +38,9 @@ func TestGameService_FindByUserID(t *testing.T) {
 		}
 		s := service.NewGame(cfg)
 		expectedRes := &dto.GameLeaderboardRes{
-			Name:  "John Doe",
-			Score: 100,
+			UserID: 1,
+			Name:   "John Doe",
+			Score:  100,
 		}
 		mockRepository.On("FindByUserID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return(&gameLeaderboard, nil)
 
@@ -82,8 +83,9 @@ func TestGameService_FindAll(t *testing.T) {
 		}
 		s := service.NewGame(cfg)
 		expectedRes := []*dto.GameLeaderboardRes{{
-			Name:  "John Doe",
-			Score: 100,
+			UserID: 1,
+			Name:   "John Doe",
+			Score:  100,
 		}}
 		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType)).Return([]*model.GameLeaderboard{&gameLeaderboard}, nil)
 
