@@ -24,7 +24,9 @@ func NewOrderItem() OrderItemRepository {
 
 func (r *orderItemRepository) FindOrderItemByUserIDAndOrderID(tx *gorm.DB, userID, orderID uint) ([]*model.OrderItem, error) {
 	var orderItems []*model.OrderItem
-	result := tx.Preload("Menu").Preload("Menu.Category").Where("user_id = ? AND order_id = ?", userID, orderID).Find(&orderItems)
+	result := tx.Preload("Menu", func(db *gorm.DB) *gorm.DB {
+		return db.Unscoped()
+	}).Preload("Menu.Category").Where("user_id = ? AND order_id = ?", userID, orderID).Find(&orderItems)
 	if result.RowsAffected == 0 {
 		return orderItems, new(apperror.OrderItemNotFoundError)
 	}
@@ -33,7 +35,9 @@ func (r *orderItemRepository) FindOrderItemByUserIDAndOrderID(tx *gorm.DB, userI
 
 func (r *orderItemRepository) FindOrderItemByUserID(tx *gorm.DB, userID uint) ([]*model.OrderItem, error) {
 	var orderItems []*model.OrderItem
-	result := tx.Preload("Menu").Preload("Menu.Category").Where("user_id = ? AND order_id IS NULL", userID).Find(&orderItems)
+	result := tx.Preload("Menu", func(db *gorm.DB) *gorm.DB {
+		return db.Unscoped()
+	}).Preload("Menu.Category").Where("user_id = ? AND order_id IS NULL", userID).Find(&orderItems)
 	if result.RowsAffected == 0 {
 		return orderItems, new(apperror.OrderItemNotFoundError)
 	}
@@ -42,7 +46,9 @@ func (r *orderItemRepository) FindOrderItemByUserID(tx *gorm.DB, userID uint) ([
 
 func (r *orderItemRepository) FindOrderItemByOrderID(tx *gorm.DB, orderID uint) ([]*model.OrderItem, error) {
 	var orderItems []*model.OrderItem
-	result := tx.Preload("Menu").Preload("Menu.Category").Where("order_id = ?", orderID).Find(&orderItems)
+	result := tx.Preload("Menu", func(db *gorm.DB) *gorm.DB {
+		return db.Unscoped()
+	}).Preload("Menu.Category").Where("order_id = ?", orderID).Find(&orderItems)
 	if result.RowsAffected == 0 {
 		return orderItems, new(apperror.OrderItemNotFoundError)
 	}
