@@ -3,16 +3,18 @@ package dto
 import (
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
+	"gorm.io/gorm"
 )
 
 type MenuRes struct {
-	ID           uint    `json:"id"`
-	CategoryID   uint    `json:"categoryID"`
-	CategoryName string  `json:"categoryName"`
-	Name         string  `json:"name"`
-	Price        float64 `json:"price"`
-	Image        []byte  `json:"image"`
-	Rating       float64 `json:"rating"`
+	ID           uint           `json:"id"`
+	CategoryID   uint           `json:"categoryID"`
+	CategoryName string         `json:"categoryName"`
+	Name         string         `json:"name"`
+	Price        float64        `json:"price"`
+	Image        []byte         `json:"image"`
+	Rating       float64        `json:"rating"`
+	DeletedAt    gorm.DeletedAt `json:"deletedAt"`
 }
 
 func (_ *MenuRes) FromMenu(m *model.Menu) *MenuRes {
@@ -31,5 +33,6 @@ func (_ *MenuRes) FromMenu(m *model.Menu) *MenuRes {
 		Price:        m.Price,
 		Image:        m.Image,
 		Rating:       helper.ToFixed(rating, 2),
+		DeletedAt:    m.DeletedAt,
 	}
 }
