@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-const StatusDefault = "IN PROCESS"
+const StatusDefault = "ON PROCESS"
 
 type Delivery struct {
 	gorm.Model
