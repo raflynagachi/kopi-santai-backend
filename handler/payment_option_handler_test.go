@@ -16,7 +16,7 @@ import (
 func TestPaymentOptionHandler_FindAll(t *testing.T) {
 	t.Run("should return statusOK when find all success", func(t *testing.T) {
 		mockService := new(mocks.PaymentOptionService)
-		config := server.RouterConfig{PaymentOpt: mockService}
+		config := server.RouterConfig{PaymentOptService: mockService}
 		res := []*dto.PaymentOptionRes{{
 			ID:   1,
 			Name: "ShopeePay",
@@ -33,7 +33,7 @@ func TestPaymentOptionHandler_FindAll(t *testing.T) {
 
 	t.Run("should return error when find all failed", func(t *testing.T) {
 		mockService := new(mocks.PaymentOptionService)
-		config := server.RouterConfig{PaymentOpt: mockService}
+		config := server.RouterConfig{PaymentOptService: mockService}
 		internalServerErr := apperror.InternalServerError(errors.New("db error").Error())
 		mockService.On("FindAll").Return(nil, internalServerErr)
 		expectedBody, _ := json.Marshal(internalServerErr)
