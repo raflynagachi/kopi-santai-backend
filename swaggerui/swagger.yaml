@@ -692,6 +692,7 @@ paths:
                 statusCode: 200
                 status: OK
                 data:
+                  id: 1
                   userID: 4
                   couponID: 1
                   orderedDate: '2021-08-21T17:59:59Z'
@@ -757,7 +758,8 @@ paths:
                 statusCode: 200
                 status: OK
                 data:
-                  - userID: 4
+                  - id: 1
+                    userID: 4
                     couponID: 1
                     orderedDate: '2021-08-21T17:59:59Z'
                     totalPrice: 13500
@@ -783,7 +785,8 @@ paths:
                           rating: 0
                         quantity: 1
                         description: toppings:boba
-                  - userID: 4
+                  - id: 1
+                    userID: 4
                     couponID: 0
                     orderedDate: '2021-08-21T17:59:59Z'
                     totalPrice: 15000
@@ -805,7 +808,8 @@ paths:
                           rating: 0
                         quantity: 1
                         description: toppings:boba
-                  - userID: 4
+                  - id: 1
+                    userID: 4
                     couponID: 0
                     orderedDate: '2021-08-21T17:59:59Z'
                     totalPrice: 24000
@@ -827,7 +831,8 @@ paths:
                           rating: 0
                         quantity: 1
                         description: toppings:boba
-                  - userID: 4
+                  - id: 1
+                    userID: 4
                     couponID: 0
                     orderedDate: '2021-08-21T17:59:59Z'
                     totalPrice: 24000
@@ -883,7 +888,8 @@ paths:
                 statusCode: 200
                 status: OK
                 data:
-                  - userID: 1
+                  - id: 1
+                    userID: 4
                     couponID: 0
                     orderedDate: '2021-08-21T17:59:59Z'
                     totalPrice: 48000
@@ -905,7 +911,8 @@ paths:
                           rating: 0
                         quantity: 2
                         description: toppings:boba
-                  - userID: 1
+                  - id: 2
+                    userID: 1
                     couponID: 0
                     orderedDate: '2021-08-21T17:59:59Z'
                     totalPrice: 15000
@@ -927,7 +934,8 @@ paths:
                           rating: 0
                         quantity: 1
                         description: toppings:boba
-                  - UserID: 1
+                  - id: 3
+                    userID: 1
                     couponID: 1
                     orderedDate: '2021-08-21T17:59:59Z'
                     totalPrice: 13500
@@ -953,7 +961,8 @@ paths:
                           rating: 0
                         quantity: 1
                         description: toppings:boba
-                  - userID: 4
+                  - id: 5
+                    userID: 4
                     couponID: 1
                     orderedDate: '2021-08-21T17:59:59Z'
                     totalPrice: 13500
@@ -979,7 +988,8 @@ paths:
                           rating: 0
                         quantity: 1
                         description: toppings:boba
-                  - userID: 4
+                  - id: 6
+                    userID: 4
                     couponID: 0
                     orderedDate: '2021-08-21T17:59:59Z'
                     totalPrice: 15000
@@ -1001,7 +1011,8 @@ paths:
                           rating: 0
                         quantity: 1
                         description: toppings:boba
-                  - userID: 4
+                  - id: 7
+                    userID: 4
                     couponID: 0
                     orderedDate: '2021-08-21T17:59:59Z'
                     totalPrice: 24000
@@ -1023,7 +1034,8 @@ paths:
                           rating: 0
                         quantity: 1
                         description: toppings:boba
-                  - userID: 4
+                  - id: 8
+                    userID: 4
                     couponID: 0
                     orderedDate: '2021-08-21T17:59:59Z'
                     totalPrice: 24000
@@ -1093,6 +1105,7 @@ paths:
                 statusCode: 200
                 status: OK
                 data:
+                  id: 1
                   userID: 4
                   couponID: 1
                   orderedDate: '2021-08-21T17:59:59Z'
