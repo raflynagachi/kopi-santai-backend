@@ -1155,7 +1155,18 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  id: 1
+                  menuID: 1
+                  description: Mantap
+                  rating: 5
+
         '400':
           description: Bad Request Error
           content:
@@ -1191,7 +1202,17 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  id: 1
+                  menuID: 1
+                  description: Mantap
+                  rating: 5
         '400':
           description: Bad Request Error
           content:
