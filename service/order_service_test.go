@@ -35,6 +35,7 @@ var order = &model.Order{
 }
 
 var orderRes = &dto.OrderRes{
+	ID:       1,
 	CouponID: 1,
 	Coupon: &dto.CouponRes{
 		ID: 1,

@@ -34,6 +34,7 @@ func (_ *OrderRes) From(o *model.Order) *OrderRes {
 	}
 
 	return &OrderRes{
+		ID:            o.ID,
 		UserID:        o.UserID,
 		CouponID:      couponID,
 		OrderedDate:   o.OrderedDate,
