@@ -1,0 +1,5198 @@
+{
+	"info": {
+		"_postman_id": "b10079be-6038-427d-b036-9a86e93b3199",
+		"name": "Kopi Santai - OpenAPI 3.0",
+		"description": "Digitalent final project about food ordering system named Kopi Santai\n\nContact Support:\n Email: rafly.nagachi@shoppe.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21889996"
+	},
+	"item": [
+		{
+			"name": "users/{user Id}",
+			"item": [
+				{
+					"name": "GetProfileDetail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/:userId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "1",
+									"description": "(Required) Numeric ID of the user to get"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "1",
+											"description": "(Required) Numeric ID of the user to get"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"user\": {\n      \"fullName\": \"Charlie Official\",\n      \"phone\": \"+6281234567800\",\n      \"email\": \"charlie.doe@mail.com\",\n      \"address\": \"Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov. Sumatera Selatan\",\n      \"profilePicture\": \"images-byte64\"\n    },\n    \"coupons\": [\n      {\n        \"id\": 1,\n        \"name\": \"Discount 10%\",\n        \"amount\": 10,\n        \"isAvailable\": true\n      },\n      {\n        \"id\": 2,\n        \"name\": \"Discount 5%\",\n        \"amount\": 5,\n        \"isAvailable\": true\n      }\n    ]\n  }\n}"
+						},
+						{
+							"name": "Unauthorized Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "1",
+											"description": "(Required) Numeric ID of the user to get"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+						},
+						{
+							"name": "Not Found Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "1",
+											"description": "(Required) Numeric ID of the user to get"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 404,\n  \"status\": \"NOT_FOUND_ERROR\",\n  \"message\": \"NOT FOUND ERROR\"\n}"
+						}
+					]
+				},
+				{
+					"name": "UpdateProfile",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fullName\": \"Charlie Official\",\n  \"phone\": \"+6281234567800\",\n  \"address\": \"Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov. Sumatera Selatan\",\n  \"email\": \"charlie.doe@mail.com\",\n  \"password\": \"password\",\n  \"profilePicture\": \"images-byte64\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/:userId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "-92376261",
+									"description": "(Required) Numeric ID of the user to get"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"fullName\": \"Charlie Official\",\n  \"phone\": \"+6281234567800\",\n  \"address\": \"Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov. Sumatera Selatan\",\n  \"email\": \"charlie.doe@mail.com\",\n  \"password\": \"password\",\n  \"profilePicture\": \"images-byte64\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "-92376261",
+											"description": "(Required) Numeric ID of the user to get"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"fullName\": \"Charlie Official\",\n    \"phone\": \"+6281234567800\",\n    \"email\": \"charlie.doe@mail.com\",\n    \"address\": \"Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov. Sumatera Selatan\",\n    \"profilePicture\": \"image-byte64\"\n  }\n}"
+						},
+						{
+							"name": "Bad Request Error",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"fullName\": \"Charlie Official\",\n  \"phone\": \"+6281234567800\",\n  \"address\": \"Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov. Sumatera Selatan\",\n  \"email\": \"charlie.doe@mail.com\",\n  \"password\": \"password\",\n  \"profilePicture\": \"images-byte64\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "-92376261",
+											"description": "(Required) Numeric ID of the user to get"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"BAD_REQUEST_ERROR\",\n  \"message\": \"BAD REQUEST ERROR\"\n}"
+						},
+						{
+							"name": "Unauthorized Error",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"fullName\": \"Charlie Official\",\n  \"phone\": \"+6281234567800\",\n  \"address\": \"Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov. Sumatera Selatan\",\n  \"email\": \"charlie.doe@mail.com\",\n  \"password\": \"password\",\n  \"profilePicture\": \"images-byte64\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "-92376261",
+											"description": "(Required) Numeric ID of the user to get"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "menus",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "GetMenuDetail",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/menus/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"menus",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) Numeric ID of the menu to get"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/menus/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"menus",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1",
+													"description": "(Required) Numeric ID of the menu to get"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"menu\": {\n      \"id\": 2,\n      \"categoryID\": 1,\n      \"categoryName\": \"Coffee\",\n      \"name\": \"Cappuccino\",\n      \"price\": 24000,\n      \"image\": \"image-byte64\",\n      \"rating\": 0\n    },\n    \"menuOptions\": [\n      {\n        \"typeMenuOption\": \"size\",\n        \"name\": \"Regular\"\n      },\n      {\n        \"typeMenuOption\": \"size\",\n        \"name\": \"Large\"\n      },\n      {\n        \"typeMenuOption\": \"toppings\",\n        \"name\": \"Boba\"\n      },\n      {\n        \"typeMenuOption\": \"toppings\",\n        \"name\": \"Jelly\"\n      },\n      {\n        \"typeMenuOption\": \"toppings\",\n        \"name\": \"Ice Cream\"\n      },\n      {\n        \"typeMenuOption\": \"available in\",\n        \"name\": \"Ice\"\n      },\n      {\n        \"typeMenuOption\": \"available in\",\n        \"name\": \"Hot\"\n      }\n    ]\n  }\n}"
+								},
+								{
+									"name": "Not Found Error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/menus/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"menus",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1",
+													"description": "(Required) Numeric ID of the menu to get"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 404,\n  \"status\": \"NOT_FOUND_ERROR\",\n  \"message\": \"NOT FOUND ERROR\"\n}"
+								},
+								{
+									"name": "Internal Server Error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/menus/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"menus",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1",
+													"description": "(Required) Numeric ID of the menu to get"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+								}
+							]
+						},
+						{
+							"name": "DeleteMenuByID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/menus/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"menus",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "-92376261",
+											"description": "(Required) Numeric ID of the menu to get"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/menus/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"menus",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-92376261",
+													"description": "(Required) Numeric ID of the menu to get"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"isDeleted\": true\n  }\n}"
+								},
+								{
+									"name": "Bad Request Error",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/menus/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"menus",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-92376261",
+													"description": "(Required) Numeric ID of the menu to get"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 400,\n  \"status\": \"BAD_REQUEST_ERROR\",\n  \"message\": \"BAD REQUEST ERROR\"\n}"
+								},
+								{
+									"name": "Unauthorized Error",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/menus/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"menus",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-92376261",
+													"description": "(Required) Numeric ID of the menu to get"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+								},
+								{
+									"name": "Forbidden Error",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/menus/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"menus",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-92376261",
+													"description": "(Required) Numeric ID of the menu to get"
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 403,\n  \"status\": \"FORBIDDEN_ERROR\",\n  \"message\": \"FORBIDDEN ERROR\"\n}"
+								}
+							]
+						},
+						{
+							"name": "UpdateMenuByID",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"categoryID\": 2,\n  \"name\": \"Lemon tea\",\n  \"price\": 15000,\n  \"image\": \"images-byte64\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/menus/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"menus",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "-92376261",
+											"description": "(Required) Numeric ID of the menu to get"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"categoryID\": 2,\n  \"name\": \"Lemon tea\",\n  \"price\": 15000,\n  \"image\": \"images-byte64\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/menus/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"menus",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-92376261",
+													"description": "(Required) Numeric ID of the menu to get"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"id\": 5,\n    \"categoryID\": 2,\n    \"categoryName\": \"Non-Coffee\",\n    \"name\": \"Lemon tea\",\n    \"price\": 15000,\n    \"image\": \"images-byte64\",\n    \"rating\": 0\n  }\n}"
+								},
+								{
+									"name": "Bad Request Error",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"categoryID\": 2,\n  \"name\": \"Lemon tea\",\n  \"price\": 15000,\n  \"image\": \"images-byte64\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/menus/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"menus",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-92376261",
+													"description": "(Required) Numeric ID of the menu to get"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 400,\n  \"status\": \"BAD_REQUEST_ERROR\",\n  \"message\": \"BAD REQUEST ERROR\"\n}"
+								},
+								{
+									"name": "Unauthorized Error",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"categoryID\": 2,\n  \"name\": \"Lemon tea\",\n  \"price\": 15000,\n  \"image\": \"images-byte64\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/menus/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"menus",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-92376261",
+													"description": "(Required) Numeric ID of the menu to get"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+								},
+								{
+									"name": "Forbidden Error",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"categoryID\": 2,\n  \"name\": \"Lemon tea\",\n  \"price\": 15000,\n  \"image\": \"images-byte64\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/menus/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"menus",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-92376261",
+													"description": "(Required) Numeric ID of the menu to get"
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 403,\n  \"status\": \"FORBIDDEN_ERROR\",\n  \"message\": \"FORBIDDEN ERROR\"\n}"
+								}
+							]
+						},
+						{
+							"name": "GetReviewByMenuID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/menus/:id/reviews",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"menus",
+										":id",
+										"reviews"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) Numeric ID of the menu to get"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Successful response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/menus/:id/reviews",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"menus",
+												":id",
+												"reviews"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1",
+													"description": "(Required) Numeric ID of the menu to get"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"\""
+								},
+								{
+									"name": "Bad Request Error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/menus/:id/reviews",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"menus",
+												":id",
+												"reviews"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1",
+													"description": "(Required) Numeric ID of the menu to get"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 400,\n  \"status\": \"BAD_REQUEST_ERROR\",\n  \"message\": \"BAD REQUEST ERROR\"\n}"
+								},
+								{
+									"name": "Unauthorized Error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/menus/:id/reviews",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"menus",
+												":id",
+												"reviews"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1",
+													"description": "(Required) Numeric ID of the menu to get"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+								},
+								{
+									"name": "Internal Server Error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/menus/:id/reviews",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"menus",
+												":id",
+												"reviews"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1",
+													"description": "(Required) Numeric ID of the menu to get"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "FindAll",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/menus?category=CofFee&sortBy=price&sort=desc&search=milk",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"menus"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "CofFee"
+								},
+								{
+									"key": "sortBy",
+									"value": "price"
+								},
+								{
+									"key": "sort",
+									"value": "desc"
+								},
+								{
+									"key": "search",
+									"value": "milk"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/menus?category=CofFee&sortBy=price&sort=desc&search=milk",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"menus"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "CofFee"
+										},
+										{
+											"key": "sortBy",
+											"value": "price"
+										},
+										{
+											"key": "sort",
+											"value": "desc"
+										},
+										{
+											"key": "search",
+											"value": "milk"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": [\n    {\n      \"id\": 3,\n      \"categoryID\": 1,\n      \"categoryName\": \"Coffee\",\n      \"name\": \"Coffee Milk With Brown Sugar\",\n      \"price\": 25000,\n      \"image\": \"image-byte64\",\n      \"rating\": 0\n    }\n  ]\n}"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/menus?category=CofFee&sortBy=price&sort=desc&search=milk",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"menus"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "CofFee"
+										},
+										{
+											"key": "sortBy",
+											"value": "price"
+										},
+										{
+											"key": "sort",
+											"value": "desc"
+										},
+										{
+											"key": "search",
+											"value": "milk"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+						}
+					]
+				},
+				{
+					"name": "CreateMenu",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"categoryID\": 2,\n  \"name\": \"Milk tea\",\n  \"price\": 15000,\n  \"image\": \"images-byte64\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/menus",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"menus"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"categoryID\": 2,\n  \"name\": \"Milk tea\",\n  \"price\": 15000,\n  \"image\": \"images-byte64\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/menus",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"menus"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"id\": 12,\n    \"categoryID\": 2,\n    \"categoryName\": \"Non-Coffee\",\n    \"name\": \"Milk tea\",\n    \"price\": 15000,\n    \"image\": \"image-byte64\",\n    \"rating\": 0\n  }\n}"
+						},
+						{
+							"name": "Bad Request Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"categoryID\": 2,\n  \"name\": \"Milk tea\",\n  \"price\": 15000,\n  \"image\": \"images-byte64\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/menus",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"menus"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"BAD_REQUEST_ERROR\",\n  \"message\": \"BAD REQUEST ERROR\"\n}"
+						},
+						{
+							"name": "Unauthorized Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"categoryID\": 2,\n  \"name\": \"Milk tea\",\n  \"price\": 15000,\n  \"image\": \"images-byte64\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/menus",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"menus"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+						},
+						{
+							"name": "Forbidden Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"categoryID\": 2,\n  \"name\": \"Milk tea\",\n  \"price\": 15000,\n  \"image\": \"images-byte64\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/menus",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"menus"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 403,\n  \"status\": \"FORBIDDEN_ERROR\",\n  \"message\": \"FORBIDDEN ERROR\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "order-items",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "UpdateOrderItems",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"quantity\": 3,\n  \"description\": \"size:large,toppings:boba\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/order-items/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order-items",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) Numeric ID of the orderItem to get"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"quantity\": 3,\n  \"description\": \"size:large,toppings:boba\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/order-items/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"order-items",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1",
+													"description": "(Required) Numeric ID of the orderItem to get"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"menu\": {\n      \"id\": 1,\n      \"categoryID\": 2,\n      \"categoryName\": \"Non-Coffee\",\n      \"name\": \"Lemon tea\",\n      \"price\": 15000,\n      \"image\": \"images-byte64\",\n      \"rating\": 0\n    },\n    \"quantity\": 3,\n    \"description\": \"size:large,toppings:boba\"\n  }\n}"
+								},
+								{
+									"name": "Bad Request Error",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"quantity\": 3,\n  \"description\": \"size:large,toppings:boba\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/order-items/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"order-items",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1",
+													"description": "(Required) Numeric ID of the orderItem to get"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 400,\n  \"status\": \"BAD_REQUEST_ERROR\",\n  \"message\": \"BAD REQUEST ERROR\"\n}"
+								},
+								{
+									"name": "Unauthorized Error",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"quantity\": 3,\n  \"description\": \"size:large,toppings:boba\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/order-items/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"order-items",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1",
+													"description": "(Required) Numeric ID of the orderItem to get"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+								},
+								{
+									"name": "Internal Server Error",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"quantity\": 3,\n  \"description\": \"size:large,toppings:boba\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/order-items/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"order-items",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1",
+													"description": "(Required) Numeric ID of the orderItem to get"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+								}
+							]
+						},
+						{
+							"name": "DeleteOrderItem",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/order-items/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order-items",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "-92376261",
+											"description": "(Required) Numeric ID of the orderItem to get"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/order-items/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"order-items",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-92376261",
+													"description": "(Required) Numeric ID of the orderItem to get"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"isDeleted\": true\n  }\n}"
+								},
+								{
+									"name": "Bad Request Error",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/order-items/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"order-items",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-92376261",
+													"description": "(Required) Numeric ID of the orderItem to get"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 400,\n  \"status\": \"BAD_REQUEST_ERROR\",\n  \"message\": \"BAD REQUEST ERROR\"\n}"
+								},
+								{
+									"name": "Unauthorized Error",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/order-items/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"order-items",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-92376261",
+													"description": "(Required) Numeric ID of the orderItem to get"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+								},
+								{
+									"name": "Not Found Error",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/order-items/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"order-items",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-92376261",
+													"description": "(Required) Numeric ID of the orderItem to get"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 404,\n  \"status\": \"NOT_FOUND_ERROR\",\n  \"message\": \"NOT FOUND ERROR\"\n}"
+								},
+								{
+									"name": "Internal Server Error",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/order-items/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"order-items",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-92376261",
+													"description": "(Required) Numeric ID of the orderItem to get"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "CreateOrderItem",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"menuID\": 1,\n  \"quantity\": 1,\n  \"description\": \"toppings:boba\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order-items",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order-items"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"menuID\": 1,\n  \"quantity\": 1,\n  \"description\": \"toppings:boba\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/order-items",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order-items"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"menu\": {\n      \"id\": 1,\n      \"categoryID\": 2,\n      \"categoryName\": \"Non-Coffee\",\n      \"name\": \"Lemon tea\",\n      \"price\": 15000,\n      \"image\": \"images-byte64\",\n      \"rating\": 0\n    },\n    \"quantity\": 1,\n    \"description\": \"toppings:boba\"\n  }\n}"
+						},
+						{
+							"name": "Bad Request Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"menuID\": 1,\n  \"quantity\": 1,\n  \"description\": \"toppings:boba\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/order-items",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order-items"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"BAD_REQUEST_ERROR\",\n  \"message\": \"BAD REQUEST ERROR\"\n}"
+						},
+						{
+							"name": "Unauthorized Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"menuID\": 1,\n  \"quantity\": 1,\n  \"description\": \"toppings:boba\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/order-items",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order-items"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+						}
+					]
+				},
+				{
+					"name": "GetOrderItems",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/order-items",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order-items"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/order-items",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order-items"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": [\n    {\n      \"menu\": {\n        \"id\": 1,\n        \"categoryID\": 2,\n        \"categoryName\": \"Non-Coffee\",\n        \"name\": \"Lemon tea\",\n        \"price\": 15000,\n        \"image\": \"images-byte64\",\n        \"rating\": 0\n      },\n      \"quantity\": 1,\n      \"description\": \"toppings:boba\"\n    }\n  ]\n}"
+						},
+						{
+							"name": "Forbidden Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/order-items",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order-items"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 403,\n  \"status\": \"FORBIDDEN_ERROR\",\n  \"message\": \"FORBIDDEN ERROR\"\n}"
+						},
+						{
+							"name": "Not Found Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/order-items",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order-items"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 404,\n  \"status\": \"NOT_FOUND_ERROR\",\n  \"message\": \"NOT FOUND ERROR\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "CreateOrder",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"paymentOptID\": 1,\n  \"couponID\": 1,\n  \"orderedDate\": \"2021-08-21T17:59:59Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"paymentOptID\": 1,\n  \"couponID\": 1,\n  \"orderedDate\": \"2021-08-21T17:59:59Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"UserID\": 4,\n    \"CouponID\": 1,\n    \"OrderedDate\": \"2021-08-21T17:59:59Z\",\n    \"TotalPrice\": 21600,\n    \"Coupon\": {\n      \"id\": 1,\n      \"name\": \"Discount 10%\",\n      \"amount\": 10,\n      \"isAvailable\": true\n    },\n    \"Delivery\": {\n      \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n      \"status\": \"IN PROCESS\"\n    },\n    \"PaymentOption\": {\n      \"id\": 1,\n      \"name\": \"Shopeepay\"\n    },\n    \"OrderItems\": [\n      {\n        \"menu\": {\n          \"id\": 8,\n          \"categoryID\": 3,\n          \"categoryName\": \"Bread\",\n          \"name\": \"Choco Pan De\",\n          \"price\": 24000,\n          \"image\": \"images-byte64\",\n          \"rating\": 0\n        },\n        \"quantity\": 1,\n        \"description\": \"toppings:boba\"\n      }\n    ]\n  }\n}"
+						},
+						{
+							"name": "Bad Request Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"paymentOptID\": 1,\n  \"couponID\": 1,\n  \"orderedDate\": \"2021-08-21T17:59:59Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"BAD_REQUEST_ERROR\",\n  \"message\": \"BAD REQUEST ERROR\"\n}"
+						},
+						{
+							"name": "Unauthorized Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"paymentOptID\": 1,\n  \"couponID\": 1,\n  \"orderedDate\": \"2021-08-21T17:59:59Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+						},
+						{
+							"name": "Not Found Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"paymentOptID\": 1,\n  \"couponID\": 1,\n  \"orderedDate\": \"2021-08-21T17:59:59Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 404,\n  \"status\": \"NOT_FOUND_ERROR\",\n  \"message\": \"NOT FOUND ERROR\"\n}"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"paymentOptID\": 1,\n  \"couponID\": 1,\n  \"orderedDate\": \"2021-08-21T17:59:59Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+						}
+					]
+				},
+				{
+					"name": "GetOrder",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": [\n    {\n      \"UserID\": 4,\n      \"CouponID\": 1,\n      \"OrderedDate\": \"2021-08-21T17:59:59Z\",\n      \"TotalPrice\": 13500,\n      \"Coupon\": {\n        \"id\": 1,\n        \"name\": \"Discount 10%\",\n        \"amount\": 10,\n        \"isAvailable\": true\n      },\n      \"Delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"IN PROCESS\"\n      },\n      \"PaymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"OrderItems\": [\n        {\n          \"menu\": {\n            \"id\": 1,\n            \"categoryID\": 2,\n            \"categoryName\": \"Non-Coffee\",\n            \"name\": \"Lemon tea\",\n            \"price\": 15000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    },\n    {\n      \"UserID\": 4,\n      \"CouponID\": 0,\n      \"OrderedDate\": \"2021-08-21T17:59:59Z\",\n      \"TotalPrice\": 15000,\n      \"Coupon\": null,\n      \"Delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"IN PROCESS\"\n      },\n      \"PaymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"OrderItems\": [\n        {\n          \"menu\": {\n            \"id\": 1,\n            \"categoryID\": 2,\n            \"categoryName\": \"Non-Coffee\",\n            \"name\": \"Lemon tea\",\n            \"price\": 15000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    },\n    {\n      \"UserID\": 4,\n      \"CouponID\": 0,\n      \"OrderedDate\": \"2021-08-21T17:59:59Z\",\n      \"TotalPrice\": 24000,\n      \"Coupon\": null,\n      \"Delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"IN PROCESS\"\n      },\n      \"PaymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"OrderItems\": [\n        {\n          \"menu\": {\n            \"id\": 2,\n            \"categoryID\": 1,\n            \"categoryName\": \"Coffee\",\n            \"name\": \"Cappuccino\",\n            \"price\": 24000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    },\n    {\n      \"UserID\": 4,\n      \"CouponID\": 0,\n      \"OrderedDate\": \"2021-08-21T17:59:59Z\",\n      \"TotalPrice\": 24000,\n      \"Coupon\": null,\n      \"Delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"IN PROCESS\"\n      },\n      \"PaymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"OrderItems\": [\n        {\n          \"menu\": {\n            \"id\": 8,\n            \"categoryID\": 3,\n            \"categoryName\": \"Bread\",\n            \"name\": \"Choco Pan De\",\n            \"price\": 24000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    }\n  ]\n}"
+						},
+						{
+							"name": "Unauthorized Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+						},
+						{
+							"name": "Not Found Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 404,\n  \"status\": \"NOT_FOUND_ERROR\",\n  \"message\": \"NOT FOUND ERROR\"\n}"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+						}
+					]
+				},
+				{
+					"name": "GetOrderByID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/orders/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) Numeric ID of the order to get"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) Numeric ID of the order to get"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"UserID\": 4,\n    \"CouponID\": 1,\n    \"OrderedDate\": \"2021-08-21T17:59:59Z\",\n    \"TotalPrice\": 13500,\n    \"Coupon\": {\n      \"id\": 1,\n      \"name\": \"Discount 10%\",\n      \"amount\": 10,\n      \"isAvailable\": true\n    },\n    \"Delivery\": {\n      \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n      \"status\": \"IN PROCESS\"\n    },\n    \"PaymentOption\": {\n      \"id\": 1,\n      \"name\": \"Shopeepay\"\n    },\n    \"OrderItems\": [\n      {\n        \"menu\": {\n          \"id\": 1,\n          \"categoryID\": 2,\n          \"categoryName\": \"Non-Coffee\",\n          \"name\": \"Lemon tea\",\n          \"price\": 15000,\n          \"image\": \"images-byte64\",\n          \"rating\": 0\n        },\n        \"quantity\": 1,\n        \"description\": \"toppings:boba\"\n      }\n    ]\n  }\n}"
+						},
+						{
+							"name": "Unauthorized Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) Numeric ID of the order to get"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+						},
+						{
+							"name": "Not Found Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) Numeric ID of the order to get"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 404,\n  \"status\": \"NOT_FOUND_ERROR\",\n  \"message\": \"NOT FOUND ERROR\"\n}"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) Numeric ID of the order to get"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "coupons",
+			"item": [
+				{
+					"name": "CreateCoupon",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Special Discount HUT Kopi Santai\",\n  \"amount\": 30\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/coupons",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"coupons"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Special Discount HUT Kopi Santai\",\n  \"amount\": 30\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/coupons",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coupons"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"id\": 5,\n    \"name\": \"Special Discount HUT Kopi Santai\",\n    \"amount\": 30,\n    \"isAvailable\": true\n  }\n}"
+						},
+						{
+							"name": "Bad Request Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Special Discount HUT Kopi Santai\",\n  \"amount\": 30\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/coupons",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coupons"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"BAD_REQUEST_ERROR\",\n  \"message\": \"BAD REQUEST ERROR\"\n}"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Special Discount HUT Kopi Santai\",\n  \"amount\": 30\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/coupons",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coupons"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+						}
+					]
+				},
+				{
+					"name": "FindCouponByUserID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/coupons",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"coupons"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/coupons",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coupons"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": [\n    {\n      \"id\": 2,\n      \"name\": \"Discount 5%\",\n      \"amount\": 5,\n      \"isAvailable\": true\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Discount 10%\",\n      \"amount\": 10,\n      \"isAvailable\": true\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Discount 10%\",\n      \"amount\": 10,\n      \"isAvailable\": true\n    }\n  ]\n}"
+						},
+						{
+							"name": "Unauthorized Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/coupons",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coupons"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/coupons",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coupons"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+						}
+					]
+				},
+				{
+					"name": "DeleteCouponByID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/coupons/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"coupons",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) Numeric ID of the coupon to get"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/coupons/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coupons",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) Numeric ID of the coupon to get"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"isDeleted\": true\n  }\n}"
+						},
+						{
+							"name": "Bad Request Error",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/coupons/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coupons",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) Numeric ID of the coupon to get"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"BAD_REQUEST_ERROR\",\n  \"message\": \"BAD REQUEST ERROR\"\n}"
+						},
+						{
+							"name": "Unauthorized Error",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/coupons/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coupons",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) Numeric ID of the coupon to get"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/coupons/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coupons",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) Numeric ID of the coupon to get"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "games",
+			"item": [
+				{
+					"name": "GetLeaderboards",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/games",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"games"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/games",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"games"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": [\n    {\n      \"name\": \"Charlie Official\",\n      \"score\": 83\n    },\n    {\n      \"name\": \"Alice Doe\",\n      \"score\": 30\n    },\n    {\n      \"name\": \"John Doeeeee\",\n      \"score\": 20\n    },\n    {\n      \"name\": \"Ben Doe\",\n      \"score\": 0\n    },\n    {\n      \"name\": \"John\",\n      \"score\": 0\n    },\n    {\n      \"name\": \"Rafly Nagachi\",\n      \"score\": 0\n    }\n  ]\n}"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/games",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"games"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+						}
+					]
+				},
+				{
+					"name": "GetUserScore",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/games/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"games",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) Numeric ID of the game user account to get"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/games/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"games",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) Numeric ID of the game user account to get"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"name\": \"Charlie Official\",\n    \"score\": 83\n  }\n}"
+						},
+						{
+							"name": "Bad Request Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/games/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"games",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) Numeric ID of the game user account to get"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"BAD_REQUEST_ERROR\",\n  \"message\": \"BAD REQUEST ERROR\"\n}"
+						},
+						{
+							"name": "Unauthorized Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/games/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"games",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) Numeric ID of the game user account to get"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/games/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"games",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) Numeric ID of the game user account to get"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonResp = pm.response.json()",
+							"pm.collectionVariables.set(\"token\", jsonResp.data.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"charlie.doe@mail.com\",\n  \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"charlie.doe@mail.com\",\n  \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJLb3BpIFNhbnRhaSIsImV4cCI6MTY2MTYxMjcyNCwiaWF0IjoxNjYxNjExODI0LCJ1c2VyIjp7ImlkIjo0LCJlbWFpbCI6ImNoYXJsaWUuZG9lQG1haWwuY29tIiwicm9sZSI6IkFETUlOIn19.6NhtyCp-XD6YFWd0R7CEF2kRMxi5pDfrJ1W0Sn2tZgM'\"\n  }\n}"
+				},
+				{
+					"name": "Unauthorized Error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"charlie.doe@mail.com\",\n  \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+				},
+				{
+					"name": "Not Found Error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"charlie.doe@mail.com\",\n  \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 404,\n  \"status\": \"NOT_FOUND_ERROR\",\n  \"message\": \"NOT FOUND ERROR\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonResp = pm.response.json()",
+							"pm.collectionVariables.set(\"token\", jsonResp.data.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"fullName\": \"Rafly Nagachi\",\n  \"phone\": \"+6281234567890\",\n  \"address\": \"Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov. Sumatera Selatan\",\n  \"email\": \"rafly.nagachi@mail.com\",\n  \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fullName\": \"Rafly Nagachi\",\n  \"phone\": \"+6281234567890\",\n  \"address\": \"Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov. Sumatera Selatan\",\n  \"email\": \"rafly.nagachi@mail.com\",\n  \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJLb3BpIFNhbnRhaSIsImV4cCI6MTY2MTYxMjc3OSwiaWF0IjoxNjYxNjExODc5LCJ1c2VyIjp7ImlkIjoxNCwiZW1haWwiOiJyYWZseS5uYWdhY2hpQG1haWwuY29tIiwicm9sZSI6IlVTRVIifX0.ATDls6kR2VEPZ9QKjk-xnZCrsc6lpblA7bSyaAZdLLk\"\n  }\n}"
+				},
+				{
+					"name": "Bad Request Error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fullName\": \"Rafly Nagachi\",\n  \"phone\": \"+6281234567890\",\n  \"address\": \"Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov. Sumatera Selatan\",\n  \"email\": \"rafly.nagachi@mail.com\",\n  \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 400,\n  \"status\": \"BAD_REQUEST_ERROR\",\n  \"message\": \"BAD REQUEST ERROR\"\n}"
+				},
+				{
+					"name": "Internal Server Error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fullName\": \"Rafly Nagachi\",\n  \"phone\": \"+6281234567890\",\n  \"address\": \"Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov. Sumatera Selatan\",\n  \"email\": \"rafly.nagachi@mail.com\",\n  \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GetAllOrder",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/internal/orders",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"internal",
+						"orders"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/internal/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal",
+								"orders"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": [\n    {\n      \"UserID\": 1,\n      \"CouponID\": 0,\n      \"OrderedDate\": \"2021-08-21T17:59:59Z\",\n      \"TotalPrice\": 48000,\n      \"Coupon\": null,\n      \"Delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"NO DELIVERY YET\"\n      },\n      \"PaymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"OrderItems\": [\n        {\n          \"menu\": {\n            \"id\": 2,\n            \"categoryID\": 1,\n            \"categoryName\": \"Coffee\",\n            \"name\": \"Cappuccino\",\n            \"price\": 24000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 2,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    },\n    {\n      \"UserID\": 1,\n      \"CouponID\": 0,\n      \"OrderedDate\": \"2021-08-21T17:59:59Z\",\n      \"TotalPrice\": 15000,\n      \"Coupon\": null,\n      \"Delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"NO DELIVERY YET\"\n      },\n      \"PaymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"OrderItems\": [\n        {\n          \"menu\": {\n            \"id\": 1,\n            \"categoryID\": 2,\n            \"categoryName\": \"Non-Coffee\",\n            \"name\": \"Lemon tea\",\n            \"price\": 15000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    },\n    {\n      \"UserID\": 1,\n      \"CouponID\": 1,\n      \"OrderedDate\": \"2021-08-21T17:59:59Z\",\n      \"TotalPrice\": 13500,\n      \"Coupon\": {\n        \"id\": 1,\n        \"name\": \"Discount 10%\",\n        \"amount\": 10,\n        \"isAvailable\": true\n      },\n      \"Delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"NO DELIVERY YET\"\n      },\n      \"PaymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"OrderItems\": [\n        {\n          \"menu\": {\n            \"id\": 1,\n            \"categoryID\": 2,\n            \"categoryName\": \"Non-Coffee\",\n            \"name\": \"Lemon tea\",\n            \"price\": 15000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    },\n    {\n      \"UserID\": 4,\n      \"CouponID\": 1,\n      \"OrderedDate\": \"2021-08-21T17:59:59Z\",\n      \"TotalPrice\": 13500,\n      \"Coupon\": {\n        \"id\": 1,\n        \"name\": \"Discount 10%\",\n        \"amount\": 10,\n        \"isAvailable\": true\n      },\n      \"Delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"IN PROCESS\"\n      },\n      \"PaymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"OrderItems\": [\n        {\n          \"menu\": {\n            \"id\": 1,\n            \"categoryID\": 2,\n            \"categoryName\": \"Non-Coffee\",\n            \"name\": \"Lemon tea\",\n            \"price\": 15000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    },\n    {\n      \"UserID\": 4,\n      \"CouponID\": 0,\n      \"OrderedDate\": \"2021-08-21T17:59:59Z\",\n      \"TotalPrice\": 15000,\n      \"Coupon\": null,\n      \"Delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"IN PROCESS\"\n      },\n      \"PaymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"OrderItems\": [\n        {\n          \"menu\": {\n            \"id\": 1,\n            \"categoryID\": 2,\n            \"categoryName\": \"Non-Coffee\",\n            \"name\": \"Lemon tea\",\n            \"price\": 15000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    },\n    {\n      \"UserID\": 4,\n      \"CouponID\": 0,\n      \"OrderedDate\": \"2021-08-21T17:59:59Z\",\n      \"TotalPrice\": 24000,\n      \"Coupon\": null,\n      \"Delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"IN PROCESS\"\n      },\n      \"PaymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"OrderItems\": [\n        {\n          \"menu\": {\n            \"id\": 2,\n            \"categoryID\": 1,\n            \"categoryName\": \"Coffee\",\n            \"name\": \"Cappuccino\",\n            \"price\": 24000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    },\n    {\n      \"UserID\": 4,\n      \"CouponID\": 0,\n      \"OrderedDate\": \"2021-08-21T17:59:59Z\",\n      \"TotalPrice\": 24000,\n      \"Coupon\": null,\n      \"Delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"IN PROCESS\"\n      },\n      \"PaymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"OrderItems\": [\n        {\n          \"menu\": {\n            \"id\": 8,\n            \"categoryID\": 3,\n            \"categoryName\": \"Bread\",\n            \"name\": \"Choco Pan De\",\n            \"price\": 24000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    }\n  ]\n}"
+				},
+				{
+					"name": "Unauthorized Error",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/internal/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal",
+								"orders"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+				},
+				{
+					"name": "Forbidden Error",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/internal/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal",
+								"orders"
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 403,\n  \"status\": \"FORBIDDEN_ERROR\",\n  \"message\": \"FORBIDDEN ERROR\"\n}"
+				},
+				{
+					"name": "Not Found Error",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/internal/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal",
+								"orders"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 404,\n  \"status\": \"NOT_FOUND_ERROR\",\n  \"message\": \"NOT FOUND ERROR\"\n}"
+				},
+				{
+					"name": "Internal Server Error",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/internal/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal",
+								"orders"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+				}
+			]
+		},
+		{
+			"name": "CreateReview",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"menuID\": 1,\n  \"rating\": 5,\n  \"description\": \"Mantap\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/reviews",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"reviews"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Successful response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"menuID\": 1,\n  \"rating\": 5,\n  \"description\": \"Mantap\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "\"\""
+				},
+				{
+					"name": "Bad Request Error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"menuID\": 1,\n  \"rating\": 5,\n  \"description\": \"Mantap\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 400,\n  \"status\": \"BAD_REQUEST_ERROR\",\n  \"message\": \"BAD REQUEST ERROR\"\n}"
+				},
+				{
+					"name": "Unauthorized Error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"menuID\": 1,\n  \"rating\": 5,\n  \"description\": \"Mantap\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+				},
+				{
+					"name": "Internal Server Error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"menuID\": 1,\n  \"rating\": 5,\n  \"description\": \"Mantap\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GamePrize",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"score\": 100\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/game-prize",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"game-prize"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"score\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/game-prize",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"game-prize"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"UserRes\": {\n      \"fullName\": \"Charlie Official\",\n      \"phone\": \"+6281234567800\",\n      \"email\": \"charlie.doe@mail.com\",\n      \"address\": \"Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov. Sumatera Selatan\",\n      \"profilePicture\": \"images-byte64\"\n    },\n    \"CouponRes\": {\n      \"id\": 1,\n      \"name\": \"Discount 10%\",\n      \"amount\": 10,\n      \"isAvailable\": true\n    }\n  }\n}"
+				},
+				{
+					"name": "Bad Request",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"score\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/game-prize",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"game-prize"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 400,\n  \"status\": \"BAD_REQUEST_ERROR\",\n  \"message\": \"score updated - with no prize\"\n}"
+				},
+				{
+					"name": "Not Found Error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"score\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/game-prize",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"game-prize"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 404,\n  \"status\": \"NOT_FOUND_ERROR\",\n  \"message\": \"NOT FOUND ERROR\"\n}"
+				},
+				{
+					"name": "Internal Server Error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"score\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/game-prize",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"game-prize"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GetPromotions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/promotions",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"promotions"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/promotions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"promotions"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": [\n    {\n      \"Name\": \"Coupon Merdeka\",\n      \"Description\": \"Attractive coupon to get discount up to 10%\",\n      \"Image\": null,\n      \"MinSpent\": 20000,\n      \"Coupon\": {\n        \"id\": 1,\n        \"name\": \"Discount 10%\",\n        \"amount\": 10,\n        \"isAvailable\": true\n      }\n    }\n  ]\n}"
+				},
+				{
+					"name": "Unauthorized Error",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/promotions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"promotions"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+				},
+				{
+					"name": "Forbidden Error",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/promotions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"promotions"
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 403,\n  \"status\": \"FORBIDDEN_ERROR\",\n  \"message\": \"FORBIDDEN ERROR\"\n}"
+				},
+				{
+					"name": "Internal Server Error",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/promotions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"promotions"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+				}
+			]
+		},
+		{
+			"name": "UpdateDelivery",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"status\": \"DELIVERED\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/deliveries/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"deliveries",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1",
+							"description": "(Required) Numeric ID of the delivery to get"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"DELIVERED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/deliveries/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deliveries",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) Numeric ID of the delivery to get"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"deliveryDate\": \"2022-08-27T22:26:11.914412Z\",\n    \"status\": \"DELIVERED\"\n  }\n}"
+				},
+				{
+					"name": "Unauthorized Error",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"DELIVERED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/deliveries/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deliveries",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) Numeric ID of the delivery to get"
+								}
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 400,\n  \"status\": \"UNAUTHORIZED_ERROR\",\n  \"message\": \"UNAUTHORIZED ERROR\"\n}"
+				},
+				{
+					"name": "Forbidden Error",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"DELIVERED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/deliveries/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deliveries",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) Numeric ID of the delivery to get"
+								}
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 403,\n  \"status\": \"FORBIDDEN_ERROR\",\n  \"message\": \"FORBIDDEN ERROR\"\n}"
+				},
+				{
+					"name": "Not Found Error",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"DELIVERED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/deliveries/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deliveries",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) Numeric ID of the delivery to get"
+								}
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 404,\n  \"status\": \"NOT_FOUND_ERROR\",\n  \"message\": \"NOT FOUND ERROR\"\n}"
+				},
+				{
+					"name": "Internal Server Error",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"DELIVERED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/deliveries/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deliveries",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) Numeric ID of the delivery to get"
+								}
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+				}
+			]
+		},
+		{
+			"name": "FindAllPaymentOptions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/payment-options",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"payment-options"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/payment-options",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payment-options"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"Shopeepay\"\n    },\n    {\n      \"id\": 2,\n      \"name\": \"Gopay\"\n    },\n    {\n      \"id\": 3,\n      \"name\": \"OVO\"\n    }\n  ]\n}"
+				},
+				{
+					"name": "Internal Server Error",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: bearer",
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/payment-options",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payment-options"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"statusCode\": 500,\n  \"status\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"INTERNAL SERVER ERROR\"\n}"
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "\"\"",
+			"type": "string"
+		}
+	]
+}

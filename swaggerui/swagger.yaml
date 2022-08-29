@@ -418,7 +418,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ForbiddenError'  
+                $ref: '#/components/schemas/ForbiddenError'
     patch:
       tags:
         - Menu
@@ -692,22 +692,22 @@ paths:
                 statusCode: 200
                 status: OK
                 data:
-                  UserID: 4
-                  CouponID: 1
-                  OrderedDate: '2021-08-21T17:59:59Z'
-                  TotalPrice: 21600
-                  Coupon:
+                  userID: 4
+                  couponID: 1
+                  orderedDate: '2021-08-21T17:59:59Z'
+                  totalPrice: 21600
+                  coupon:
                     id: 1
                     name: Discount 10%
                     amount: 10
                     isAvailable: true
-                  Delivery:
+                  delivery:
                     deliveryDate: '2021-08-21T17:59:59Z'
                     status: IN PROCESS
-                  PaymentOption:
+                  paymentOption:
                     id: 1
                     name: Shopeepay
-                  OrderItems:
+                  orderItems:
                     - menu:
                         id: 8
                         categoryID: 3
@@ -757,22 +757,22 @@ paths:
                 statusCode: 200
                 status: OK
                 data:
-                  - UserID: 4
-                    CouponID: 1
-                    OrderedDate: '2021-08-21T17:59:59Z'
-                    TotalPrice: 13500
-                    Coupon:
+                  - userID: 4
+                    couponID: 1
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 13500
+                    coupon:
                       id: 1
                       name: Discount 10%
                       amount: 10
                       isAvailable: true
-                    Delivery:
+                    delivery:
                       deliveryDate: '2021-08-21T17:59:59Z'
                       status: IN PROCESS
-                    PaymentOption:
+                    paymentOption:
                       id: 1
                       name: Shopeepay
-                    OrderItems:
+                    orderItems:
                       - menu:
                           id: 1
                           categoryID: 2
@@ -783,18 +783,18 @@ paths:
                           rating: 0
                         quantity: 1
                         description: toppings:boba
-                  - UserID: 4
-                    CouponID: 0
-                    OrderedDate: '2021-08-21T17:59:59Z'
-                    TotalPrice: 15000
-                    Coupon: null
-                    Delivery:
+                  - userID: 4
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 15000
+                    coupon: null
+                    delivery:
                       deliveryDate: '2021-08-21T17:59:59Z'
                       status: IN PROCESS
-                    PaymentOption:
+                    paymentOption:
                       id: 1
                       name: Shopeepay
-                    OrderItems:
+                    orderItems:
                       - menu:
                           id: 1
                           categoryID: 2
@@ -805,18 +805,18 @@ paths:
                           rating: 0
                         quantity: 1
                         description: toppings:boba
-                  - UserID: 4
-                    CouponID: 0
-                    OrderedDate: '2021-08-21T17:59:59Z'
-                    TotalPrice: 24000
-                    Coupon: null
-                    Delivery:
+                  - userID: 4
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 24000
+                    coupon: null
+                    delivery:
                       deliveryDate: '2021-08-21T17:59:59Z'
                       status: IN PROCESS
-                    PaymentOption:
+                    paymentOption:
                       id: 1
                       name: Shopeepay
-                    OrderItems:
+                    orderItems:
                       - menu:
                           id: 2
                           categoryID: 1
@@ -827,18 +827,18 @@ paths:
                           rating: 0
                         quantity: 1
                         description: toppings:boba
-                  - UserID: 4
-                    CouponID: 0
-                    OrderedDate: '2021-08-21T17:59:59Z'
-                    TotalPrice: 24000
-                    Coupon: null
-                    Delivery:
+                  - userID: 4
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 24000
+                    coupon: null
+                    delivery:
                       deliveryDate: '2021-08-21T17:59:59Z'
                       status: IN PROCESS
-                    PaymentOption:
+                    paymentOption:
                       id: 1
                       name: Shopeepay
-                    OrderItems:
+                    orderItems:
                       - menu:
                           id: 8
                           categoryID: 3
@@ -883,18 +883,18 @@ paths:
                 statusCode: 200
                 status: OK
                 data:
-                  - UserID: 1
-                    CouponID: 0
-                    OrderedDate: '2021-08-21T17:59:59Z'
-                    TotalPrice: 48000
-                    Coupon: null
-                    Delivery:
+                  - userID: 1
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 48000
+                    coupon: null
+                    delivery:
                       deliveryDate: '2021-08-21T17:59:59Z'
                       status: NO DELIVERY YET
-                    PaymentOption:
+                    paymentOption:
                       id: 1
                       name: Shopeepay
-                    OrderItems:
+                    orderItems:
                       - menu:
                           id: 2
                           categoryID: 1
@@ -905,18 +905,18 @@ paths:
                           rating: 0
                         quantity: 2
                         description: toppings:boba
-                  - UserID: 1
-                    CouponID: 0
-                    OrderedDate: '2021-08-21T17:59:59Z'
-                    TotalPrice: 15000
-                    Coupon: null
-                    Delivery:
+                  - userID: 1
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 15000
+                    coupon: null
+                    delivery:
                       deliveryDate: '2021-08-21T17:59:59Z'
                       status: NO DELIVERY YET
-                    PaymentOption:
+                    paymentOption:
                       id: 1
                       name: Shopeepay
-                    OrderItems:
+                    orderItems:
                       - menu:
                           id: 1
                           categoryID: 2
@@ -928,21 +928,21 @@ paths:
                         quantity: 1
                         description: toppings:boba
                   - UserID: 1
-                    CouponID: 1
-                    OrderedDate: '2021-08-21T17:59:59Z'
-                    TotalPrice: 13500
-                    Coupon:
+                    couponID: 1
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 13500
+                    coupon:
                       id: 1
                       name: Discount 10%
                       amount: 10
                       isAvailable: true
-                    Delivery:
+                    delivery:
                       deliveryDate: '2021-08-21T17:59:59Z'
                       status: NO DELIVERY YET
-                    PaymentOption:
+                    paymentOption:
                       id: 1
                       name: Shopeepay
-                    OrderItems:
+                    orderItems:
                       - menu:
                           id: 1
                           categoryID: 2
@@ -953,22 +953,22 @@ paths:
                           rating: 0
                         quantity: 1
                         description: toppings:boba
-                  - UserID: 4
-                    CouponID: 1
-                    OrderedDate: '2021-08-21T17:59:59Z'
-                    TotalPrice: 13500
-                    Coupon:
+                  - userID: 4
+                    couponID: 1
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 13500
+                    coupon:
                       id: 1
                       name: Discount 10%
                       amount: 10
                       isAvailable: true
-                    Delivery:
+                    delivery:
                       deliveryDate: '2021-08-21T17:59:59Z'
                       status: IN PROCESS
-                    PaymentOption:
+                    paymentOption:
                       id: 1
                       name: Shopeepay
-                    OrderItems:
+                    orderItems:
                       - menu:
                           id: 1
                           categoryID: 2
@@ -979,18 +979,18 @@ paths:
                           rating: 0
                         quantity: 1
                         description: toppings:boba
-                  - UserID: 4
-                    CouponID: 0
-                    OrderedDate: '2021-08-21T17:59:59Z'
-                    TotalPrice: 15000
-                    Coupon: null
-                    Delivery:
+                  - userID: 4
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 15000
+                    coupon: null
+                    delivery:
                       deliveryDate: '2021-08-21T17:59:59Z'
                       status: IN PROCESS
-                    PaymentOption:
+                    paymentOption:
                       id: 1
                       name: Shopeepay
-                    OrderItems:
+                    orderItems:
                       - menu:
                           id: 1
                           categoryID: 2
@@ -1001,18 +1001,18 @@ paths:
                           rating: 0
                         quantity: 1
                         description: toppings:boba
-                  - UserID: 4
-                    CouponID: 0
-                    OrderedDate: '2021-08-21T17:59:59Z'
-                    TotalPrice: 24000
-                    Coupon: null
-                    Delivery:
+                  - userID: 4
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 24000
+                    coupon: null
+                    delivery:
                       deliveryDate: '2021-08-21T17:59:59Z'
                       status: IN PROCESS
-                    PaymentOption:
+                    paymentOption:
                       id: 1
                       name: Shopeepay
-                    OrderItems:
+                    orderItems:
                       - menu:
                           id: 2
                           categoryID: 1
@@ -1023,18 +1023,18 @@ paths:
                           rating: 0
                         quantity: 1
                         description: toppings:boba
-                  - UserID: 4
-                    CouponID: 0
-                    OrderedDate: '2021-08-21T17:59:59Z'
-                    TotalPrice: 24000
-                    Coupon: null
-                    Delivery:
+                  - userID: 4
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 24000
+                    coupon: null
+                    delivery:
                       deliveryDate: '2021-08-21T17:59:59Z'
                       status: IN PROCESS
-                    PaymentOption:
+                    paymentOption:
                       id: 1
                       name: Shopeepay
-                    OrderItems:
+                    orderItems:
                       - menu:
                           id: 8
                           categoryID: 3
@@ -1093,22 +1093,22 @@ paths:
                 statusCode: 200
                 status: OK
                 data:
-                  UserID: 4
-                  CouponID: 1
-                  OrderedDate: '2021-08-21T17:59:59Z'
-                  TotalPrice: 13500
-                  Coupon:
+                  userID: 4
+                  couponID: 1
+                  orderedDate: '2021-08-21T17:59:59Z'
+                  totalPrice: 13500
+                  coupon:
                     id: 1
                     name: Discount 10%
                     amount: 10
                     isAvailable: true
-                  Delivery:
+                  delivery:
                     deliveryDate: '2021-08-21T17:59:59Z'
                     status: IN PROCESS
-                  PaymentOption:
+                  paymentOption:
                     id: 1
                     name: Shopeepay
-                  OrderItems:
+                  orderItems:
                     - menu:
                         id: 1
                         categoryID: 2
@@ -1486,9 +1486,9 @@ paths:
                 data:
                   - Name: Coupon Merdeka
                     Description: Attractive coupon to get discount up to 10%
-                    Image: 
+                    Image:
                     MinSpent: 20000
-                    Coupon:
+                    coupon:
                       id: 1
                       name: Discount 10%
                       amount: 10
@@ -1634,6 +1634,6 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-                    
-                    
-                    
+
+
+

@@ -23,8 +23,8 @@ Run go project in testing environment
 ## How to import postman
 Exported json postman automatically set bearer token every login or register with user account.
 Make sure to run login/register first to get the token.
-1. Download [exported postman](https://heroku.example.com/openapi.json)
+1. Download [exported postman]("https://heroku.example.com/KopiSantai-OpenAPI3.0.postman_collection.json")
 2. Open postman -> File -> Import (Ctrl+O)
-3. Copy json text to raw text in Postman
+3. Drag and drop the file to the box in postman
 4. Check your API documentation with name Kopi Santai - OpenAPI 3.0
 5. Let's play the postman
