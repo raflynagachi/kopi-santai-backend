@@ -68,6 +68,51 @@ func TestMenuService_FindAll(t *testing.T) {
 	})
 }
 
+func TestMenuService_FindAllUnscoped(t *testing.T) {
+	t.Run("should return response when find all menu unscoped success", func(t *testing.T) {
+		gormDB := testutils.MockDB()
+		mockRepository := new(mocks.MenuRepository)
+		cfg := &service.MenuConfig{
+			DB:             gormDB,
+			MenuRepository: mockRepository,
+		}
+		s := service.NewMenu(cfg)
+		queryParam := &model.QueryParamMenu{
+			Search:   "co",
+			SortBy:   "price",
+			Sort:     "asc",
+			Category: "coffee",
+		}
+		expectedRes := []*dto.MenuRes{{}}
+		output := []*model.Menu{menu}
+		mockRepository.On("FindAllUnscoped", mock.AnythingOfType(testutils.GormDBPointerType), queryParam).Return(output, nil)
+
+		menuRes, err := s.FindAllUnscoped(queryParam)
+
+		assert.Nil(t, err)
+		assert.Equal(t, expectedRes, menuRes)
+	})
+
+	t.Run("should return error when find all menu unscoped failed", func(t *testing.T) {
+		gormDB := testutils.MockDB()
+		mockRepository := new(mocks.MenuRepository)
+		cfg := &service.MenuConfig{
+			DB:             gormDB,
+			MenuRepository: mockRepository,
+		}
+		s := service.NewMenu(cfg)
+		queryParam := &model.QueryParamMenu{}
+		dbErr := errors.New("db error")
+		mockRepository.On("FindAllUnscoped", mock.AnythingOfType(testutils.GormDBPointerType), queryParam).Return(nil, dbErr)
+		expectedErr := apperror.InternalServerError(dbErr.Error())
+
+		_, err := s.FindAllUnscoped(queryParam)
+
+		assert.Equal(t, expectedErr, err)
+		assert.ErrorContains(t, err, expectedErr.Error())
+	})
+}
+
 func TestMenuService_GetMenuDetail(t *testing.T) {
 	t.Run("should return response when get menu detail success", func(t *testing.T) {
 		gormDB := testutils.MockDB()

@@ -80,6 +80,29 @@ func (_m *MenuRepository) FindAll(tx *gorm.DB, q *model.QueryParamMenu) ([]*mode
 	return r0, r1
 }
 
+// FindAllUnscoped provides a mock function with given fields: tx, q
+func (_m *MenuRepository) FindAllUnscoped(tx *gorm.DB, q *model.QueryParamMenu) ([]*model.Menu, error) {
+	ret := _m.Called(tx, q)
+
+	var r0 []*model.Menu
+	if rf, ok := ret.Get(0).(func(*gorm.DB, *model.QueryParamMenu) []*model.Menu); ok {
+		r0 = rf(tx, q)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*model.Menu)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(*gorm.DB, *model.QueryParamMenu) error); ok {
+		r1 = rf(tx, q)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // FindByID provides a mock function with given fields: tx, id
 func (_m *MenuRepository) FindByID(tx *gorm.DB, id uint) (*model.Menu, error) {
 	ret := _m.Called(tx, id)

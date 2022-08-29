@@ -14,6 +14,7 @@ const sortMenuByDefaultValue = model.ID
 
 type MenuHandler interface {
 	FindAll(c *gin.Context)
+	FindAllUnscoped(c *gin.Context)
 	GetMenuDetail(c *gin.Context)
 	CreateMenu(c *gin.Context)
 	UpdateMenu(c *gin.Context)
@@ -43,6 +44,23 @@ func (h *menuHandler) FindAll(c *gin.Context) {
 	}
 
 	menusRes, err := h.menuService.FindAll(queryParam)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.StatusOKResponse(menusRes))
+}
+
+func (h *menuHandler) FindAllUnscoped(c *gin.Context) {
+	queryParam := &model.QueryParamMenu{
+		Search:   helper.GetQuery(c, "search", ""),
+		SortBy:   helper.GetQuery(c, "sortBy", sortMenuByDefaultValue),
+		Sort:     helper.GetQuery(c, "sort", sortMenuDefaultValue),
+		Category: helper.GetQuery(c, "category", ""),
+	}
+
+	menusRes, err := h.menuService.FindAllUnscoped(queryParam)
 	if err != nil {
 		_ = c.Error(err)
 		return

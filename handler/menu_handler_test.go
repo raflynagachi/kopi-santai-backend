@@ -61,6 +61,52 @@ func TestMenuHandler_FindAll(t *testing.T) {
 	})
 }
 
+func TestMenuHandler_FindAllUnscoped(t *testing.T) {
+	t.Run("should return statusOK when find all menu unscoped success", func(t *testing.T) {
+		mockService := new(mocks.MenuService)
+		config := server.RouterConfig{MenuService: mockService}
+		menuRes := []*dto.MenuRes{{
+			ID:           1,
+			CategoryID:   1,
+			CategoryName: "Coffee",
+			Name:         "Cappuccino",
+			Price:        15000,
+			Image:        nil,
+			Rating:       4.5,
+		}}
+		queryParam := &model.QueryParamMenu{
+			SortBy: "id",
+			Sort:   "asc",
+		}
+		mockService.On("FindAllUnscoped", queryParam).Return(menuRes, nil)
+		expectedBody, _ := json.Marshal(dto.StatusOKResponse(menuRes))
+
+		req, _ := http.NewRequest(http.MethodGet, "/internal/menus", nil)
+		_, w := testutils.ServeReq(&config, req)
+
+		assert.Equal(t, http.StatusOK, w.Code)
+		assert.Equal(t, string(expectedBody), w.Body.String())
+	})
+
+	t.Run("should return error when find all menu unscoped failed", func(t *testing.T) {
+		mockService := new(mocks.MenuService)
+		config := server.RouterConfig{MenuService: mockService}
+		queryParam := &model.QueryParamMenu{
+			SortBy: "id",
+			Sort:   "asc",
+		}
+		internalServerErr := apperror.InternalServerError(errors.New("db error").Error())
+		mockService.On("FindAllUnscoped", queryParam).Return(nil, internalServerErr)
+		expectedBody, _ := json.Marshal(internalServerErr)
+
+		req, _ := http.NewRequest(http.MethodGet, "/internal/menus", nil)
+		_, w := testutils.ServeReq(&config, req)
+
+		assert.Equal(t, http.StatusInternalServerError, w.Code)
+		assert.Equal(t, string(expectedBody), w.Body.String())
+	})
+}
+
 func TestMenuHandler_GetMenuDetail(t *testing.T) {
 	t.Run("should return statusOK when find menu detail success", func(t *testing.T) {
 		mockService := new(mocks.MenuService)

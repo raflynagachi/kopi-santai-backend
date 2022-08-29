@@ -10,6 +10,7 @@ import (
 
 type MenuRepository interface {
 	FindAll(tx *gorm.DB, q *model.QueryParamMenu) ([]*model.Menu, error)
+	FindAllUnscoped(tx *gorm.DB, q *model.QueryParamMenu) ([]*model.Menu, error)
 	FindByID(tx *gorm.DB, id uint) (*model.Menu, error)
 	FindMenuOptions(tx *gorm.DB, categoryID uint) ([]*model.MenuOptionsCategories, error)
 	Create(tx *gorm.DB, menu *model.Menu) (*model.Menu, error)
@@ -21,6 +22,22 @@ type menuRepository struct{}
 
 func NewMenu() MenuRepository {
 	return &menuRepository{}
+}
+
+func (r *menuRepository) FindAllUnscoped(tx *gorm.DB, q *model.QueryParamMenu) ([]*model.Menu, error) {
+	var categories []*model.Category
+	var menus []*model.Menu
+	var err error
+	orderStatement := fmt.Sprintf("%s %s", q.SortBy, q.Sort)
+
+	_ = tx.Distinct().Select("id").Where("LOWER(name) LIKE ?", q.Category).Find(&categories).Error
+	var ids []uint
+	for _, category := range categories {
+		ids = append(ids, category.ID)
+	}
+
+	err = tx.Unscoped().Preload("Category").Preload("Reviews").Where("category_id IN (?) AND LOWER(name) LIKE ?", ids, q.Search).Order(orderStatement).Find(&menus).Error
+	return menus, err
 }
 
 func (r *menuRepository) FindAll(tx *gorm.DB, q *model.QueryParamMenu) ([]*model.Menu, error) {

@@ -14,6 +14,7 @@ import (
 
 type MenuService interface {
 	FindAll(q *model.QueryParamMenu) ([]*dto.MenuRes, error)
+	FindAllUnscoped(q *model.QueryParamMenu) ([]*dto.MenuRes, error)
 	GetMenuDetail(id uint) (*dto.MenuDetailRes, error)
 	Create(req *dto.MenuPostReq) (*dto.MenuRes, error)
 	Update(id uint, req *dto.MenuUpdateReq) (*dto.MenuRes, error)
@@ -79,6 +80,20 @@ func (s *menuService) FindAll(q *model.QueryParamMenu) ([]*dto.MenuRes, error) {
 
 	tx := s.db.Begin()
 	menus, err := s.menuRepository.FindAll(tx, q)
+	helper.CommitOrRollback(tx, err)
+	if err != nil {
+		return nil, apperror.InternalServerError(err.Error())
+	}
+
+	menusRes := menusToMenusRes(menus)
+	return menusRes, err
+}
+
+func (s *menuService) FindAllUnscoped(q *model.QueryParamMenu) ([]*dto.MenuRes, error) {
+	validateQueryParamMenu(q)
+
+	tx := s.db.Begin()
+	menus, err := s.menuRepository.FindAllUnscoped(tx, q)
 	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.InternalServerError(err.Error())

@@ -85,6 +85,29 @@ func (_m *MenuService) FindAll(q *model.QueryParamMenu) ([]*dto.MenuRes, error) 
 	return r0, r1
 }
 
+// FindAllUnscoped provides a mock function with given fields: q
+func (_m *MenuService) FindAllUnscoped(q *model.QueryParamMenu) ([]*dto.MenuRes, error) {
+	ret := _m.Called(q)
+
+	var r0 []*dto.MenuRes
+	if rf, ok := ret.Get(0).(func(*model.QueryParamMenu) []*dto.MenuRes); ok {
+		r0 = rf(q)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*dto.MenuRes)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(*model.QueryParamMenu) error); ok {
+		r1 = rf(q)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetMenuDetail provides a mock function with given fields: id
 func (_m *MenuService) GetMenuDetail(id uint) (*dto.MenuDetailRes, error) {
 	ret := _m.Called(id)

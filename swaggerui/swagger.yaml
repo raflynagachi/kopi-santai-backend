@@ -260,6 +260,7 @@ paths:
                   - id: 3
                     categoryID: 1
                     categoryName: Coffee
+                    deletedAt: null
                     name: Coffee Milk With Brown Sugar
                     price: 25000
                     image: image-byte64
@@ -298,6 +299,7 @@ paths:
                   id: 12
                   categoryID: 2
                   categoryName: Non-Coffee
+                  deletedAt: null
                   name: Milk tea
                   price: 15000
                   image: image-byte64
@@ -348,6 +350,7 @@ paths:
                     id: 2
                     categoryID: 1
                     categoryName: Coffee
+                    deletedAt: null
                     name: Cappuccino
                     price: 24000
                     image: image-byte64
@@ -455,6 +458,7 @@ paths:
                   id: 5
                   categoryID: 2
                   categoryName: Non-Coffee
+                  deletedAt: null
                   name: Lemon tea
                   price: 15000
                   image: images-byte64
@@ -477,6 +481,57 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ForbiddenError'
+  /internal/menus:
+    get:
+      tags:
+        - Menu
+      summary: FindAllMenusUnscoped
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+          example: CofFee
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          example: price
+        - name: sort
+          in: query
+          schema:
+            type: string
+          example: desc
+        - name: search
+          in: query
+          schema:
+            type: string
+          example: milk
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - id: 3
+                    categoryID: 1
+                    categoryName: Coffee
+                    deletedAt: '2021-08-21T17:59:59Z'
+                    name: Coffee Milk With Brown Sugar
+                    price: 25000
+                    image: image-byte64
+                    rating: 0
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
   /order-items:
     post:
       tags:
@@ -506,6 +561,7 @@ paths:
                     id: 1
                     categoryID: 2
                     categoryName: Non-Coffee
+                    deletedAt: null
                     name: Lemon tea
                     price: 15000
                     image: images-byte64
@@ -543,6 +599,7 @@ paths:
                       id: 1
                       categoryID: 2
                       categoryName: Non-Coffee
+                      deletedAt: null
                       name: Lemon tea
                       price: 15000
                       image: images-byte64
@@ -597,6 +654,7 @@ paths:
                     id: 1
                     categoryID: 2
                     categoryName: Non-Coffee
+                    deletedAt: null
                     name: Lemon tea
                     price: 15000
                     image: images-byte64
@@ -714,6 +772,7 @@ paths:
                         id: 8
                         categoryID: 3
                         categoryName: Bread
+                        deletedAt: null
                         name: Choco Pan De
                         price: 24000
                         image: images-byte64
@@ -780,6 +839,7 @@ paths:
                           id: 1
                           categoryID: 2
                           categoryName: Non-Coffee
+                          deletedAt: null
                           name: Lemon tea
                           price: 15000
                           image: images-byte64
@@ -803,6 +863,7 @@ paths:
                           id: 1
                           categoryID: 2
                           categoryName: Non-Coffee
+                          deletedAt: null
                           name: Lemon tea
                           price: 15000
                           image: images-byte64
@@ -826,6 +887,7 @@ paths:
                           id: 2
                           categoryID: 1
                           categoryName: Coffee
+                          deletedAt: null
                           name: Cappuccino
                           price: 24000
                           image: images-byte64
@@ -849,6 +911,7 @@ paths:
                           id: 8
                           categoryID: 3
                           categoryName: Bread
+                          deletedAt: null
                           name: Choco Pan De
                           price: 24000
                           image: images-byte64
@@ -912,6 +975,7 @@ paths:
                           id: 2
                           categoryID: 1
                           categoryName: Coffee
+                          deletedAt: null
                           name: Cappuccino
                           price: 24000
                           image: images-byte64
@@ -935,6 +999,7 @@ paths:
                           id: 1
                           categoryID: 2
                           categoryName: Non-Coffee
+                          deletedAt: null
                           name: Lemon tea
                           price: 15000
                           image: images-byte64
@@ -962,6 +1027,7 @@ paths:
                           id: 1
                           categoryID: 2
                           categoryName: Non-Coffee
+                          deletedAt: null
                           name: Lemon tea
                           price: 15000
                           image: images-byte64
@@ -989,6 +1055,7 @@ paths:
                           id: 1
                           categoryID: 2
                           categoryName: Non-Coffee
+                          deletedAt: null
                           name: Lemon tea
                           price: 15000
                           image: images-byte64
@@ -1012,6 +1079,7 @@ paths:
                           id: 1
                           categoryID: 2
                           categoryName: Non-Coffee
+                          deletedAt: null
                           name: Lemon tea
                           price: 15000
                           image: images-byte64
@@ -1035,6 +1103,7 @@ paths:
                           id: 2
                           categoryID: 1
                           categoryName: Coffee
+                          deletedAt: null
                           name: Cappuccino
                           price: 24000
                           image: images-byte64
@@ -1058,6 +1127,7 @@ paths:
                           id: 8
                           categoryID: 3
                           categoryName: Bread
+                          deletedAt: null
                           name: Choco Pan De
                           price: 24000
                           image: images-byte64
@@ -1133,6 +1203,7 @@ paths:
                         id: 1
                         categoryID: 2
                         categoryName: Non-Coffee
+                        deletedAt: null
                         name: Lemon tea
                         price: 15000
                         image: images-byte64

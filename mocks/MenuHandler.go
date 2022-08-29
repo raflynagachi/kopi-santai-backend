@@ -28,6 +28,11 @@ func (_m *MenuHandler) FindAll(c *gin.Context) {
 	_m.Called(c)
 }
 
+// FindAllUnscoped provides a mock function with given fields: c
+func (_m *MenuHandler) FindAllUnscoped(c *gin.Context) {
+	_m.Called(c)
+}
+
 // GetMenuDetail provides a mock function with given fields: c
 func (_m *MenuHandler) GetMenuDetail(c *gin.Context) {
 	_m.Called(c)
