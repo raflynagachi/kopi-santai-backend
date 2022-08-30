@@ -57,6 +57,8 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 
 	r.GET("/menus", menuHandler.FindAll)
 	r.GET("/menus/:id", middleware.ParamIDValidator, menuHandler.GetMenuDetail)
+	r.GET("/promotions", promoHandler.FindAll)
+	r.GET("/categories", categoryHandler.FindAll)
 
 	r.Use(middleware.AuthorizeJWT)
 	r.Use(middleware.AuthorizeUser)
@@ -65,7 +67,6 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 
 	r.GET("/coupons", couponHandler.FindCouponByUserID)
 	r.GET("/payment-options", paymentOptHandler.FindAll)
-	r.GET("/categories", categoryHandler.FindAll)
 
 	r.POST("/order-items", middleware.RequestValidator(&dto.OrderItemPostReq{}), orderItemHandler.CreateOrderItem)
 	r.GET("/order-items", orderItemHandler.FindOrderItemByUserID)
@@ -98,6 +99,5 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	// ADMIN coupon and promo
 	r.POST("/coupons", middleware.RequestValidator(&dto.CouponPostReq{}), couponHandler.Create)
 	r.DELETE("/coupons/:id", middleware.ParamIDValidator, couponHandler.DeleteByID)
-	r.GET("/promotions", promoHandler.FindAll)
 	return r
 }
