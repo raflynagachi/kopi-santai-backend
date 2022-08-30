@@ -60,6 +60,29 @@ func (_m *CouponService) DeleteByID(id uint) (gin.H, error) {
 	return r0, r1
 }
 
+// FindAll provides a mock function with given fields:
+func (_m *CouponService) FindAll() ([]*dto.CouponRes, error) {
+	ret := _m.Called()
+
+	var r0 []*dto.CouponRes
+	if rf, ok := ret.Get(0).(func() []*dto.CouponRes); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*dto.CouponRes)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func() error); ok {
+		r1 = rf()
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // FindCouponByUserID provides a mock function with given fields: userID
 func (_m *CouponService) FindCouponByUserID(userID uint) ([]*dto.CouponRes, error) {
 	ret := _m.Called(userID)

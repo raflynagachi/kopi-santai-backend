@@ -23,10 +23,9 @@ func TestCouponHandler_Create(t *testing.T) {
 			Amount: 30,
 		}
 		couponRes := dto.CouponRes{
-			ID:          1,
-			Name:        payload.Name,
-			Amount:      payload.Amount,
-			IsAvailable: true,
+			ID:     1,
+			Name:   payload.Name,
+			Amount: payload.Amount,
 		}
 		mockService.On("Create", &payload).Return(&couponRes, nil)
 		expectedBody, _ := json.Marshal(dto.StatusOKResponse(couponRes))
@@ -64,10 +63,9 @@ func TestCouponHandler_FindCouponByUserID(t *testing.T) {
 		mockService := new(mocks.CouponService)
 		config := server.RouterConfig{CouponService: mockService}
 		couponRes := []*dto.CouponRes{{
-			ID:          1,
-			Name:        "Special Discount HUT Kopi Santai",
-			Amount:      30,
-			IsAvailable: true,
+			ID:     1,
+			Name:   "Special Discount HUT Kopi Santai",
+			Amount: 30,
 		}}
 		userID := uint(1)
 		mockService.On("FindCouponByUserID", userID).Return(couponRes, nil)
@@ -89,6 +87,40 @@ func TestCouponHandler_FindCouponByUserID(t *testing.T) {
 		expectedBody, _ := json.Marshal(internalServerErr)
 
 		req, _ := http.NewRequest(http.MethodGet, "/coupons", nil)
+		_, w := testutils.ServeReq(&config, req)
+
+		assert.Equal(t, http.StatusInternalServerError, w.Code)
+		assert.Equal(t, string(expectedBody), w.Body.String())
+	})
+}
+
+func TestCouponHandler_FindAll(t *testing.T) {
+	t.Run("should return statusOK when find all coupon success", func(t *testing.T) {
+		mockService := new(mocks.CouponService)
+		config := server.RouterConfig{CouponService: mockService}
+		couponRes := []*dto.CouponRes{{
+			ID:     1,
+			Name:   "Special Discount HUT Kopi Santai",
+			Amount: 30,
+		}}
+		mockService.On("FindAll").Return(couponRes, nil)
+		expectedBody, _ := json.Marshal(dto.StatusOKResponse(couponRes))
+
+		req, _ := http.NewRequest(http.MethodGet, "/internal/coupons", nil)
+		_, w := testutils.ServeReq(&config, req)
+
+		assert.Equal(t, http.StatusOK, w.Code)
+		assert.Equal(t, string(expectedBody), w.Body.String())
+	})
+
+	t.Run("should return error when find all coupon failed", func(t *testing.T) {
+		mockService := new(mocks.CouponService)
+		config := server.RouterConfig{CouponService: mockService}
+		internalServerErr := apperror.InternalServerError(errors.New("db error").Error())
+		mockService.On("FindAll").Return(nil, internalServerErr)
+		expectedBody, _ := json.Marshal(internalServerErr)
+
+		req, _ := http.NewRequest(http.MethodGet, "/internal/coupons", nil)
 		_, w := testutils.ServeReq(&config, req)
 
 		assert.Equal(t, http.StatusInternalServerError, w.Code)

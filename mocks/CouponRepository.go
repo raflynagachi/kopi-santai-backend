@@ -122,6 +122,29 @@ func (_m *CouponRepository) DeleteUserCouponByCouponID(tx *gorm.DB, couponID uin
 	return r0, r1
 }
 
+// FindAll provides a mock function with given fields: tx
+func (_m *CouponRepository) FindAll(tx *gorm.DB) ([]*model.Coupon, error) {
+	ret := _m.Called(tx)
+
+	var r0 []*model.Coupon
+	if rf, ok := ret.Get(0).(func(*gorm.DB) []*model.Coupon); ok {
+		r0 = rf(tx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*model.Coupon)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(*gorm.DB) error); ok {
+		r1 = rf(tx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // FindByID provides a mock function with given fields: tx, id
 func (_m *CouponRepository) FindByID(tx *gorm.DB, id uint) (*model.Coupon, error) {
 	ret := _m.Called(tx, id)

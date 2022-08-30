@@ -10,6 +10,7 @@ import (
 type CouponHandler interface {
 	Create(c *gin.Context)
 	FindCouponByUserID(c *gin.Context)
+	FindAll(c *gin.Context)
 	DeleteByID(c *gin.Context)
 }
 
@@ -44,6 +45,16 @@ func (h *couponHandler) FindCouponByUserID(c *gin.Context) {
 	userID := userPayload.(*dto.UserJWT).ID
 
 	userCouponRes, err := h.couponService.FindCouponByUserID(userID)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.StatusOKResponse(userCouponRes))
+}
+
+func (h *couponHandler) FindAll(c *gin.Context) {
+	userCouponRes, err := h.couponService.FindAll()
 	if err != nil {
 		_ = c.Error(err)
 		return

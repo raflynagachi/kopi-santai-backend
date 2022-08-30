@@ -9,6 +9,7 @@ import (
 
 type CouponRepository interface {
 	FindByID(tx *gorm.DB, id uint) (*model.Coupon, error)
+	FindAll(tx *gorm.DB) ([]*model.Coupon, error)
 	Create(tx *gorm.DB, c *model.Coupon) (*model.Coupon, error)
 	AddCouponToUser(tx *gorm.DB, uc *model.UserCoupon) (*model.UserCoupon, error)
 	FindUserCouponByCouponID(tx *gorm.DB, id, userID uint) (*model.UserCoupon, error)
@@ -26,7 +27,13 @@ func NewCoupon() CouponRepository {
 
 func (r *couponRepository) FindByID(tx *gorm.DB, id uint) (*model.Coupon, error) {
 	var coupon *model.Coupon
-	err := tx.Where("is_available = true").First(&coupon, id).Error
+	err := tx.First(&coupon, id).Error
+	return coupon, err
+}
+
+func (r *couponRepository) FindAll(tx *gorm.DB) ([]*model.Coupon, error) {
+	var coupon []*model.Coupon
+	err := tx.Unscoped().Find(&coupon).Error
 	return coupon, err
 }
 
@@ -78,7 +85,7 @@ func (r *couponRepository) DeleteUserCouponByCouponID(tx *gorm.DB, couponID uint
 
 func (r *couponRepository) DeleteByID(tx *gorm.DB, id uint) (bool, error) {
 	var deletedCoupon *model.Coupon
-	err := tx.Delete(&deletedCoupon, id).Error
+	err := tx.First(&deletedCoupon, id).Update("is_available", "false").Delete(&deletedCoupon, id).Error
 	if err != nil {
 		return false, err
 	}

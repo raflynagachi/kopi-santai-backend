@@ -23,6 +23,11 @@ func (_m *CouponHandler) DeleteByID(c *gin.Context) {
 	_m.Called(c)
 }
 
+// FindAll provides a mock function with given fields: c
+func (_m *CouponHandler) FindAll(c *gin.Context) {
+	_m.Called(c)
+}
+
 // FindCouponByUserID provides a mock function with given fields: c
 func (_m *CouponHandler) FindCouponByUserID(c *gin.Context) {
 	_m.Called(c)

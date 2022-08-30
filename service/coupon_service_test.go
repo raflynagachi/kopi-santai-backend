@@ -15,9 +15,8 @@ import (
 )
 
 var coupon = model.Coupon{
-	Name:        "Santai Coupon",
-	Amount:      20,
-	IsAvailable: true,
+	Name:   "Santai Coupon",
+	Amount: 20,
 }
 
 func TestCouponService_Create(t *testing.T) {
@@ -33,10 +32,9 @@ func TestCouponService_Create(t *testing.T) {
 		couponCreated := coupon
 		couponCreated.ID = 1
 		expectedRes := &dto.CouponRes{
-			ID:          1,
-			Name:        "Santai Coupon",
-			Amount:      20,
-			IsAvailable: true,
+			ID:     1,
+			Name:   "Santai Coupon",
+			Amount: 20,
 		}
 		mockRepository.On("Create", mock.AnythingOfType(testutils.GormDBPointerType), &coupon).Return(&couponCreated, nil)
 
@@ -97,6 +95,37 @@ func TestCouponService_FindCouponByUserID(t *testing.T) {
 		expectedErr := apperror.InternalServerError(dbErr.Error())
 
 		_, err := s.FindCouponByUserID(uint(1))
+
+		assert.Equal(t, expectedErr, err)
+		assert.ErrorContains(t, err, expectedErr.Error())
+	})
+}
+
+func TestCouponService_FindAll(t *testing.T) {
+	t.Run("should return response when find all coupon success", func(t *testing.T) {
+		gormDB := testutils.MockDB()
+		mockRepository := new(mocks.CouponRepository)
+		couponConfig := &service.CouponConfig{DB: gormDB, CouponRepo: mockRepository}
+		s := service.NewCoupon(couponConfig)
+		expectedRes := []*dto.CouponRes{{}}
+		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType)).Return([]*model.Coupon{{}}, nil)
+
+		actualRes, err := s.FindAll()
+
+		assert.Nil(t, err)
+		assert.Equal(t, expectedRes, actualRes)
+	})
+
+	t.Run("should return error when find all coupon failed", func(t *testing.T) {
+		gormDB := testutils.MockDB()
+		mockRepository := new(mocks.CouponRepository)
+		couponConfig := &service.CouponConfig{DB: gormDB, CouponRepo: mockRepository}
+		s := service.NewCoupon(couponConfig)
+		dbErr := errors.New("db error")
+		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType)).Return(nil, dbErr)
+		expectedErr := apperror.InternalServerError(dbErr.Error())
+
+		_, err := s.FindAll()
 
 		assert.Equal(t, expectedErr, err)
 		assert.ErrorContains(t, err, expectedErr.Error())

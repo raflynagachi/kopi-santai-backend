@@ -12,6 +12,7 @@ import (
 
 type CouponService interface {
 	Create(req *dto.CouponPostReq) (*dto.CouponRes, error)
+	FindAll() ([]*dto.CouponRes, error)
 	FindCouponByUserID(userID uint) ([]*dto.CouponRes, error)
 	DeleteByID(id uint) (gin.H, error)
 }
@@ -35,9 +36,8 @@ func NewCoupon(c *CouponConfig) CouponService {
 
 func (s *couponService) Create(req *dto.CouponPostReq) (*dto.CouponRes, error) {
 	c := &model.Coupon{
-		Name:        req.Name,
-		Amount:      req.Amount,
-		IsAvailable: true,
+		Name:   req.Name,
+		Amount: req.Amount,
 	}
 
 	tx := s.db.Begin()
@@ -63,6 +63,24 @@ func (s *couponService) FindCouponByUserID(userID uint) ([]*dto.CouponRes, error
 	for _, promo := range promos {
 		if promo.Coupon != nil {
 			couponRes = append(couponRes, new(dto.CouponRes).FromCoupon(promo.Coupon))
+		}
+	}
+
+	return couponRes, nil
+}
+
+func (s *couponService) FindAll() ([]*dto.CouponRes, error) {
+	tx := s.db.Begin()
+	coupons, err := s.couponRepo.FindAll(tx)
+	helper.CommitOrRollback(tx, err)
+	if err != nil {
+		return nil, apperror.InternalServerError(err.Error())
+	}
+
+	var couponRes []*dto.CouponRes
+	for _, coupon := range coupons {
+		if coupon != nil {
+			couponRes = append(couponRes, new(dto.CouponRes).FromCoupon(coupon))
 		}
 	}
 
