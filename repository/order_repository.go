@@ -29,7 +29,9 @@ func (r *orderRepository) CreateOrder(tx *gorm.DB, o *model.Order) (*model.Order
 func (r *orderRepository) FindAll(tx *gorm.DB, t *time.Time) ([]*model.Order, error) {
 	var orders []*model.Order
 
-	result := tx.Preload("Coupon").Preload("Delivery").Preload("PaymentOption").Where("ordered_date BETWEEN ? AND ?", t, time.Now()).Find(&orders)
+	result := tx.Preload("Coupon", func(db *gorm.DB) *gorm.DB {
+		return db.Unscoped()
+	}).Preload("Delivery").Preload("PaymentOption").Where("ordered_date BETWEEN ? AND ?", t, time.Now()).Find(&orders)
 	if result.Error != nil && result.RowsAffected == 0 {
 		return nil, new(apperror.OrderNotFoundError)
 	}
@@ -38,7 +40,9 @@ func (r *orderRepository) FindAll(tx *gorm.DB, t *time.Time) ([]*model.Order, er
 
 func (r *orderRepository) FindOrderByIDAndUserID(tx *gorm.DB, id, userID uint) (*model.Order, error) {
 	var o *model.Order
-	result := tx.Preload("Coupon").Preload("Delivery").Preload("PaymentOption").Where("user_id = ?", userID).First(&o, id)
+	result := tx.Preload("Coupon", func(db *gorm.DB) *gorm.DB {
+		return db.Unscoped()
+	}).Preload("Delivery").Preload("PaymentOption").Where("user_id = ?", userID).First(&o, id)
 	if result.Error != nil && result.RowsAffected == 0 {
 		return nil, new(apperror.OrderNotFoundError)
 	}
@@ -48,7 +52,9 @@ func (r *orderRepository) FindOrderByIDAndUserID(tx *gorm.DB, id, userID uint) (
 func (r *orderRepository) FindOrderByUserID(tx *gorm.DB, userID uint) ([]*model.Order, error) {
 	var orders []*model.Order
 
-	result := tx.Preload("Coupon").Preload("Delivery").Preload("PaymentOption").Where("user_id = ?", userID).Find(&orders)
+	result := tx.Preload("Coupon", func(db *gorm.DB) *gorm.DB {
+		return db.Unscoped()
+	}).Preload("Delivery").Preload("PaymentOption").Where("user_id = ?", userID).Find(&orders)
 	if result.Error != nil && result.RowsAffected == 0 {
 		return nil, new(apperror.OrderNotFoundError)
 	}
