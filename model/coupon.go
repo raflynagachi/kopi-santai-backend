@@ -6,10 +6,9 @@ import (
 
 type Coupon struct {
 	gorm.Model
-	ID          uint `gorm:"primaryKey"`
-	Name        string
-	Amount      float64
-	IsAvailable bool
+	ID     uint `gorm:"primaryKey"`
+	Name   string
+	Amount float64
 }
 
 func (c *Coupon) TableName() string {
