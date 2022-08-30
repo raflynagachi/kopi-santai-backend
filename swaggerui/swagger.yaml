@@ -148,11 +148,11 @@ paths:
                     - id: 1
                       name: Discount 10%
                       amount: 10
-                      isAvailable: true
+                      deletedAt: null
                     - id: 2
                       name: Discount 5%
                       amount: 5
-                      isAvailable: true
+                      deletedAt: null
         '401':
           description: Unauthorized Error
           content:
@@ -760,7 +760,7 @@ paths:
                     id: 1
                     name: Discount 10%
                     amount: 10
-                    isAvailable: true
+                    deletedAt: null
                   delivery:
                     deliveryDate: '2021-08-21T17:59:59Z'
                     status: IN PROCESS
@@ -827,7 +827,7 @@ paths:
                       id: 1
                       name: Discount 10%
                       amount: 10
-                      isAvailable: true
+                      deletedAt: null
                     delivery:
                       deliveryDate: '2021-08-21T17:59:59Z'
                       status: IN PROCESS
@@ -1015,7 +1015,7 @@ paths:
                       id: 1
                       name: Discount 10%
                       amount: 10
-                      isAvailable: true
+                      deletedAt: null
                     delivery:
                       deliveryDate: '2021-08-21T17:59:59Z'
                       status: NO DELIVERY YET
@@ -1043,7 +1043,7 @@ paths:
                       id: 1
                       name: Discount 10%
                       amount: 10
-                      isAvailable: true
+                      deletedAt: null
                     delivery:
                       deliveryDate: '2021-08-21T17:59:59Z'
                       status: IN PROCESS
@@ -1191,7 +1191,7 @@ paths:
                     id: 1
                     name: Discount 10%
                     amount: 10
-                    isAvailable: true
+                    deletedAt: null
                   delivery:
                     deliveryDate: '2021-08-21T17:59:59Z'
                     status: IN PROCESS
@@ -1349,7 +1349,7 @@ paths:
                   id: 5
                   name: Special Discount HUT Kopi Santai
                   amount: 30
-                  isAvailable: true
+                  deletedAt: null
         '400':
           description: Bad Request Error
           content:
@@ -1380,15 +1380,15 @@ paths:
                   - id: 2
                     name: Discount 5%
                     amount: 5
-                    isAvailable: true
+                    deletedAt: null
                   - id: 1
                     name: Discount 10%
                     amount: 10
-                    isAvailable: true
+                    deletedAt: null
                   - id: 1
                     name: Discount 10%
                     amount: 10
-                    isAvailable: true
+                    deletedAt: null
         '401':
           description: Unauthorized Error
           content:
@@ -1594,7 +1594,7 @@ paths:
                     id: 1
                     name: Discount 10%
                     amount: 10
-                    isAvailable: true
+                    deletedAt: null
         '400':
           description: Bad Request
           content:
@@ -1641,7 +1641,7 @@ paths:
                       id: 1
                       name: Discount 10%
                       amount: 10
-                      isAvailable: true
+                      deletedAt: null
         '401':
           description: Unauthorized Error
           content:
