@@ -1241,6 +1241,8 @@ paths:
               example:
                 menuID: 1
                 rating: 5
+                userID: 1
+                userEmail: charlie.doe@mail.com
                 description: Mantap
       responses:
         '200':
@@ -1257,6 +1259,8 @@ paths:
                   menuID: 1
                   description: Mantap
                   rating: 5
+                  userID: 1
+                  userEmail: charlie.doe@mail.com
 
         '400':
           description: Bad Request Error
@@ -1304,6 +1308,8 @@ paths:
                   menuID: 1
                   description: Mantap
                   rating: 5
+                  userID: 1
+                  userEmail: charlie.doe@mail.com
         '400':
           description: Bad Request Error
           content:

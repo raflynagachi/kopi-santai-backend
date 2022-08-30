@@ -9,6 +9,7 @@ type Review struct {
 	MenuID      uint `gorm:"primaryKey"`
 	Description string
 	Rating      float64
+	User        *User
 }
 
 func (_ *Review) TableName() string {

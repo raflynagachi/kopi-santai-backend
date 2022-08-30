@@ -29,7 +29,7 @@ func (r *reviewRepository) Create(tx *gorm.DB, review *model.Review) (*model.Rev
 
 func (r *reviewRepository) FindByMenuID(tx *gorm.DB, menuID uint) ([]*model.Review, error) {
 	var reviews []*model.Review
-	result := tx.Where("menu_id = ?", menuID).Find(&reviews)
+	result := tx.Preload("User").Where("menu_id = ?", menuID).Find(&reviews)
 	if result.RowsAffected == 0 {
 		return nil, new(apperror.ReviewNotFoundError)
 	}

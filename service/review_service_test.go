@@ -22,9 +22,9 @@ func TestReviewService_Create(t *testing.T) {
 			ReviewRepo: mockRepository,
 		}
 		s := service.NewReview(cfg)
-		expectedRes := &dto.ReviewRes{}
+		expectedRes := &dto.ReviewRes{UserID: 1}
 		req := &dto.ReviewPostReq{}
-		mockRepository.On("Create", mock.AnythingOfType(testutils.GormDBPointerType), &model.Review{UserID: 1}).Return(&model.Review{}, nil)
+		mockRepository.On("Create", mock.AnythingOfType(testutils.GormDBPointerType), &model.Review{UserID: 1}).Return(&model.Review{UserID: 1, User: &model.User{}}, nil)
 
 		actualRes, err := s.Create(req, uint(1))
 
@@ -62,7 +62,7 @@ func TestReviewService_FindByMenuID(t *testing.T) {
 		}
 		s := service.NewReview(cfg)
 		expectedRes := []*dto.ReviewRes{{}}
-		mockRepository.On("FindByMenuID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return([]*model.Review{{}}, nil)
+		mockRepository.On("FindByMenuID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return([]*model.Review{{User: &model.User{}}}, nil)
 
 		actualRes, err := s.FindByMenuID(uint(1))
 
