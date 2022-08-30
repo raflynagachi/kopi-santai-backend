@@ -36,6 +36,29 @@ func (_m *PromotionRepository) FindAll(tx *gorm.DB) ([]*model.Promotion, error) 
 	return r0, r1
 }
 
+// FindAllUnscoped provides a mock function with given fields: tx
+func (_m *PromotionRepository) FindAllUnscoped(tx *gorm.DB) ([]*model.Promotion, error) {
+	ret := _m.Called(tx)
+
+	var r0 []*model.Promotion
+	if rf, ok := ret.Get(0).(func(*gorm.DB) []*model.Promotion); ok {
+		r0 = rf(tx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*model.Promotion)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(*gorm.DB) error); ok {
+		r1 = rf(tx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // FindByMinSpent provides a mock function with given fields: tx, spent
 func (_m *PromotionRepository) FindByMinSpent(tx *gorm.DB, spent uint) ([]*model.Promotion, error) {
 	ret := _m.Called(tx, spent)

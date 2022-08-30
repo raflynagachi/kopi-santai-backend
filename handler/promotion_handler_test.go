@@ -48,3 +48,39 @@ func TestPromotionHandler_FindAll(t *testing.T) {
 		assert.Equal(t, string(expectedBody), w.Body.String())
 	})
 }
+
+func TestPromotionHandler_FindAllUnscoped(t *testing.T) {
+	t.Run("should return statusOK when find all promotion unscoped success", func(t *testing.T) {
+		mockService := new(mocks.PromotionService)
+		config := server.RouterConfig{PromoService: mockService}
+		res := []*dto.PromotionRes{{
+			Name:        "HUT RI promo",
+			Description: "promo nih",
+			Image:       []byte("sample"),
+			MinSpent:    30000,
+			Coupon:      &dto.CouponRes{},
+		}}
+		mockService.On("FindAllUnscoped").Return(res, nil)
+		expectedBody, _ := json.Marshal(dto.StatusOKResponse(res))
+
+		req, _ := http.NewRequest(http.MethodGet, "/internal/promotions", nil)
+		_, w := testutils.ServeReq(&config, req)
+
+		assert.Equal(t, http.StatusOK, w.Code)
+		assert.Equal(t, string(expectedBody), w.Body.String())
+	})
+
+	t.Run("should return error when find all promotion unscoped failed", func(t *testing.T) {
+		mockService := new(mocks.PromotionService)
+		config := server.RouterConfig{PromoService: mockService}
+		internalServerErr := apperror.InternalServerError(errors.New("db error").Error())
+		mockService.On("FindAllUnscoped").Return(nil, internalServerErr)
+		expectedBody, _ := json.Marshal(internalServerErr)
+
+		req, _ := http.NewRequest(http.MethodGet, "/internal/promotions", nil)
+		_, w := testutils.ServeReq(&config, req)
+
+		assert.Equal(t, http.StatusInternalServerError, w.Code)
+		assert.Equal(t, string(expectedBody), w.Body.String())
+	})
+}

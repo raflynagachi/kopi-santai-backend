@@ -88,6 +88,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.GET("/internal/orders", orderHandler.FindAll)
 	r.GET("/internal/coupons", couponHandler.FindAll)
 	r.GET("/internal/menus", menuHandler.FindAllUnscoped)
+	r.GET("/internal/promotions", promoHandler.FindAllUnscoped)
 	r.PATCH("/deliveries/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.DeliveryUpdateStatusReq{}), deliveryHandler.UpdateStatus)
 
 	// ADMIN menu and review

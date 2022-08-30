@@ -10,6 +10,7 @@ import (
 
 type PromotionService interface {
 	FindAll() ([]*dto.PromotionRes, error)
+	FindAllUnscoped() ([]*dto.PromotionRes, error)
 }
 
 type promotionService struct {
@@ -32,6 +33,24 @@ func NewPromo(c *PromoConfig) PromotionService {
 func (s *promotionService) FindAll() ([]*dto.PromotionRes, error) {
 	tx := s.db.Begin()
 	promos, err := s.promoRepo.FindAll(tx)
+	helper.CommitOrRollback(tx, err)
+	if err != nil {
+		return nil, apperror.InternalServerError(err.Error())
+	}
+
+	var promosRes []*dto.PromotionRes
+	for _, promo := range promos {
+		if promo.Coupon != nil {
+			promosRes = append(promosRes, new(dto.PromotionRes).FromPromotion(promo))
+		}
+	}
+
+	return promosRes, nil
+}
+
+func (s *promotionService) FindAllUnscoped() ([]*dto.PromotionRes, error) {
+	tx := s.db.Begin()
+	promos, err := s.promoRepo.FindAllUnscoped(tx)
 	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return nil, apperror.InternalServerError(err.Error())

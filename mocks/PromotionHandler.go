@@ -18,6 +18,11 @@ func (_m *PromotionHandler) FindAll(c *gin.Context) {
 	_m.Called(c)
 }
 
+// FindAllUnscoped provides a mock function with given fields: c
+func (_m *PromotionHandler) FindAllUnscoped(c *gin.Context) {
+	_m.Called(c)
+}
+
 type mockConstructorTestingTNewPromotionHandler interface {
 	mock.TestingT
 	Cleanup(func())

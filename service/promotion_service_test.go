@@ -53,3 +53,44 @@ func TestPromotionService_FindAll(t *testing.T) {
 		assert.ErrorContains(t, err, expectedErr.Error())
 	})
 }
+
+func TestPromotionService_FindAllUnscoped(t *testing.T) {
+	t.Run("should return response when find all promotion unscoped success", func(t *testing.T) {
+		gormDB := testutils.MockDB()
+		mockRepository := new(mocks.PromotionRepository)
+		cfg := &service.PromoConfig{
+			DB:        gormDB,
+			PromoRepo: mockRepository,
+		}
+		s := service.NewPromo(cfg)
+		expectedRes := []*dto.PromotionRes{{
+			Coupon: &dto.CouponRes{},
+		}}
+		mockRepository.On("FindAllUnscoped", mock.AnythingOfType(testutils.GormDBPointerType)).Return([]*model.Promotion{{
+			Coupon: &model.Coupon{},
+		}}, nil)
+
+		menuRes, err := s.FindAllUnscoped()
+
+		assert.Nil(t, err)
+		assert.Equal(t, expectedRes, menuRes)
+	})
+
+	t.Run("should return error when find all promotion unscoped failed", func(t *testing.T) {
+		gormDB := testutils.MockDB()
+		mockRepository := new(mocks.PromotionRepository)
+		cfg := &service.PromoConfig{
+			DB:        gormDB,
+			PromoRepo: mockRepository,
+		}
+		s := service.NewPromo(cfg)
+		dbErr := errors.New("db error")
+		mockRepository.On("FindAllUnscoped", mock.AnythingOfType(testutils.GormDBPointerType)).Return(nil, dbErr)
+		expectedErr := apperror.InternalServerError(dbErr.Error())
+
+		_, err := s.FindAllUnscoped()
+
+		assert.Equal(t, expectedErr, err)
+		assert.ErrorContains(t, err, expectedErr.Error())
+	})
+}

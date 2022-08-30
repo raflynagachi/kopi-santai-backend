@@ -9,6 +9,7 @@ import (
 
 type PromotionHandler interface {
 	FindAll(c *gin.Context)
+	FindAllUnscoped(c *gin.Context)
 }
 
 type promotionHandler struct {
@@ -25,6 +26,16 @@ func NewPromo(c *PromoConfig) PromotionHandler {
 
 func (h *promotionHandler) FindAll(c *gin.Context) {
 	promoSRes, err := h.promoService.FindAll()
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.StatusOKResponse(promoSRes))
+}
+
+func (h *promotionHandler) FindAllUnscoped(c *gin.Context) {
+	promoSRes, err := h.promoService.FindAllUnscoped()
 	if err != nil {
 		_ = c.Error(err)
 		return

@@ -8,6 +8,7 @@ import (
 type PromotionRepository interface {
 	FindByMinSpent(tx *gorm.DB, spent uint) ([]*model.Promotion, error)
 	FindAll(tx *gorm.DB) ([]*model.Promotion, error)
+	FindAllUnscoped(tx *gorm.DB) ([]*model.Promotion, error)
 }
 
 type promotionRepository struct {
@@ -26,5 +27,13 @@ func (r *promotionRepository) FindByMinSpent(tx *gorm.DB, spent uint) ([]*model.
 func (r *promotionRepository) FindAll(tx *gorm.DB) ([]*model.Promotion, error) {
 	var p []*model.Promotion
 	result := tx.Preload("Coupon").Find(&p)
+	return p, result.Error
+}
+
+func (r *promotionRepository) FindAllUnscoped(tx *gorm.DB) ([]*model.Promotion, error) {
+	var p []*model.Promotion
+	result := tx.Preload("Coupon", func(db *gorm.DB) *gorm.DB {
+		return db.Unscoped()
+	}).Find(&p)
 	return p, result.Error
 }
