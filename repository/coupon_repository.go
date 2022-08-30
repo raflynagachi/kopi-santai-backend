@@ -85,7 +85,7 @@ func (r *couponRepository) DeleteUserCouponByCouponID(tx *gorm.DB, couponID uint
 
 func (r *couponRepository) DeleteByID(tx *gorm.DB, id uint) (bool, error) {
 	var deletedCoupon *model.Coupon
-	err := tx.First(&deletedCoupon, id).Update("is_available", "false").Delete(&deletedCoupon, id).Error
+	err := tx.Delete(&deletedCoupon, id).Error
 	if err != nil {
 		return false, err
 	}
