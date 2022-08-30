@@ -20,7 +20,7 @@ func NewReview() ReviewRepository {
 }
 
 func (r *reviewRepository) Create(tx *gorm.DB, review *model.Review) (*model.Review, error) {
-	result := tx.Clauses(clause.OnConflict{DoNothing: true}).Create(&review)
+	result := tx.Clauses(clause.OnConflict{DoNothing: true}).Preload("User").Create(&review).First(&review)
 	if int(result.RowsAffected) == 0 {
 		return nil, new(apperror.ReviewCreatedError)
 	}
