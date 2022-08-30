@@ -43,7 +43,6 @@ create table coupons_tab(
     id bigserial primary key ,
     name varchar not null ,
     amount decimal not null ,
-    is_available bool default FALSE,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     deleted_at timestamp

@@ -2,7 +2,7 @@
 RESTful API Food Ordering System for Kopi Santai built with Golang and PostgreSQL.
 
 ### ER Diagram  
-https://dbdiagram.io/embed/6305fffcf1a9b01b0fd380d8
+https://dbdiagram.io/embed/630db2580911f91ba5f2fcd9
 
 ### Coverage
 ![Coverage](https://heroku.example.com/assets/docs/coverage.png "coverage")

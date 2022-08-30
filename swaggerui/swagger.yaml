@@ -1241,8 +1241,6 @@ paths:
               example:
                 menuID: 1
                 rating: 5
-                userID: 1
-                userEmail: charlie.doe@mail.com
                 description: Mantap
       responses:
         '200':
