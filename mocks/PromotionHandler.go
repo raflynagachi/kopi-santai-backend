@@ -13,6 +13,16 @@ type PromotionHandler struct {
 	mock.Mock
 }
 
+// CreatePromotion provides a mock function with given fields: c
+func (_m *PromotionHandler) CreatePromotion(c *gin.Context) {
+	_m.Called(c)
+}
+
+// DeletePromotionByID provides a mock function with given fields: c
+func (_m *PromotionHandler) DeletePromotionByID(c *gin.Context) {
+	_m.Called(c)
+}
+
 // FindAll provides a mock function with given fields: c
 func (_m *PromotionHandler) FindAll(c *gin.Context) {
 	_m.Called(c)

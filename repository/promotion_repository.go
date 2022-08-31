@@ -9,6 +9,8 @@ type PromotionRepository interface {
 	FindByMinSpent(tx *gorm.DB, spent uint) ([]*model.Promotion, error)
 	FindAll(tx *gorm.DB) ([]*model.Promotion, error)
 	FindAllUnscoped(tx *gorm.DB) ([]*model.Promotion, error)
+	Create(tx *gorm.DB, p *model.Promotion) (*model.Promotion, error)
+	Delete(tx *gorm.DB, id uint) (bool, error)
 }
 
 type promotionRepository struct {
@@ -36,4 +38,18 @@ func (r *promotionRepository) FindAllUnscoped(tx *gorm.DB) ([]*model.Promotion, 
 		return db.Unscoped()
 	}).Find(&p)
 	return p, result.Error
+}
+
+func (r *promotionRepository) Create(tx *gorm.DB, p *model.Promotion) (*model.Promotion, error) {
+	err := tx.Preload("Coupon").Create(&p).First(&p).Error
+	return p, err
+}
+
+func (r *promotionRepository) Delete(tx *gorm.DB, id uint) (bool, error) {
+	var deletedPromotion *model.Promotion
+	err := tx.Delete(&deletedPromotion, id).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }

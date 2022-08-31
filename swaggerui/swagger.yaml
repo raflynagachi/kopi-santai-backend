@@ -1637,15 +1637,111 @@ paths:
                 statusCode: 200
                 status: OK
                 data:
-                  - Name: Coupon Merdeka
-                    Description: Attractive coupon to get discount up to 10%
-                    Image:
-                    MinSpent: 20000
+                  - name: Coupon Merdeka
+                    description: Attractive coupon to get discount up to 10%
+                    image:
+                    minSpent: 20000
                     coupon:
                       id: 1
                       name: Discount 10%
                       amount: 10
                       deletedAt: null
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    post:
+      tags:
+        - Promotions
+      summary: CreatePromotion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                couponID: 1
+                name: Coupon Merderka
+                description: Attractive coupon to get discount up to 10%
+                image: image-base64
+                minSpent: 20000
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - name: Coupon Merdeka
+                    description: Attractive coupon to get discount up to 10%
+                    image:
+                    minSpent: 20000
+                    coupon:
+                      id: 1
+                      name: Discount 10%
+                      amount: 10
+                      deletedAt: null
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '403':
+          description: Forbidden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /promotions/{id}:
+    delete:
+      tags:
+        - Promotions
+      summary: DeletePromotionByID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          example: 1
+          description: Numeric ID of the promotion to get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  isDeleted: true
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '403':
+          description: Forbidden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
         '500':
           description: Internal Server Error
           content:
@@ -1677,10 +1773,10 @@ paths:
                       name: Discount 10%
                       amount: 10
                       deletedAt: null
-                  - Name: Coupon HUT RI
-                    Description: Attractive coupon to get discount up to 10%
-                    Image:
-                    MinSpent: 20000
+                  - name: Coupon HUT RI
+                    description: Attractive coupon to get discount up to 10%
+                    image:
+                    minSpent: 20000
                     coupon:
                       id: 1
                       name: Discount 10%

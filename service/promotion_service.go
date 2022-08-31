@@ -4,13 +4,17 @@ import (
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
+	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/repository"
+	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
 type PromotionService interface {
 	FindAll() ([]*dto.PromotionRes, error)
 	FindAllUnscoped() ([]*dto.PromotionRes, error)
+	CreatePromotion(req *dto.PromotionPostReq) (*dto.PromotionRes, error)
+	DeletePromotionByID(id uint) (gin.H, error)
 }
 
 type promotionService struct {
@@ -64,4 +68,35 @@ func (s *promotionService) FindAllUnscoped() ([]*dto.PromotionRes, error) {
 	}
 
 	return promosRes, nil
+}
+
+func (s *promotionService) CreatePromotion(req *dto.PromotionPostReq) (*dto.PromotionRes, error) {
+	p := &model.Promotion{
+		CouponID:    req.CouponID,
+		Name:        req.Name,
+		Description: req.Description,
+		Image:       req.Image,
+		MinSpent:    req.MinSpent,
+	}
+
+	tx := s.db.Begin()
+	promo, err := s.promoRepo.Create(tx, p)
+	helper.CommitOrRollback(tx, err)
+	if err != nil {
+		return nil, apperror.BadRequestError(err.Error())
+	}
+
+	promotionRes := new(dto.PromotionRes).FromPromotion(promo)
+	return promotionRes, nil
+}
+
+func (s *promotionService) DeletePromotionByID(id uint) (gin.H, error) {
+	tx := s.db.Begin()
+	isDeleted, err := s.promoRepo.Delete(tx, id)
+	helper.CommitOrRollback(tx, err)
+	if err != nil {
+		return gin.H{"isDeleted": false}, apperror.BadRequestError(err.Error())
+	}
+
+	return gin.H{"isDeleted": isDeleted}, nil
 }

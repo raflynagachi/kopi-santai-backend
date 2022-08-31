@@ -91,6 +91,10 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.GET("/internal/promotions", promoHandler.FindAllUnscoped)
 	r.PATCH("/deliveries/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.DeliveryUpdateStatusReq{}), deliveryHandler.UpdateStatus)
 
+	// ADMIN promotions
+	r.POST("/promotions", middleware.RequestValidator(&dto.PromotionPostReq{}), promoHandler.CreatePromotion)
+	r.DELETE("/promotions/:id", middleware.ParamIDValidator, promoHandler.DeletePromotionByID)
+
 	// ADMIN menu and review
 	r.POST("/menus", middleware.RequestValidator(&dto.MenuPostReq{}), menuHandler.CreateMenu)
 	r.PATCH("/menus/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.MenuUpdateReq{}), menuHandler.UpdateMenu)
