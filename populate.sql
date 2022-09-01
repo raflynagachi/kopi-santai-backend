@@ -64,7 +64,7 @@ values ('Shopeepay'), ('Gopay'), ('OVO');
 
 -- Insert games specific score and prize
 insert into games_tab (coupon_id, target_score)
-values (1, 100),(2, 50);
+values (1, 100),(2, 50),(1, 150),(2, 200);
 
 -- Insert games leaderboard score
 insert into game_leaderboards_tab (user_id, score)
