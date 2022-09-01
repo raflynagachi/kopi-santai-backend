@@ -187,6 +187,7 @@ create table game_leaderboards_tab(
     id bigserial primary key ,
     user_id bigint not null ,
     score bigint default 0,
+    tried int default 0,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     deleted_at timestamp,
