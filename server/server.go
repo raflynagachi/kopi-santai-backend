@@ -104,5 +104,5 @@ func Init() {
 		}
 	})
 	s.StartAsync()
-	log.Fatalln(router.Run())
+	log.Fatalln(router.Run(":" + config.Config.Port))
 }

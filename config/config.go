@@ -17,8 +17,8 @@ type dbConfig struct {
 
 type AppConfig struct {
 	AppName                string
-	AppBaseURL             string
-	AppPort                string
+	BaseURL                string
+	Port                   string
 	ENV                    string
 	JWTSecret              []byte
 	JWTExpiredInMinuteTime int64
@@ -27,8 +27,8 @@ type AppConfig struct {
 
 var Config = AppConfig{
 	AppName:                getEnv("APP_NAME", "Kopi Santai"),
-	AppBaseURL:             getEnv("APP_BASE_URL", "localhost"),
-	AppPort:                getEnv("APP_PORT", "8080"),
+	BaseURL:                getEnv("BASE_URL", "localhost"),
+	Port:                   getEnv("PORT", "8080"),
 	ENV:                    getEnv("ENV", Testing),
 	JWTSecret:              []byte(getEnv("JWT_SECRET", "p@ssW0rd")),
 	JWTExpiredInMinuteTime: 15,
