@@ -1,0 +1,1993 @@
+openapi: 3.0.0
+info:
+  title: Kopi Santai - OpenAPI 3.0
+  description: |-
+    Digitalent final project about food ordering system named Kopi Santai
+  contact:
+    email: rafly.nagachi@shoppe.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:8080
+  - url: https://heroku.com
+tags:
+  - name: Auth
+  - name: Users
+  - name: Menu
+  - name: OrderItem
+  - name: Order
+  - name: Reviews
+  - name: Coupons
+  - name: Games
+  - name: Promotions
+  - name: Deliveries
+  - name: PaymentOptions
+  - name: Categories
+security:
+  - BearerAuth: []
+paths:
+  /login:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: charlie.doe@mail.com
+                password: password
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  token: >-
+                    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJLb3BpIFNhbnRhaSIsImV4cCI6MTY2MTYxMjcyNCwiaWF0IjoxNjYxNjExODI0LCJ1c2VyIjp7ImlkIjo0LCJlbWFpbCI6ImNoYXJsaWUuZG9lQG1haWwuY29tIiwicm9sZSI6IkFETUlOIn19.6NhtyCp-XD6YFWd0R7CEF2kRMxi5pDfrJ1W0Sn2tZgM'
+        '404':
+          description: Not Found Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+  /register:
+    post:
+      tags:
+        - Auth
+      summary: Register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                fullName: Rafly Nagachi
+                phone: '+6281234567890'
+                address: >-
+                  Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov. Sumatera
+                  Selatan
+                email: rafly.nagachi@mail.com
+                password: password
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  token: >-
+                    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJLb3BpIFNhbnRhaSIsImV4cCI6MTY2MTYxMjc3OSwiaWF0IjoxNjYxNjExODc5LCJ1c2VyIjp7ImlkIjoxNCwiZW1haWwiOiJyYWZseS5uYWdhY2hpQG1haWwuY29tIiwicm9sZSI6IlVTRVIifX0.ATDls6kR2VEPZ9QKjk-xnZCrsc6lpblA7bSyaAZdLLk
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /users/{userId}:
+    get:
+      tags:
+        - Users
+      summary: GetProfileDetail
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          example: 1
+          description: Numeric ID of the user to get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  user:
+                    fullName: Charlie Official
+                    phone: '+6281234567800'
+                    email: charlie.doe@mail.com
+                    address: >-
+                      Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov.
+                      Sumatera Selatan
+                    profilePicture: images-byte64
+                  coupons:
+                    - id: 1
+                      name: Discount 10%
+                      amount: 10
+                      deletedAt: null
+                    - id: 2
+                      name: Discount 5%
+                      amount: 5
+                      deletedAt: null
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '404':
+          description: Not Found Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    patch:
+      tags:
+        - Users
+      summary: UpdateProfile
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                fullName: Charlie Official
+                phone: '+6281234567800'
+                address: >-
+                  Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov. Sumatera
+                  Selatan
+                email: charlie.doe@mail.com
+                password: password
+                profilePicture: images-byte64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  fullName: Charlie Official
+                  phone: '+6281234567800'
+                  email: charlie.doe@mail.com
+                  address: >-
+                    Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov. Sumatera
+                    Selatan
+                  profilePicture: image-byte64
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+  /menus:
+    get:
+      tags:
+        - Menu
+      summary: FindAll
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+          example: CofFee
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          example: price
+        - name: sort
+          in: query
+          schema:
+            type: string
+          example: desc
+        - name: search
+          in: query
+          schema:
+            type: string
+          example: milk
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - id: 3
+                    categoryID: 1
+                    categoryName: Coffee
+                    deletedAt: null
+                    name: Coffee Milk With Brown Sugar
+                    price: 25000
+                    image: image-byte64
+                    rating: 0
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    post:
+      tags:
+        - Menu
+      summary: CreateMenu
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                categoryID: 2
+                name: Milk tea
+                price: 15000
+                image: images-byte64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  id: 12
+                  categoryID: 2
+                  categoryName: Non-Coffee
+                  deletedAt: null
+                  name: Milk tea
+                  price: 15000
+                  image: image-byte64
+                  rating: 0
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '403':
+          description: Forbidden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+  /menus/{id}:
+    get:
+      tags:
+        - Menu
+      summary: GetMenuDetail
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          example: 1
+          description: Numeric ID of the menu to get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  menu:
+                    id: 2
+                    categoryID: 1
+                    categoryName: Coffee
+                    deletedAt: null
+                    name: Cappuccino
+                    price: 24000
+                    image: image-byte64
+                    rating: 0
+                  menuOptions:
+                    - typeMenuOption: size
+                      name: Regular
+                    - typeMenuOption: size
+                      name: Large
+                    - typeMenuOption: toppings
+                      name: Boba
+                    - typeMenuOption: toppings
+                      name: Jelly
+                    - typeMenuOption: toppings
+                      name: Ice Cream
+                    - typeMenuOption: available in
+                      name: Ice
+                    - typeMenuOption: available in
+                      name: Hot
+        '404':
+          description: Not Found Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    delete:
+      tags:
+        - Menu
+      summary: DeleteMenuByID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the menu to get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  isDeleted: true
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '403':
+          description: Forbidden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+    patch:
+      tags:
+        - Menu
+      summary: UpdateMenuByID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the menu to get
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                categoryID: 2
+                name: Lemon tea
+                price: 15000
+                image: images-byte64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  id: 5
+                  categoryID: 2
+                  categoryName: Non-Coffee
+                  deletedAt: null
+                  name: Lemon tea
+                  price: 15000
+                  image: images-byte64
+                  rating: 0
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '403':
+          description: Forbidden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+  /internal/menus:
+    get:
+      tags:
+        - Menu
+      summary: FindAllMenusUnscoped
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+          example: CofFee
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          example: price
+        - name: sort
+          in: query
+          schema:
+            type: string
+          example: desc
+        - name: search
+          in: query
+          schema:
+            type: string
+          example: milk
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - id: 3
+                    categoryID: 1
+                    categoryName: Coffee
+                    deletedAt: '2021-08-21T17:59:59Z'
+                    name: Coffee Milk With Brown Sugar
+                    price: 25000
+                    image: image-byte64
+                    rating: 0
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /order-items:
+    post:
+      tags:
+        - OrderItem
+      summary: CreateOrderItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                menuID: 1
+                quantity: 1
+                description: toppings:boba
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  menu:
+                    id: 1
+                    categoryID: 2
+                    categoryName: Non-Coffee
+                    deletedAt: null
+                    name: Lemon tea
+                    price: 15000
+                    image: images-byte64
+                    rating: 0
+                  quantity: 1
+                  description: toppings:boba
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+    get:
+      tags:
+        - OrderItem
+      summary: GetOrderItems
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - menu:
+                      id: 1
+                      categoryID: 2
+                      categoryName: Non-Coffee
+                      deletedAt: null
+                      name: Lemon tea
+                      price: 15000
+                      image: images-byte64
+                      rating: 0
+                    quantity: 1
+                    description: toppings:boba
+        '403':
+          description: Forbidden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    delete:
+      tags:
+        - OrderItem
+      summary: DeleteOrderItemsByUserID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  isDeleted: true
+        '403':
+          description: Forbidden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /order-items/{id}:
+    patch:
+      tags:
+        - OrderItem
+      summary: UpdateOrderItems
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          example: 1
+          description: Numeric ID of the orderItem to get
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                quantity: 3
+                description: size:large,toppings:boba
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  menu:
+                    id: 1
+                    categoryID: 2
+                    categoryName: Non-Coffee
+                    deletedAt: null
+                    name: Lemon tea
+                    price: 15000
+                    image: images-byte64
+                    rating: 0
+                  quantity: 3
+                  description: size:large,toppings:boba
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    delete:
+      tags:
+        - OrderItem
+      summary: DeleteOrderItem
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the orderItem to get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  isDeleted: true
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '404':
+          description: Not Found Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /orders:
+    post:
+      tags:
+        - Order
+      summary: CreateOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                paymentOptID: 1
+                couponID: 1
+                orderedDate: '2021-08-21T17:59:59Z'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  id: 1
+                  userID: 4
+                  couponID: 1
+                  orderedDate: '2021-08-21T17:59:59Z'
+                  totalPrice: 21600
+                  coupon:
+                    id: 1
+                    name: Discount 10%
+                    amount: 10
+                    deletedAt: null
+                  delivery:
+                    deliveryDate: '2021-08-21T17:59:59Z'
+                    status: IN PROCESS
+                  paymentOption:
+                    id: 1
+                    name: Shopeepay
+                  orderItems:
+                    - menu:
+                        id: 8
+                        categoryID: 3
+                        categoryName: Bread
+                        deletedAt: null
+                        name: Choco Pan De
+                        price: 24000
+                        image: images-byte64
+                        rating: 0
+                      quantity: 1
+                      description: toppings:boba
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '404':
+          description: Not Found Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    get:
+      tags:
+        - Order
+      summary: GetOrder
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - id: 1
+                    userID: 4
+                    couponID: 1
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 13500
+                    coupon:
+                      id: 1
+                      name: Discount 10%
+                      amount: 10
+                      deletedAt: null
+                    delivery:
+                      deliveryDate: '2021-08-21T17:59:59Z'
+                      status: IN PROCESS
+                    paymentOption:
+                      id: 1
+                      name: Shopeepay
+                    orderItems:
+                      - menu:
+                          id: 1
+                          categoryID: 2
+                          categoryName: Non-Coffee
+                          deletedAt: null
+                          name: Lemon tea
+                          price: 15000
+                          image: images-byte64
+                          rating: 0
+                        quantity: 1
+                        description: toppings:boba
+                  - id: 1
+                    userID: 4
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 15000
+                    coupon: null
+                    delivery:
+                      deliveryDate: '2021-08-21T17:59:59Z'
+                      status: IN PROCESS
+                    paymentOption:
+                      id: 1
+                      name: Shopeepay
+                    orderItems:
+                      - menu:
+                          id: 1
+                          categoryID: 2
+                          categoryName: Non-Coffee
+                          deletedAt: null
+                          name: Lemon tea
+                          price: 15000
+                          image: images-byte64
+                          rating: 0
+                        quantity: 1
+                        description: toppings:boba
+                  - id: 1
+                    userID: 4
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 24000
+                    coupon: null
+                    delivery:
+                      deliveryDate: '2021-08-21T17:59:59Z'
+                      status: IN PROCESS
+                    paymentOption:
+                      id: 1
+                      name: Shopeepay
+                    orderItems:
+                      - menu:
+                          id: 2
+                          categoryID: 1
+                          categoryName: Coffee
+                          deletedAt: null
+                          name: Cappuccino
+                          price: 24000
+                          image: images-byte64
+                          rating: 0
+                        quantity: 1
+                        description: toppings:boba
+                  - id: 1
+                    userID: 4
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 24000
+                    coupon: null
+                    delivery:
+                      deliveryDate: '2021-08-21T17:59:59Z'
+                      status: IN PROCESS
+                    paymentOption:
+                      id: 1
+                      name: Shopeepay
+                    orderItems:
+                      - menu:
+                          id: 8
+                          categoryID: 3
+                          categoryName: Bread
+                          deletedAt: null
+                          name: Choco Pan De
+                          price: 24000
+                          image: images-byte64
+                          rating: 0
+                        quantity: 1
+                        description: toppings:boba
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '404':
+          description: Not Found Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /internal/orders:
+    get:
+      tags:
+        - Order
+      summary: GetAllOrder
+      parameters:
+        - name: date
+          in: query
+          schema:
+            type: string
+          example: lastWeek
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - id: 1
+                    userID: 4
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 48000
+                    coupon: null
+                    delivery:
+                      deliveryDate: '2021-08-21T17:59:59Z'
+                      status: NO DELIVERY YET
+                    paymentOption:
+                      id: 1
+                      name: Shopeepay
+                    orderItems:
+                      - menu:
+                          id: 2
+                          categoryID: 1
+                          categoryName: Coffee
+                          deletedAt: null
+                          name: Cappuccino
+                          price: 24000
+                          image: images-byte64
+                          rating: 0
+                        quantity: 2
+                        description: toppings:boba
+                  - id: 2
+                    userID: 1
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 15000
+                    coupon: null
+                    delivery:
+                      deliveryDate: '2021-08-21T17:59:59Z'
+                      status: NO DELIVERY YET
+                    paymentOption:
+                      id: 1
+                      name: Shopeepay
+                    orderItems:
+                      - menu:
+                          id: 1
+                          categoryID: 2
+                          categoryName: Non-Coffee
+                          deletedAt: null
+                          name: Lemon tea
+                          price: 15000
+                          image: images-byte64
+                          rating: 0
+                        quantity: 1
+                        description: toppings:boba
+                  - id: 3
+                    userID: 1
+                    couponID: 1
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 13500
+                    coupon:
+                      id: 1
+                      name: Discount 10%
+                      amount: 10
+                      deletedAt: null
+                    delivery:
+                      deliveryDate: '2021-08-21T17:59:59Z'
+                      status: NO DELIVERY YET
+                    paymentOption:
+                      id: 1
+                      name: Shopeepay
+                    orderItems:
+                      - menu:
+                          id: 1
+                          categoryID: 2
+                          categoryName: Non-Coffee
+                          deletedAt: null
+                          name: Lemon tea
+                          price: 15000
+                          image: images-byte64
+                          rating: 0
+                        quantity: 1
+                        description: toppings:boba
+                  - id: 5
+                    userID: 4
+                    couponID: 1
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 13500
+                    coupon:
+                      id: 1
+                      name: Discount 10%
+                      amount: 10
+                      deletedAt: null
+                    delivery:
+                      deliveryDate: '2021-08-21T17:59:59Z'
+                      status: IN PROCESS
+                    paymentOption:
+                      id: 1
+                      name: Shopeepay
+                    orderItems:
+                      - menu:
+                          id: 1
+                          categoryID: 2
+                          categoryName: Non-Coffee
+                          deletedAt: null
+                          name: Lemon tea
+                          price: 15000
+                          image: images-byte64
+                          rating: 0
+                        quantity: 1
+                        description: toppings:boba
+                  - id: 6
+                    userID: 4
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 15000
+                    coupon: null
+                    delivery:
+                      deliveryDate: '2021-08-21T17:59:59Z'
+                      status: IN PROCESS
+                    paymentOption:
+                      id: 1
+                      name: Shopeepay
+                    orderItems:
+                      - menu:
+                          id: 1
+                          categoryID: 2
+                          categoryName: Non-Coffee
+                          deletedAt: null
+                          name: Lemon tea
+                          price: 15000
+                          image: images-byte64
+                          rating: 0
+                        quantity: 1
+                        description: toppings:boba
+                  - id: 7
+                    userID: 4
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 24000
+                    coupon: null
+                    delivery:
+                      deliveryDate: '2021-08-21T17:59:59Z'
+                      status: IN PROCESS
+                    paymentOption:
+                      id: 1
+                      name: Shopeepay
+                    orderItems:
+                      - menu:
+                          id: 2
+                          categoryID: 1
+                          categoryName: Coffee
+                          deletedAt: null
+                          name: Cappuccino
+                          price: 24000
+                          image: images-byte64
+                          rating: 0
+                        quantity: 1
+                        description: toppings:boba
+                  - id: 8
+                    userID: 4
+                    couponID: 0
+                    orderedDate: '2021-08-21T17:59:59Z'
+                    totalPrice: 24000
+                    coupon: null
+                    delivery:
+                      deliveryDate: '2021-08-21T17:59:59Z'
+                      status: IN PROCESS
+                    paymentOption:
+                      id: 1
+                      name: Shopeepay
+                    orderItems:
+                      - menu:
+                          id: 8
+                          categoryID: 3
+                          categoryName: Bread
+                          deletedAt: null
+                          name: Choco Pan De
+                          price: 24000
+                          image: images-byte64
+                          rating: 0
+                        quantity: 1
+                        description: toppings:boba
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '403':
+          description: Forbidden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /orders/{id}:
+    get:
+      tags:
+        - Order
+      summary: GetOrderByID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          example: 1
+          description: Numeric ID of the order to get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  id: 1
+                  userID: 4
+                  couponID: 1
+                  orderedDate: '2021-08-21T17:59:59Z'
+                  totalPrice: 13500
+                  coupon:
+                    id: 1
+                    name: Discount 10%
+                    amount: 10
+                    deletedAt: null
+                  delivery:
+                    deliveryDate: '2021-08-21T17:59:59Z'
+                    status: IN PROCESS
+                  paymentOption:
+                    id: 1
+                    name: Shopeepay
+                  orderItems:
+                    - menu:
+                        id: 1
+                        categoryID: 2
+                        categoryName: Non-Coffee
+                        deletedAt: null
+                        name: Lemon tea
+                        price: 15000
+                        image: images-byte64
+                        rating: 0
+                      quantity: 1
+                      description: toppings:boba
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '404':
+          description: Not Found Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /reviews:
+    post:
+      tags:
+        - Reviews
+      summary: CreateReview
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                menuID: 1
+                rating: 5
+                description: Mantap
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  id: 1
+                  menuID: 1
+                  description: Mantap
+                  rating: 5
+                  userID: 1
+                  userEmail: charlie.doe@mail.com
+
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /menus/{id}/reviews:
+    get:
+      tags:
+        - Reviews
+      summary: GetReviewByMenuID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          example: 1
+          description: Numeric ID of the menu to get
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  id: 1
+                  menuID: 1
+                  description: Mantap
+                  rating: 5
+                  userID: 1
+                  userEmail: charlie.doe@mail.com
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /coupons:
+    post:
+      tags:
+        - Coupons
+      summary: CreateCoupon
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Special Discount HUT Kopi Santai
+                amount: 30
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  id: 5
+                  name: Special Discount HUT Kopi Santai
+                  amount: 30
+                  deletedAt: null
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    get:
+      tags:
+        - Coupons
+      summary: FindCouponByUserID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - id: 2
+                    name: Discount 5%
+                    amount: 5
+                    deletedAt: null
+                  - id: 1
+                    name: Discount 10%
+                    amount: 10
+                    deletedAt: null
+                  - id: 1
+                    name: Discount 10%
+                    amount: 10
+                    deletedAt: null
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /coupons/{id}:
+    delete:
+      tags:
+        - Coupons
+      summary: DeleteCouponByID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          example: 1
+          description: Numeric ID of the coupon to get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  isDeleted: true
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /internal/coupons:
+    get:
+      tags:
+        - Coupons
+      summary: FindAllCouponsUnscoped
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - id: 1
+                    name: HUT coupon
+                    deletedAt: '2021-08-21T17:59:59Z'
+                    amount: 40
+                  - id: 2
+                    name: HUT coupon 20 hari
+                    deletedAt: null
+                    amount: 20
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /games:
+    get:
+      tags:
+        - Games
+      summary: GetLeaderboards
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - name: Charlie Official
+                    userID: 4
+                    score: 83
+                  - name: Alice Doe
+                    userID: 2
+                    score: 30
+                  - name: John Doeeeee
+                    userID: 1
+                    score: 20
+                  - name: Ben Doe
+                    userID: 3
+                    score: 0
+                  - name: John
+                    userID: 5
+                    score: 0
+                  - name: Rafly Nagachi
+                    userID: 6
+                    score: 0
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /games/{id}:
+    get:
+      tags:
+        - Games
+      summary: GetUserScore
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          example: 1
+          description: Numeric ID of the game user account to get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  name: Charlie Official
+                  userID: 4
+                  score: 83
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /game-prize:
+    post:
+      tags:
+        - Games
+      summary: GamePrize
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                score: 100
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  UserRes:
+                    fullName: Charlie Official
+                    phone: '+6281234567800'
+                    email: charlie.doe@mail.com
+                    address: >-
+                      Jl. Santai, Kec. Buay Madang, Kab. OKU Timur, Prov.
+                      Sumatera Selatan
+                    profilePicture: images-byte64
+                  CouponRes:
+                    id: 1
+                    name: Discount 10%
+                    amount: 10
+                    deletedAt: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 400
+                status: BAD_REQUEST_ERROR
+                message: score updated - with no prize
+        '404':
+          description: Not Found Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /promotions:
+    get:
+      tags:
+        - Promotions
+      summary: FindAllPromotions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - name: Coupon Merdeka
+                    description: Attractive coupon to get discount up to 10%
+                    image:
+                    minSpent: 20000
+                    coupon:
+                      id: 1
+                      name: Discount 10%
+                      amount: 10
+                      deletedAt: null
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    post:
+      tags:
+        - Promotions
+      summary: CreatePromotion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                couponID: 1
+                name: Coupon Merderka
+                description: Attractive coupon to get discount up to 10%
+                image: image-base64
+                minSpent: 20000
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - name: Coupon Merdeka
+                    description: Attractive coupon to get discount up to 10%
+                    image:
+                    minSpent: 20000
+                    coupon:
+                      id: 1
+                      name: Discount 10%
+                      amount: 10
+                      deletedAt: null
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '403':
+          description: Forbidden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /promotions/{id}:
+    delete:
+      tags:
+        - Promotions
+      summary: DeletePromotionByID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          example: 1
+          description: Numeric ID of the promotion to get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  isDeleted: true
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '403':
+          description: Forbidden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /internal/promotions:
+    get:
+      tags:
+        - Promotions
+      summary: FindAllPromotionsUnscoped
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - Name: Coupon Merdeka
+                    Description: Attractive coupon to get discount up to 10%
+                    Image:
+                    MinSpent: 20000
+                    coupon:
+                      id: 1
+                      name: Discount 10%
+                      amount: 10
+                      deletedAt: null
+                  - name: Coupon HUT RI
+                    description: Attractive coupon to get discount up to 10%
+                    image:
+                    minSpent: 20000
+                    coupon:
+                      id: 1
+                      name: Discount 10%
+                      amount: 10
+                      deletedAt: '2022-08-27T22:26:11.914412Z'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '403':
+          description: Forbidden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /deliveries/{id}:
+    patch:
+      tags:
+        - Deliveries
+      summary: UpdateDelivery
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          example: 1
+          description: Numeric ID of the delivery to get
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: DELIVERED
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  deliveryDate: '2022-08-27T22:26:11.914412Z'
+                  status: DELIVERED
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '403':
+          description: Forbidden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /payment-options:
+    get:
+      tags:
+        - PaymentOptions
+      summary: FindAllPaymentOptions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - id: 1
+                    name: Shopeepay
+                  - id: 2
+                    name: Gopay
+                  - id: 3
+                    name: OVO
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /categories:
+    get:
+      tags:
+        - Categories
+      summary: FindAllCategories
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  - id: 1
+                    name: Coffee
+                  - id: 2
+                    name: Non-Coffee
+                  - id: 3
+                    name: Bread
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+components:
+  schemas:
+    NotFoundError:
+      type: object
+      example:
+        statusCode: 404
+        status: NOT_FOUND_ERROR
+        message: NOT FOUND ERROR
+    ForbiddenError:
+      type: object
+      example:
+        statusCode: 403
+        status: FORBIDDEN_ERROR
+        message: FORBIDDEN ERROR
+    BadRequestError:
+      type: object
+      example:
+        statusCode: 400
+        status: BAD_REQUEST_ERROR
+        message: BAD REQUEST ERROR
+    UnauthorizedError:
+      type: object
+      example:
+        statusCode: 400
+        status: UNAUTHORIZED_ERROR
+        message: UNAUTHORIZED ERROR
+    InternalServerError:
+      type: object
+      example:
+        statusCode: 500
+        status: INTERNAL_SERVER_ERROR
+        message: INTERNAL SERVER ERROR
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
