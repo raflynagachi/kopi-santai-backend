@@ -141,6 +141,7 @@ func TestGameService_AddCouponPrizeToUser(t *testing.T) {
 		mockRepository.On("FindByUserID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return(&gameLeaderboard, nil)
 		mockRepository.On("UpdateScore", mock.AnythingOfType(testutils.GormDBPointerType), uint(1), mock.AnythingOfType("*model.GameLeaderboard")).Return(nil, nil)
 		mockRepository.On("IsTargetScoreReached", mock.AnythingOfType(testutils.GormDBPointerType), gameLeaderboard.Score, req.Score).Return(&game, nil)
+		couponMockRepository.On("FindByID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return(&model.Coupon{ID: 1}, nil)
 		couponMockRepository.On("AddCouponToUser", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*model.UserCoupon")).Return(&userCoupon, nil)
 
 		actualRes, err := s.AddCouponPrizeToUser(req, uint(1))
@@ -196,7 +197,7 @@ func TestGameService_AddCouponPrizeToUser(t *testing.T) {
 		assert.ErrorContains(t, err, expectedErr.Error())
 	})
 
-	t.Run("should return error when add coupon when user score reached failed", func(t *testing.T) {
+	t.Run("should return error when user score reached in failed", func(t *testing.T) {
 		gormDB := testutils.MockDB()
 		mockRepository := new(mocks.GameRepository)
 		couponMockRepository := new(mocks.CouponRepository)
@@ -234,10 +235,37 @@ func TestGameService_AddCouponPrizeToUser(t *testing.T) {
 		req := &dto.GameResultPostReq{
 			Score: 100,
 		}
+		dbErr := new(apperror.CouponNotFoundError)
+		mockRepository.On("FindByUserID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return(&gameLeaderboard, nil)
+		mockRepository.On("UpdateScore", mock.AnythingOfType(testutils.GormDBPointerType), uint(1), mock.AnythingOfType("*model.GameLeaderboard")).Return(nil, nil)
+		mockRepository.On("IsTargetScoreReached", mock.AnythingOfType(testutils.GormDBPointerType), gameLeaderboard.Score, req.Score).Return(&game, nil)
+		couponMockRepository.On("FindByID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return(nil, dbErr)
+		expectedErr := apperror.InternalServerError(dbErr.Error())
+
+		_, err := s.AddCouponPrizeToUser(req, uint(1))
+
+		assert.Equal(t, expectedErr, err)
+		assert.ErrorContains(t, err, expectedErr.Error())
+	})
+
+	t.Run("should return error when add coupon when user score reached failed", func(t *testing.T) {
+		gormDB := testutils.MockDB()
+		mockRepository := new(mocks.GameRepository)
+		couponMockRepository := new(mocks.CouponRepository)
+		cfg := &service.GameConfig{
+			DB:         gormDB,
+			GameRepo:   mockRepository,
+			CouponRepo: couponMockRepository,
+		}
+		s := service.NewGame(cfg)
+		req := &dto.GameResultPostReq{
+			Score: 100,
+		}
 		dbErr := errors.New("db error")
 		mockRepository.On("FindByUserID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return(&gameLeaderboard, nil)
 		mockRepository.On("UpdateScore", mock.AnythingOfType(testutils.GormDBPointerType), uint(1), mock.AnythingOfType("*model.GameLeaderboard")).Return(nil, nil)
 		mockRepository.On("IsTargetScoreReached", mock.AnythingOfType(testutils.GormDBPointerType), gameLeaderboard.Score, req.Score).Return(&game, nil)
+		couponMockRepository.On("FindByID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return(&model.Coupon{ID: 1}, nil)
 		couponMockRepository.On("AddCouponToUser", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*model.UserCoupon")).Return(nil, dbErr)
 		expectedErr := apperror.BadRequestError(dbErr.Error())
 

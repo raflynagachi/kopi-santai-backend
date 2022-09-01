@@ -87,9 +87,15 @@ func (s *gameService) AddCouponPrizeToUser(req *dto.GameResultPostReq, userID ui
 		return nil, apperror.BadRequestError(err.Error())
 	}
 
+	coupon, err := s.couponRepo.FindByID(tx, game.CouponID)
+	if err != nil {
+		tx.Rollback()
+		return nil, apperror.InternalServerError(new(apperror.CouponNotFoundError).Error())
+	}
+
 	uc := &model.UserCoupon{
 		UserID:   userID,
-		CouponID: game.CouponID,
+		CouponID: coupon.ID,
 	}
 	userCoupon, err := s.couponRepo.AddCouponToUser(tx, uc)
 	helper.CommitOrRollback(tx, err)
