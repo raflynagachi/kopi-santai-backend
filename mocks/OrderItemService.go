@@ -60,6 +60,29 @@ func (_m *OrderItemService) DeleteOrderItemByID(id uint, userID uint) (gin.H, er
 	return r0, r1
 }
 
+// DeleteOrderItemByUserID provides a mock function with given fields: userID
+func (_m *OrderItemService) DeleteOrderItemByUserID(userID uint) (gin.H, error) {
+	ret := _m.Called(userID)
+
+	var r0 gin.H
+	if rf, ok := ret.Get(0).(func(uint) gin.H); ok {
+		r0 = rf(userID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(gin.H)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(uint) error); ok {
+		r1 = rf(userID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // FindOrderItemByUserID provides a mock function with given fields: userID
 func (_m *OrderItemService) FindOrderItemByUserID(userID uint) ([]*dto.OrderItemRes, error) {
 	ret := _m.Called(userID)

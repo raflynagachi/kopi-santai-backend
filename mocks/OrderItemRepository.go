@@ -57,6 +57,27 @@ func (_m *OrderItemRepository) DeleteOrderItemByID(tx *gorm.DB, id uint) (bool, 
 	return r0, r1
 }
 
+// DeleteOrderItemByUserID provides a mock function with given fields: tx, userID
+func (_m *OrderItemRepository) DeleteOrderItemByUserID(tx *gorm.DB, userID uint) (bool, error) {
+	ret := _m.Called(tx, userID)
+
+	var r0 bool
+	if rf, ok := ret.Get(0).(func(*gorm.DB, uint) bool); ok {
+		r0 = rf(tx, userID)
+	} else {
+		r0 = ret.Get(0).(bool)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(*gorm.DB, uint) error); ok {
+		r1 = rf(tx, userID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // FindOrderItemByOrderID provides a mock function with given fields: tx, orderID
 func (_m *OrderItemRepository) FindOrderItemByOrderID(tx *gorm.DB, orderID uint) ([]*model.OrderItem, error) {
 	ret := _m.Called(tx, orderID)

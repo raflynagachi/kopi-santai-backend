@@ -23,6 +23,11 @@ func (_m *OrderItemHandler) DeleteOrderItemByID(c *gin.Context) {
 	_m.Called(c)
 }
 
+// DeleteOrderItemByUserID provides a mock function with given fields: c
+func (_m *OrderItemHandler) DeleteOrderItemByUserID(c *gin.Context) {
+	_m.Called(c)
+}
+
 // FindOrderItemByUserID provides a mock function with given fields: c
 func (_m *OrderItemHandler) FindOrderItemByUserID(c *gin.Context) {
 	_m.Called(c)

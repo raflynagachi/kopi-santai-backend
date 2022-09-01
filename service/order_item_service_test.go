@@ -283,3 +283,44 @@ func TestOrderItemService_DeleteOrderItemByID(t *testing.T) {
 		assert.Equal(t, expectedRes, res)
 	})
 }
+
+func TestOrderItemService_DeleteOrderItemByUserID(t *testing.T) {
+	t.Run("should return response when delete order item by userID success", func(t *testing.T) {
+		gormDB := testutils.MockDB()
+		mockRepository := new(mocks.OrderItemRepository)
+		menuRepository := new(mocks.MenuRepository)
+		cfg := &service.OrderItemConfig{
+			DB:                  gormDB,
+			OrderItemRepository: mockRepository,
+			MenuRepository:      menuRepository,
+		}
+		s := service.NewOrderItem(cfg)
+		expectedRes := gin.H{"isDeleted": true}
+		mockRepository.On("DeleteOrderItemByUserID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return(true, nil)
+
+		menuRes, err := s.DeleteOrderItemByUserID(uint(1))
+
+		assert.Nil(t, err)
+		assert.Equal(t, expectedRes, menuRes)
+	})
+
+	t.Run("should return response when delete order item by userID failed", func(t *testing.T) {
+		gormDB := testutils.MockDB()
+		mockRepository := new(mocks.OrderItemRepository)
+		menuRepository := new(mocks.MenuRepository)
+		cfg := &service.OrderItemConfig{
+			DB:                  gormDB,
+			OrderItemRepository: mockRepository,
+			MenuRepository:      menuRepository,
+		}
+		s := service.NewOrderItem(cfg)
+		dbErr := errors.New("db error")
+		mockRepository.On("DeleteOrderItemByUserID", mock.AnythingOfType(testutils.GormDBPointerType), uint(1)).Return(false, dbErr)
+		expectedErr := apperror.InternalServerError(dbErr.Error())
+
+		_, err := s.DeleteOrderItemByUserID(uint(1))
+
+		assert.Equal(t, expectedErr, err)
+		assert.ErrorContains(t, err, expectedErr.Error())
+	})
+}

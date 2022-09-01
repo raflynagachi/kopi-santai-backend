@@ -618,6 +618,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError'
+    delete:
+      tags:
+        - OrderItem
+      summary: DeleteOrderItemsByUserID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                statusCode: 200
+                status: OK
+                data:
+                  isDeleted: true
+        '403':
+          description: Forbidden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
   /order-items/{id}:
     patch:
       tags:

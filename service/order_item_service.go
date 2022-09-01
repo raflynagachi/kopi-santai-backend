@@ -16,6 +16,7 @@ type OrderItemService interface {
 	FindOrderItemByUserID(userID uint) ([]*dto.OrderItemRes, error)
 	UpdateOrderItemByID(id, userID uint, req *dto.OrderItemPatchReq) (*dto.OrderItemRes, error)
 	DeleteOrderItemByID(id, userID uint) (gin.H, error)
+	DeleteOrderItemByUserID(userID uint) (gin.H, error)
 }
 
 type orderItemService struct {
@@ -123,6 +124,18 @@ func (s *orderItemService) DeleteOrderItemByID(id, userID uint) (gin.H, error) {
 	helper.CommitOrRollback(tx, err)
 	if err != nil {
 		return gin.H{"isDeleted": false}, apperror.BadRequestError(err.Error())
+	}
+
+	return gin.H{"isDeleted": isDeleted}, nil
+}
+
+func (s *orderItemService) DeleteOrderItemByUserID(userID uint) (gin.H, error) {
+	tx := s.db.Begin()
+
+	isDeleted, err := s.orderItemRepository.DeleteOrderItemByUserID(tx, userID)
+	helper.CommitOrRollback(tx, err)
+	if err != nil {
+		return gin.H{"isDeleted": false}, apperror.InternalServerError(err.Error())
 	}
 
 	return gin.H{"isDeleted": isDeleted}, nil

@@ -71,6 +71,7 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	r.POST("/order-items", middleware.RequestValidator(&dto.OrderItemPostReq{}), orderItemHandler.CreateOrderItem)
 	r.GET("/order-items", orderItemHandler.FindOrderItemByUserID)
 	r.PATCH("/order-items/:id", middleware.ParamIDValidator, middleware.RequestValidator(&dto.OrderItemPatchReq{}), orderItemHandler.UpdateOrderItemByID)
+	r.DELETE("/order-items", orderItemHandler.DeleteOrderItemByUserID)
 	r.DELETE("/order-items/:id", middleware.ParamIDValidator, orderItemHandler.DeleteOrderItemByID)
 
 	r.POST("/orders", middleware.RequestValidator(&dto.OrderPostReq{}), orderHandler.CreateOrder)

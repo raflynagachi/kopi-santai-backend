@@ -13,6 +13,7 @@ type OrderItemRepository interface {
 	CreateOrderItem(tx *gorm.DB, oi *model.OrderItem) (*model.OrderItem, error)
 	UpdateOrderItemByID(tx *gorm.DB, id uint, oi *model.OrderItem) (*model.OrderItem, error)
 	DeleteOrderItemByID(tx *gorm.DB, id uint) (bool, error)
+	DeleteOrderItemByUserID(tx *gorm.DB, userID uint) (bool, error)
 	IsOrderItemOfUserID(tx *gorm.DB, id, userID uint) (bool, error)
 }
 
@@ -87,6 +88,15 @@ func (r *orderItemRepository) UpdateOrderItemByID(tx *gorm.DB, id uint, oi *mode
 func (r *orderItemRepository) DeleteOrderItemByID(tx *gorm.DB, id uint) (bool, error) {
 	var updatedOrderItem *model.OrderItem
 	err := tx.Delete(&updatedOrderItem, id).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
+func (r *orderItemRepository) DeleteOrderItemByUserID(tx *gorm.DB, userID uint) (bool, error) {
+	var updatedOrderItem *model.OrderItem
+	err := tx.Where("user_id = ? AND order_id IS NULL", userID).Delete(&updatedOrderItem).Error
 	if err != nil {
 		return false, err
 	}

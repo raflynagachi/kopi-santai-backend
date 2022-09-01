@@ -12,6 +12,7 @@ type OrderItemHandler interface {
 	FindOrderItemByUserID(c *gin.Context)
 	UpdateOrderItemByID(c *gin.Context)
 	DeleteOrderItemByID(c *gin.Context)
+	DeleteOrderItemByUserID(c *gin.Context)
 }
 
 type orderItemHandler struct {
@@ -80,6 +81,19 @@ func (h *orderItemHandler) DeleteOrderItemByID(c *gin.Context) {
 	userID := userPayload.(*dto.UserJWT).ID
 
 	orderItemRes, err := h.orderItemService.DeleteOrderItemByID(idParam.(uint), userID)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.StatusOKResponse(orderItemRes))
+}
+
+func (h *orderItemHandler) DeleteOrderItemByUserID(c *gin.Context) {
+	userPayload, _ := c.Get("user")
+	userID := userPayload.(*dto.UserJWT).ID
+
+	orderItemRes, err := h.orderItemService.DeleteOrderItemByUserID(userID)
 	if err != nil {
 		_ = c.Error(err)
 		return

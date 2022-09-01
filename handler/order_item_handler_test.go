@@ -167,3 +167,33 @@ func TestOrderItemHandler_DeleteOrderItemByID(t *testing.T) {
 		assert.Equal(t, string(expectedBody), w.Body.String())
 	})
 }
+
+func TestOrderItemHandler_DeleteOrderItemByUserID(t *testing.T) {
+	t.Run("should return statusOK when delete order item by userID success", func(t *testing.T) {
+		mockService := new(mocks.OrderItemService)
+		config := server.RouterConfig{OrderItemService: mockService}
+		res := gin.H{"isDeleted": true}
+		mockService.On("DeleteOrderItemByUserID", uint(1)).Return(res, nil)
+		expectedBody, _ := json.Marshal(dto.StatusOKResponse(res))
+
+		req, _ := http.NewRequest(http.MethodDelete, "/order-items", nil)
+		_, w := testutils.ServeReq(&config, req)
+
+		assert.Equal(t, http.StatusOK, w.Code)
+		assert.Equal(t, string(expectedBody), w.Body.String())
+	})
+
+	t.Run("should return error when delete order item by userID failed", func(t *testing.T) {
+		mockService := new(mocks.OrderItemService)
+		config := server.RouterConfig{OrderItemService: mockService}
+		internalServerErr := apperror.InternalServerError(errors.New("db error").Error())
+		mockService.On("DeleteOrderItemByUserID", uint(1)).Return(nil, internalServerErr)
+		expectedBody, _ := json.Marshal(internalServerErr)
+
+		req, _ := http.NewRequest(http.MethodDelete, "/order-items", nil)
+		_, w := testutils.ServeReq(&config, req)
+
+		assert.Equal(t, http.StatusInternalServerError, w.Code)
+		assert.Equal(t, string(expectedBody), w.Body.String())
+	})
+}
