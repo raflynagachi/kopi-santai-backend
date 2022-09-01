@@ -23,6 +23,7 @@ type AppConfig struct {
 	JWTSecret              []byte
 	JWTExpiredInMinuteTime int64
 	DBConfig               dbConfig
+	DatabaseURL            string
 }
 
 var Config = AppConfig{
@@ -39,6 +40,7 @@ var Config = AppConfig{
 		DBName:   getEnv("DB_NAME", "kopi_santai_db"),
 		Port:     getEnv("DB_PORT", "5432"),
 	},
+	DatabaseURL: getEnv("DATABASE_URL", ""),
 }
 
 func getEnv(key, defaultVal string) string {
