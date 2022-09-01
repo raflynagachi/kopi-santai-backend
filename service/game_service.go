@@ -65,14 +65,15 @@ func (s *gameService) FindAll() ([]*dto.GameLeaderboardRes, error) {
 
 func (s *gameService) AddCouponPrizeToUser(req *dto.GameResultPostReq, userID uint) (*dto.UserCouponRes, error) {
 	tx := s.db.Begin()
-	gl, err := s.gameRepo.FindByUserID(tx, userID)
+	gl, err := s.gameRepo.IsUserTriedLessThanX(tx, userID, model.MaxTried)
 	if err != nil {
 		tx.Rollback()
-		return nil, apperror.NotFoundError(err.Error())
+		return nil, apperror.BadRequestError(err.Error())
 	}
 
 	updatedGl := &model.GameLeaderboard{
 		Score: req.Score + gl.Score,
+		Tried: gl.Tried + 1,
 	}
 	updatedGl, err = s.gameRepo.UpdateScore(tx, userID, updatedGl)
 	helper.CommitOrRollback(tx, err)

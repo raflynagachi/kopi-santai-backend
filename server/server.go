@@ -5,7 +5,9 @@ import (
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/db"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/repository"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/service"
+	"github.com/go-co-op/gocron"
 	"log"
+	"time"
 )
 
 func Init() {
@@ -93,5 +95,14 @@ func Init() {
 		PaymentOptService: paymentOptService,
 		CategoryService:   categoryService,
 	})
+
+	s := gocron.NewScheduler(time.UTC)
+	s.Every(1).Day().Do(func() {
+		err := gameRepo.ResetTriedChance(db.Get())
+		if err != nil {
+			return
+		}
+	})
+	s.StartAsync()
 	log.Fatalln(router.Run())
 }

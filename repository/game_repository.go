@@ -11,9 +11,11 @@ import (
 type GameRepository interface {
 	CreateLeaderboard(tx *gorm.DB, gl *model.GameLeaderboard) (*model.GameLeaderboard, error)
 	IsTargetScoreReached(tx *gorm.DB, prevScore, score uint) (*model.Game, error)
+	IsUserTriedLessThanX(tx *gorm.DB, userID uint, x uint) (*model.GameLeaderboard, error)
 	UpdateScore(tx *gorm.DB, id uint, gl *model.GameLeaderboard) (*model.GameLeaderboard, error)
 	FindByUserID(tx *gorm.DB, userID uint) (*model.GameLeaderboard, error)
 	FindAll(tx *gorm.DB) ([]*model.GameLeaderboard, error)
+	ResetTriedChance(tx *gorm.DB) error
 }
 
 type gameRepository struct {
@@ -48,10 +50,22 @@ func (r *gameRepository) UpdateScore(tx *gorm.DB, userID uint, gl *model.GameLea
 	return updatedGl, result.Error
 }
 
+func (r *gameRepository) ResetTriedChance(tx *gorm.DB) error {
+	result := tx.Table("game_leaderboards_tab").Where("tried >= 0").Updates(map[string]interface{}{"tried": 0})
+	return result.Error
+}
+
 func (r *gameRepository) FindByUserID(tx *gorm.DB, userID uint) (*model.GameLeaderboard, error) {
 	var gameLeaderboard *model.GameLeaderboard
 
 	result := tx.Preload("User").Where("user_id = ?", userID).First(&gameLeaderboard)
+	return gameLeaderboard, result.Error
+}
+
+func (r *gameRepository) IsUserTriedLessThanX(tx *gorm.DB, userID uint, x uint) (*model.GameLeaderboard, error) {
+	var gameLeaderboard *model.GameLeaderboard
+
+	result := tx.Preload("User").Where("user_id = ? AND tried < ?", userID, x).First(&gameLeaderboard)
 	return gameLeaderboard, result.Error
 }
 

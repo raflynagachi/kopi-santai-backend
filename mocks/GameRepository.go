@@ -105,6 +105,43 @@ func (_m *GameRepository) IsTargetScoreReached(tx *gorm.DB, prevScore uint, scor
 	return r0, r1
 }
 
+// IsUserTriedLessThanX provides a mock function with given fields: tx, userID, x
+func (_m *GameRepository) IsUserTriedLessThanX(tx *gorm.DB, userID uint, x uint) (*model.GameLeaderboard, error) {
+	ret := _m.Called(tx, userID, x)
+
+	var r0 *model.GameLeaderboard
+	if rf, ok := ret.Get(0).(func(*gorm.DB, uint, uint) *model.GameLeaderboard); ok {
+		r0 = rf(tx, userID, x)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*model.GameLeaderboard)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(*gorm.DB, uint, uint) error); ok {
+		r1 = rf(tx, userID, x)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// ResetTriedChance provides a mock function with given fields: tx
+func (_m *GameRepository) ResetTriedChance(tx *gorm.DB) error {
+	ret := _m.Called(tx)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB) error); ok {
+		r0 = rf(tx)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // UpdateScore provides a mock function with given fields: tx, id, gl
 func (_m *GameRepository) UpdateScore(tx *gorm.DB, id uint, gl *model.GameLeaderboard) (*model.GameLeaderboard, error) {
 	ret := _m.Called(tx, id, gl)
