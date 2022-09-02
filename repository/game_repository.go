@@ -51,7 +51,7 @@ func (r *gameRepository) UpdateScore(tx *gorm.DB, userID uint, gl *model.GameLea
 }
 
 func (r *gameRepository) ResetTriedChance(tx *gorm.DB) error {
-	result := tx.Table("game_leaderboards_tab").Where("tried >= 0").Updates(map[string]interface{}{"tried": 0})
+	result := tx.Table("game_leaderboards_tab").Where("tried > 0").Updates(map[string]interface{}{"tried": 0})
 	return result.Error
 }
 
