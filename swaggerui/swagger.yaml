@@ -1196,7 +1196,6 @@ paths:
                 statusCode: 200
                 status: OK
                 data:
-                  id: 1
                   menuID: 1
                   description: Mantap
                   rating: 5
@@ -1245,7 +1244,6 @@ paths:
                 statusCode: 200
                 status: OK
                 data:
-                  id: 1
                   menuID: 1
                   description: Mantap
                   rating: 5
