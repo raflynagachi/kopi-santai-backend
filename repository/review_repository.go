@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"fmt"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
 	"gorm.io/gorm"
@@ -21,12 +20,11 @@ func NewReview() ReviewRepository {
 }
 
 func (r *reviewRepository) Create(tx *gorm.DB, review *model.Review) (*model.Review, error) {
-	result := tx.Clauses(clause.OnConflict{DoNothing: true}).Preload("User").Create(&review)
-	fmt.Println("Matanp", result.RowsAffected)
+	result := tx.Clauses(clause.OnConflict{DoNothing: true}).Create(&review)
 	if int(result.RowsAffected) == 0 {
 		return nil, new(apperror.ReviewCreatedError)
 	}
-	tx.First(&review)
+	tx.Preload("User").First(&review)
 	return review, result.Error
 }
 

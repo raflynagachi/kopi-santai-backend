@@ -97,7 +97,6 @@ create table menu_options_categories_tab(
 
 
 create table reviews_tab(
-    id bigint not null ,
     user_id bigint not null ,
     menu_id bigint not null ,
     description varchar ,
