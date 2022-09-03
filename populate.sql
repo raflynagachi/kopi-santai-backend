@@ -70,17 +70,6 @@ values (1, 100),(2, 50),(1, 150),(2, 200);
 insert into game_leaderboards_tab (user_id, score)
 values (1, 20),(2, 30),(3, 0),(4, 50);
 
--- Insert favorite menu of users
-insert into users_menus_favorite_tab
-(user_id, menu_id)
-values
-    (1, 1),
-    (1, 2),
-    (2, 8),
-    (3, 10),
-    (3, 1),
-    (3, 4);
-
 -- Insert owned coupons of user
 insert into users_coupons_tab
 (user_id, coupon_id)
