@@ -95,8 +95,8 @@ create table menu_options_categories_tab(
     foreign key (menu_option_id) references menu_options_tab(id)
 );
 
-
 create table reviews_tab(
+    id bigserial not null ,
     user_id bigint not null ,
     menu_id bigint not null ,
     description varchar ,
