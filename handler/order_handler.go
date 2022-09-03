@@ -7,6 +7,7 @@ import (
 	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type OrderHandler interface {
@@ -60,8 +61,12 @@ func (h *orderHandler) FindOrderByIDAndUserID(c *gin.Context) {
 }
 
 func (h *orderHandler) FindAll(c *gin.Context) {
+	limit, _ := strconv.Atoi(helper.GetQuery(c, "limit", model.LimitDefaultValue))
+	page, _ := strconv.Atoi(helper.GetQuery(c, "page", model.PageDefaultValue))
 	queryParam := &model.QueryParamOrder{
-		Date: helper.GetQuery(c, "date", ""),
+		Date:  helper.GetQuery(c, "date", ""),
+		Limit: limit,
+		Page:  page,
 	}
 
 	orderItemRes, err := h.orderService.FindAll(queryParam)

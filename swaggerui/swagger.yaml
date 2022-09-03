@@ -975,6 +975,16 @@ paths:
           schema:
             type: string
           example: lastWeek
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: 10
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: 1
       responses:
         '200':
           description: OK
@@ -986,182 +996,87 @@ paths:
                 statusCode: 200
                 status: OK
                 data:
-                  - id: 1
-                    userID: 4
-                    couponID: 0
-                    orderedDate: '2021-08-21T17:59:59Z'
-                    totalPrice: 48000
-                    coupon: null
-                    delivery:
-                      deliveryDate: '2021-08-21T17:59:59Z'
-                      status: NO DELIVERY YET
-                    paymentOption:
-                      id: 1
-                      name: Shopeepay
-                    orderItems:
-                      - menu:
-                          id: 2
-                          categoryID: 1
-                          categoryName: Coffee
-                          deletedAt: null
-                          name: Cappuccino
-                          price: 24000
-                          image: images-byte64
-                          rating: 0
-                        quantity: 2
-                        description: toppings:boba
-                  - id: 2
-                    userID: 1
-                    couponID: 0
-                    orderedDate: '2021-08-21T17:59:59Z'
-                    totalPrice: 15000
-                    coupon: null
-                    delivery:
-                      deliveryDate: '2021-08-21T17:59:59Z'
-                      status: NO DELIVERY YET
-                    paymentOption:
-                      id: 1
-                      name: Shopeepay
-                    orderItems:
-                      - menu:
-                          id: 1
-                          categoryID: 2
-                          categoryName: Non-Coffee
-                          deletedAt: null
-                          name: Lemon tea
-                          price: 15000
-                          image: images-byte64
-                          rating: 0
-                        quantity: 1
-                        description: toppings:boba
-                  - id: 3
-                    userID: 1
-                    couponID: 1
-                    orderedDate: '2021-08-21T17:59:59Z'
-                    totalPrice: 13500
-                    coupon:
-                      id: 1
-                      name: Discount 10%
-                      amount: 10
-                      deletedAt: null
-                    delivery:
-                      deliveryDate: '2021-08-21T17:59:59Z'
-                      status: NO DELIVERY YET
-                    paymentOption:
-                      id: 1
-                      name: Shopeepay
-                    orderItems:
-                      - menu:
-                          id: 1
-                          categoryID: 2
-                          categoryName: Non-Coffee
-                          deletedAt: null
-                          name: Lemon tea
-                          price: 15000
-                          image: images-byte64
-                          rating: 0
-                        quantity: 1
-                        description: toppings:boba
-                  - id: 5
-                    userID: 4
-                    couponID: 1
-                    orderedDate: '2021-08-21T17:59:59Z'
-                    totalPrice: 13500
-                    coupon:
-                      id: 1
-                      name: Discount 10%
-                      amount: 10
-                      deletedAt: null
-                    delivery:
-                      deliveryDate: '2021-08-21T17:59:59Z'
-                      status: IN PROCESS
-                    paymentOption:
-                      id: 1
-                      name: Shopeepay
-                    orderItems:
-                      - menu:
-                          id: 1
-                          categoryID: 2
-                          categoryName: Non-Coffee
-                          deletedAt: null
-                          name: Lemon tea
-                          price: 15000
-                          image: images-byte64
-                          rating: 0
-                        quantity: 1
-                        description: toppings:boba
-                  - id: 6
-                    userID: 4
-                    couponID: 0
-                    orderedDate: '2021-08-21T17:59:59Z'
-                    totalPrice: 15000
-                    coupon: null
-                    delivery:
-                      deliveryDate: '2021-08-21T17:59:59Z'
-                      status: IN PROCESS
-                    paymentOption:
-                      id: 1
-                      name: Shopeepay
-                    orderItems:
-                      - menu:
-                          id: 1
-                          categoryID: 2
-                          categoryName: Non-Coffee
-                          deletedAt: null
-                          name: Lemon tea
-                          price: 15000
-                          image: images-byte64
-                          rating: 0
-                        quantity: 1
-                        description: toppings:boba
-                  - id: 7
-                    userID: 4
-                    couponID: 0
-                    orderedDate: '2021-08-21T17:59:59Z'
-                    totalPrice: 24000
-                    coupon: null
-                    delivery:
-                      deliveryDate: '2021-08-21T17:59:59Z'
-                      status: IN PROCESS
-                    paymentOption:
-                      id: 1
-                      name: Shopeepay
-                    orderItems:
-                      - menu:
-                          id: 2
-                          categoryID: 1
-                          categoryName: Coffee
-                          deletedAt: null
-                          name: Cappuccino
-                          price: 24000
-                          image: images-byte64
-                          rating: 0
-                        quantity: 1
-                        description: toppings:boba
-                  - id: 8
-                    userID: 4
-                    couponID: 0
-                    orderedDate: '2021-08-21T17:59:59Z'
-                    totalPrice: 24000
-                    coupon: null
-                    delivery:
-                      deliveryDate: '2021-08-21T17:59:59Z'
-                      status: IN PROCESS
-                    paymentOption:
-                      id: 1
-                      name: Shopeepay
-                    orderItems:
-                      - menu:
-                          id: 8
-                          categoryID: 3
-                          categoryName: Bread
-                          deletedAt: null
-                          name: Choco Pan De
-                          price: 24000
-                          image: images-byte64
-                          rating: 0
-                        quantity: 1
-                        description: toppings:boba
+                  currentPage: 1
+                  totalPage: 1
+                  totalData: 3
+                  limit: 10
+                  orderRes:
+                    - id: 1
+                      userID: 4
+                      couponID: 0
+                      orderedDate: '2021-08-21T17:59:59Z'
+                      totalPrice: 48000
+                      coupon: null
+                      delivery:
+                        deliveryDate: '2021-08-21T17:59:59Z'
+                        status: NO DELIVERY YET
+                      paymentOption:
+                        id: 1
+                        name: Shopeepay
+                      orderItems:
+                        - menu:
+                            id: 2
+                            categoryID: 1
+                            categoryName: Coffee
+                            deletedAt: null
+                            name: Cappuccino
+                            price: 24000
+                            image: images-byte64
+                            rating: 0
+                          quantity: 2
+                          description: toppings:boba
+                    - id: 2
+                      userID: 1
+                      couponID: 0
+                      orderedDate: '2021-08-21T17:59:59Z'
+                      totalPrice: 15000
+                      coupon: null
+                      delivery:
+                        deliveryDate: '2021-08-21T17:59:59Z'
+                        status: NO DELIVERY YET
+                      paymentOption:
+                        id: 1
+                        name: Shopeepay
+                      orderItems:
+                        - menu:
+                            id: 1
+                            categoryID: 2
+                            categoryName: Non-Coffee
+                            deletedAt: null
+                            name: Lemon tea
+                            price: 15000
+                            image: images-byte64
+                            rating: 0
+                          quantity: 1
+                          description: toppings:boba
+                    - id: 3
+                      userID: 1
+                      couponID: 1
+                      orderedDate: '2021-08-21T17:59:59Z'
+                      totalPrice: 13500
+                      coupon:
+                        id: 1
+                        name: Discount 10%
+                        amount: 10
+                        deletedAt: null
+                      delivery:
+                        deliveryDate: '2021-08-21T17:59:59Z'
+                        status: NO DELIVERY YET
+                      paymentOption:
+                        id: 1
+                        name: Shopeepay
+                      orderItems:
+                        - menu:
+                            id: 1
+                            categoryID: 2
+                            categoryName: Non-Coffee
+                            deletedAt: null
+                            name: Lemon tea
+                            price: 15000
+                            image: images-byte64
+                            rating: 0
+                          quantity: 1
+                          description: toppings:boba
         '401':
           description: Unauthorized Error
           content:

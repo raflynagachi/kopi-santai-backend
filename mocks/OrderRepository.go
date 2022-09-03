@@ -15,6 +15,27 @@ type OrderRepository struct {
 	mock.Mock
 }
 
+// CountRecords provides a mock function with given fields: tx, t
+func (_m *OrderRepository) CountRecords(tx *gorm.DB, t *time.Time) (int, error) {
+	ret := _m.Called(tx, t)
+
+	var r0 int
+	if rf, ok := ret.Get(0).(func(*gorm.DB, *time.Time) int); ok {
+		r0 = rf(tx, t)
+	} else {
+		r0 = ret.Get(0).(int)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(*gorm.DB, *time.Time) error); ok {
+		r1 = rf(tx, t)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // CreateOrder provides a mock function with given fields: tx, o
 func (_m *OrderRepository) CreateOrder(tx *gorm.DB, o *model.Order) (*model.Order, error) {
 	ret := _m.Called(tx, o)
@@ -38,13 +59,13 @@ func (_m *OrderRepository) CreateOrder(tx *gorm.DB, o *model.Order) (*model.Orde
 	return r0, r1
 }
 
-// FindAll provides a mock function with given fields: tx, t
-func (_m *OrderRepository) FindAll(tx *gorm.DB, t *time.Time) ([]*model.Order, error) {
-	ret := _m.Called(tx, t)
+// FindAll provides a mock function with given fields: tx, t, limit, page
+func (_m *OrderRepository) FindAll(tx *gorm.DB, t *time.Time, limit int, page int) ([]*model.Order, error) {
+	ret := _m.Called(tx, t, limit, page)
 
 	var r0 []*model.Order
-	if rf, ok := ret.Get(0).(func(*gorm.DB, *time.Time) []*model.Order); ok {
-		r0 = rf(tx, t)
+	if rf, ok := ret.Get(0).(func(*gorm.DB, *time.Time, int, int) []*model.Order); ok {
+		r0 = rf(tx, t, limit, page)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]*model.Order)
@@ -52,8 +73,8 @@ func (_m *OrderRepository) FindAll(tx *gorm.DB, t *time.Time) ([]*model.Order, e
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(*gorm.DB, *time.Time) error); ok {
-		r1 = rf(tx, t)
+	if rf, ok := ret.Get(1).(func(*gorm.DB, *time.Time, int, int) error); ok {
+		r1 = rf(tx, t, limit, page)
 	} else {
 		r1 = ret.Error(1)
 	}

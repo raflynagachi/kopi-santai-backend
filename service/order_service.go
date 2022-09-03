@@ -13,7 +13,7 @@ import (
 
 type OrderService interface {
 	CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.OrderRes, error)
-	FindAll(q *model.QueryParamOrder) ([]*dto.OrderRes, error)
+	FindAll(q *model.QueryParamOrder) (*dto.OrderPaginationRes, error)
 	FindOrderByIDAndUserID(id, userID uint) (*dto.OrderRes, error)
 	FindOrderByUserID(userID uint) ([]*dto.OrderRes, error)
 }
@@ -197,16 +197,23 @@ func (s *orderService) FindOrderByUserID(userID uint) ([]*dto.OrderRes, error) {
 	return ordersRes, nil
 }
 
-func (s *orderService) FindAll(q *model.QueryParamOrder) ([]*dto.OrderRes, error) {
+func (s *orderService) FindAll(q *model.QueryParamOrder) (*dto.OrderPaginationRes, error) {
 	var ordersRes []*dto.OrderRes
 	t := validateQueryParamOrder(q)
 
 	tx := s.db.Begin()
-	order, err := s.orderRepo.FindAll(tx, &t)
+	order, err := s.orderRepo.FindAll(tx, &t, q.Limit, q.Page)
 	if err != nil {
 		tx.Rollback()
 		return nil, apperror.NotFoundError(err.Error())
 	}
+
+	count, err := s.orderRepo.CountRecords(tx, &t)
+	if err != nil {
+		tx.Rollback()
+		return nil, apperror.InternalServerError(err.Error())
+	}
+	totalPages := (count + q.Limit - 1) / q.Limit
 
 	for _, o := range order {
 		orderItems, err := s.orderItemRepo.FindOrderItemByOrderID(tx, o.ID)
@@ -217,5 +224,6 @@ func (s *orderService) FindAll(q *model.QueryParamOrder) ([]*dto.OrderRes, error
 	}
 	helper.CommitOrRollback(tx, err)
 
-	return ordersRes, nil
+	orderPagRes := new(dto.OrderPaginationRes).From(ordersRes, q.Page, totalPages, count, q.Limit)
+	return orderPagRes, nil
 }
