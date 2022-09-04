@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "dab105d5-2563-432e-866c-f282513586cb",
+		"_postman_id": "74332239-fe18-4a19-b267-3c354b98ede5",
 		"name": "Kopi Santai - OpenAPI 3.0",
 		"description": "Digitalent final project about food ordering system named Kopi Santai\n\nContact Support:\n Email: rafly.nagachi@shoppe.com",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -199,7 +199,7 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": "-81239654",
+									"value": "-38856052",
 									"description": "(Required) Numeric ID of the user to get"
 								}
 							]
@@ -238,7 +238,7 @@
 									"variable": [
 										{
 											"key": "userId",
-											"value": "-81239654",
+											"value": "-38856052",
 											"description": "(Required) Numeric ID of the user to get"
 										}
 									]
@@ -288,7 +288,7 @@
 									"variable": [
 										{
 											"key": "userId",
-											"value": "-81239654",
+											"value": "-38856052",
 											"description": "(Required) Numeric ID of the user to get"
 										}
 									]
@@ -338,7 +338,7 @@
 									"variable": [
 										{
 											"key": "userId",
-											"value": "-81239654",
+											"value": "-38856052",
 											"description": "(Required) Numeric ID of the user to get"
 										}
 									]
@@ -545,7 +545,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "-81239654",
+											"value": "-38856052",
 											"description": "(Required) Numeric ID of the menu to get"
 										}
 									]
@@ -575,7 +575,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "-81239654",
+													"value": "-38856052",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -616,7 +616,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "-81239654",
+													"value": "-38856052",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -657,7 +657,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "-81239654",
+													"value": "-38856052",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -698,7 +698,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "-81239654",
+													"value": "-38856052",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -753,7 +753,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "-81239654",
+											"value": "-38856052",
 											"description": "(Required) Numeric ID of the menu to get"
 										}
 									]
@@ -792,7 +792,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "-81239654",
+													"value": "-38856052",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -842,7 +842,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "-81239654",
+													"value": "-38856052",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -892,7 +892,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "-81239654",
+													"value": "-38856052",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -942,7 +942,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "-81239654",
+													"value": "-38856052",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -1032,7 +1032,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"id\": 1,\n    \"menuID\": 1,\n    \"description\": \"Mantap\",\n    \"rating\": 5,\n    \"userID\": 1,\n    \"userEmail\": \"charlie.doe@mail.com\"\n  }\n}"
+									"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"menuID\": 1,\n    \"description\": \"Mantap\",\n    \"rating\": 5,\n    \"userID\": 1,\n    \"userEmail\": \"charlie.doe@mail.com\"\n  }\n}"
 								},
 								{
 									"name": "Bad Request Error",
@@ -1747,7 +1747,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"currentPage\": 1,\n    \"totalPage\": 1,\n    \"totalData\": 3,\n    \"limit\": 10,\n    \"orderRes\": [\n      {\n        \"id\": 1,\n        \"userID\": 4,\n        \"couponID\": 0,\n        \"orderedDate\": \"2021-08-21T17:59:59Z\",\n        \"totalPrice\": 48000,\n        \"coupon\": null,\n        \"delivery\": {\n          \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n          \"status\": \"NO DELIVERY YET\"\n        },\n        \"paymentOption\": {\n          \"id\": 1,\n          \"name\": \"Shopeepay\"\n        },\n        \"orderItems\": [\n          {\n            \"menu\": {\n              \"id\": 2,\n              \"categoryID\": 1,\n              \"categoryName\": \"Coffee\",\n              \"deletedAt\": null,\n              \"name\": \"Cappuccino\",\n              \"price\": 24000,\n              \"image\": \"images-byte64\",\n              \"rating\": 0\n            },\n            \"quantity\": 2,\n            \"description\": \"toppings:boba\"\n          }\n        ]\n      },\n      {\n        \"id\": 2,\n        \"userID\": 1,\n        \"couponID\": 0,\n        \"orderedDate\": \"2021-08-21T17:59:59Z\",\n        \"totalPrice\": 15000,\n        \"coupon\": null,\n        \"delivery\": {\n          \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n          \"status\": \"NO DELIVERY YET\"\n        },\n        \"paymentOption\": {\n          \"id\": 1,\n          \"name\": \"Shopeepay\"\n        },\n        \"orderItems\": [\n          {\n            \"menu\": {\n              \"id\": 1,\n              \"categoryID\": 2,\n              \"categoryName\": \"Non-Coffee\",\n              \"deletedAt\": null,\n              \"name\": \"Lemon tea\",\n              \"price\": 15000,\n              \"image\": \"images-byte64\",\n              \"rating\": 0\n            },\n            \"quantity\": 1,\n            \"description\": \"toppings:boba\"\n          }\n        ]\n      },\n      {\n        \"id\": 3,\n        \"userID\": 1,\n        \"couponID\": 1,\n        \"orderedDate\": \"2021-08-21T17:59:59Z\",\n        \"totalPrice\": 13500,\n        \"coupon\": {\n          \"id\": 1,\n          \"name\": \"Discount 10%\",\n          \"amount\": 10,\n          \"deletedAt\": null\n        },\n        \"delivery\": {\n          \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n          \"status\": \"NO DELIVERY YET\"\n        },\n        \"paymentOption\": {\n          \"id\": 1,\n          \"name\": \"Shopeepay\"\n        },\n        \"orderItems\": [\n          {\n            \"menu\": {\n              \"id\": 1,\n              \"categoryID\": 2,\n              \"categoryName\": \"Non-Coffee\",\n              \"deletedAt\": null,\n              \"name\": \"Lemon tea\",\n              \"price\": 15000,\n              \"image\": \"images-byte64\",\n              \"rating\": 0\n            },\n            \"quantity\": 1,\n            \"description\": \"toppings:boba\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"currentPage\": 1,\n    \"totalPage\": 1,\n    \"totalData\": 3,\n    \"limit\": 10,\n    \"sumOfTotalPrice\": 230000,\n    \"orderRes\": [\n      {\n        \"id\": 1,\n        \"userID\": 4,\n        \"couponID\": 0,\n        \"orderedDate\": \"2021-08-21T17:59:59Z\",\n        \"totalPrice\": 48000,\n        \"coupon\": null,\n        \"delivery\": {\n          \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n          \"status\": \"NO DELIVERY YET\"\n        },\n        \"paymentOption\": {\n          \"id\": 1,\n          \"name\": \"Shopeepay\"\n        },\n        \"orderItems\": [\n          {\n            \"menu\": {\n              \"id\": 2,\n              \"categoryID\": 1,\n              \"categoryName\": \"Coffee\",\n              \"deletedAt\": null,\n              \"name\": \"Cappuccino\",\n              \"price\": 24000,\n              \"image\": \"images-byte64\",\n              \"rating\": 0\n            },\n            \"quantity\": 2,\n            \"description\": \"toppings:boba\"\n          }\n        ]\n      },\n      {\n        \"id\": 2,\n        \"userID\": 1,\n        \"couponID\": 0,\n        \"orderedDate\": \"2021-08-21T17:59:59Z\",\n        \"totalPrice\": 15000,\n        \"coupon\": null,\n        \"delivery\": {\n          \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n          \"status\": \"NO DELIVERY YET\"\n        },\n        \"paymentOption\": {\n          \"id\": 1,\n          \"name\": \"Shopeepay\"\n        },\n        \"orderItems\": [\n          {\n            \"menu\": {\n              \"id\": 1,\n              \"categoryID\": 2,\n              \"categoryName\": \"Non-Coffee\",\n              \"deletedAt\": null,\n              \"name\": \"Lemon tea\",\n              \"price\": 15000,\n              \"image\": \"images-byte64\",\n              \"rating\": 0\n            },\n            \"quantity\": 1,\n            \"description\": \"toppings:boba\"\n          }\n        ]\n      },\n      {\n        \"id\": 3,\n        \"userID\": 1,\n        \"couponID\": 1,\n        \"orderedDate\": \"2021-08-21T17:59:59Z\",\n        \"totalPrice\": 13500,\n        \"coupon\": {\n          \"id\": 1,\n          \"name\": \"Discount 10%\",\n          \"amount\": 10,\n          \"deletedAt\": null\n        },\n        \"delivery\": {\n          \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n          \"status\": \"NO DELIVERY YET\"\n        },\n        \"paymentOption\": {\n          \"id\": 1,\n          \"name\": \"Shopeepay\"\n        },\n        \"orderItems\": [\n          {\n            \"menu\": {\n              \"id\": 1,\n              \"categoryID\": 2,\n              \"categoryName\": \"Non-Coffee\",\n              \"deletedAt\": null,\n              \"name\": \"Lemon tea\",\n              \"price\": 15000,\n              \"image\": \"images-byte64\",\n              \"rating\": 0\n            },\n            \"quantity\": 1,\n            \"description\": \"toppings:boba\"\n          }\n        ]\n      }\n    ]\n  }\n}"
 						},
 						{
 							"name": "Unauthorized Error",
@@ -2469,7 +2469,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "-81239654",
+											"value": "-38856052",
 											"description": "(Required) Numeric ID of the orderItem to get"
 										}
 									]
@@ -2499,7 +2499,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "-81239654",
+													"value": "-38856052",
 													"description": "(Required) Numeric ID of the orderItem to get"
 												}
 											]
@@ -2540,7 +2540,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "-81239654",
+													"value": "-38856052",
 													"description": "(Required) Numeric ID of the orderItem to get"
 												}
 											]
@@ -2581,7 +2581,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "-81239654",
+													"value": "-38856052",
 													"description": "(Required) Numeric ID of the orderItem to get"
 												}
 											]
@@ -2622,7 +2622,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "-81239654",
+													"value": "-38856052",
 													"description": "(Required) Numeric ID of the orderItem to get"
 												}
 											]
@@ -2663,7 +2663,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "-81239654",
+													"value": "-38856052",
 													"description": "(Required) Numeric ID of the orderItem to get"
 												}
 											]
@@ -5391,7 +5391,7 @@
 						}
 					],
 					"cookie": [],
-					"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"id\": 1,\n    \"menuID\": 1,\n    \"description\": \"Mantap\",\n    \"rating\": 5,\n    \"userID\": 1,\n    \"userEmail\": \"charlie.doe@mail.com\"\n  }\n}"
+					"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"menuID\": 1,\n    \"description\": \"Mantap\",\n    \"rating\": 5,\n    \"userID\": 1,\n    \"userEmail\": \"charlie.doe@mail.com\"\n  }\n}"
 				},
 				{
 					"name": "Bad Request Error",
@@ -5526,10 +5526,6 @@
 			"request": {
 				"method": "POST",
 				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
 					{
 						"key": "Content-Type",
 						"value": "application/json"
@@ -6312,8 +6308,7 @@
 		},
 		{
 			"key": "token",
-			"value": "",
-			"type": "string"
+			"value": ""
 		}
 	]
 }

@@ -68,7 +68,7 @@ values (1, 100),(2, 50),(1, 150),(2, 200);
 
 -- Insert games leaderboard score
 insert into game_leaderboards_tab (user_id, score)
-values (1, 20),(2, 30),(3, 0),(4, 50);
+values (1, 20),(2, 30),(3, 0),(4,0);
 
 -- Insert owned coupons of user
 insert into users_coupons_tab

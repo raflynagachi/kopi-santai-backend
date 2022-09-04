@@ -2,7 +2,7 @@
 RESTful API Food Ordering System for Kopi Santai built with Golang and PostgreSQL.
 
 ### ER Diagram  
-https://dbdiagram.io/embed/6312d6450911f91ba52844c3  
+https://dbdiagram.io/embed/631486110911f91ba52f63df  
 ![ERD](https://git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/-/raw/master/assets/docs/erd.png "ERD")
 
 ### Coverage
