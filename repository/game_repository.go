@@ -51,7 +51,7 @@ func (r *gameRepository) UpdateScore(tx *gorm.DB, userID uint, gl *model.GameLea
 }
 
 func (r *gameRepository) ResetTriedChance(tx *gorm.DB) error {
-	result := tx.Table("game_leaderboards_tab").Where("tried >= 0").Updates(map[string]interface{}{"tried": 0})
+	result := tx.Table("game_leaderboards_tab").Where("tried > 0").Updates(map[string]interface{}{"tried": 0})
 	return result.Error
 }
 
@@ -75,6 +75,8 @@ func (r *gameRepository) FindAll(tx *gorm.DB) ([]*model.GameLeaderboard, error) 
 	sort := "desc"
 	orderStatement := fmt.Sprintf("%s %s", sortBy, sort)
 
-	result := tx.Preload("User").Order(orderStatement).Limit(10).Find(&gameLeaderboards)
+	var ids []uint
+	tx.Table("users_tab").Distinct().Select("id").Where("role = ?", model.AdminRole).Find(&ids)
+	result := tx.Preload("User").Where("user_id NOT IN (?)", ids).Order(orderStatement).Limit(5).Find(&gameLeaderboards)
 	return gameLeaderboards, result.Error
 }

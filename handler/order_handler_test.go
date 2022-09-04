@@ -109,7 +109,7 @@ func TestOrderHandler_FindAll(t *testing.T) {
 	t.Run("should return statusOK when find all order success", func(t *testing.T) {
 		mockService := new(mocks.OrderService)
 		config := server.RouterConfig{OrderService: mockService}
-		res := []*dto.OrderRes{{
+		orderRes := []*dto.OrderRes{{
 			UserID:        1,
 			CouponID:      1,
 			OrderedDate:   time.Time{}.AddDate(1, 0, 0),
@@ -119,13 +119,22 @@ func TestOrderHandler_FindAll(t *testing.T) {
 			PaymentOption: &dto.PaymentOptionRes{},
 			OrderItems:    []*dto.OrderItemRes{},
 		}}
+		res := &dto.OrderPaginationRes{
+			CurrentPage: 1,
+			TotalPage:   1,
+			TotalData:   1,
+			Limit:       10,
+			OrderRes:    orderRes,
+		}
 		queryParam := &model.QueryParamOrder{
-			Date: "lastWeek",
+			Date:  "lastWeek",
+			Limit: 10,
+			Page:  1,
 		}
 		mockService.On("FindAll", queryParam).Return(res, nil)
 		expectedBody, _ := json.Marshal(dto.StatusOKResponse(res))
 
-		req, _ := http.NewRequest(http.MethodGet, "/internal/orders?date=lastWeek", nil)
+		req, _ := http.NewRequest(http.MethodGet, "/internal/orders?date=lastWeek&limit=10&page=1", nil)
 		_, w := testutils.ServeReq(&config, req)
 
 		assert.Equal(t, http.StatusOK, w.Code)
@@ -135,7 +144,7 @@ func TestOrderHandler_FindAll(t *testing.T) {
 	t.Run("should return error when find all order failed", func(t *testing.T) {
 		mockService := new(mocks.OrderService)
 		config := server.RouterConfig{OrderService: mockService}
-		queryParam := &model.QueryParamOrder{Date: "lastWeek"}
+		queryParam := &model.QueryParamOrder{Date: "lastWeek", Limit: 10, Page: 1}
 		internalServerErr := apperror.InternalServerError(errors.New("db error").Error())
 		mockService.On("FindAll", queryParam).Return(nil, internalServerErr)
 		expectedBody, _ := json.Marshal(internalServerErr)

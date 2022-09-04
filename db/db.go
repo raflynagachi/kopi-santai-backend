@@ -22,8 +22,11 @@ func getLogger() logger.Interface {
 }
 
 func Connect() error {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Jakarta",
-		c.Host, c.User, c.Password, c.DBName, c.Port)
+	dsn := config.Config.DatabaseURL
+	if config.Config.DatabaseURL == "" {
+		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Jakarta",
+			c.Host, c.User, c.Password, c.DBName, c.Port)
+	}
 	var err error
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: getLogger(),

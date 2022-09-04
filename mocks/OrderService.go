@@ -38,15 +38,15 @@ func (_m *OrderService) CreateOrder(req *dto.OrderPostReq, userID uint) (*dto.Or
 }
 
 // FindAll provides a mock function with given fields: q
-func (_m *OrderService) FindAll(q *model.QueryParamOrder) ([]*dto.OrderRes, error) {
+func (_m *OrderService) FindAll(q *model.QueryParamOrder) (*dto.OrderPaginationRes, error) {
 	ret := _m.Called(q)
 
-	var r0 []*dto.OrderRes
-	if rf, ok := ret.Get(0).(func(*model.QueryParamOrder) []*dto.OrderRes); ok {
+	var r0 *dto.OrderPaginationRes
+	if rf, ok := ret.Get(0).(func(*model.QueryParamOrder) *dto.OrderPaginationRes); ok {
 		r0 = rf(q)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]*dto.OrderRes)
+			r0 = ret.Get(0).(*dto.OrderPaginationRes)
 		}
 	}
 

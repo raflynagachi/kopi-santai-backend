@@ -9,9 +9,11 @@ import (
 
 type OrderRepository interface {
 	CreateOrder(tx *gorm.DB, o *model.Order) (*model.Order, error)
-	FindAll(tx *gorm.DB, t *time.Time) ([]*model.Order, error)
+	FindAll(tx *gorm.DB, t *time.Time, limit, page int) ([]*model.Order, error)
 	FindOrderByIDAndUserID(tx *gorm.DB, id, userID uint) (*model.Order, error)
 	FindOrderByUserID(tx *gorm.DB, userID uint) ([]*model.Order, error)
+	CountRecords(tx *gorm.DB, t *time.Time) (int, error)
+	SumOfTotalPrice(tx *gorm.DB, t *time.Time) (float64, error)
 	Update(tx *gorm.DB, id uint, ord *model.Order) (*model.Order, error)
 }
 
@@ -26,10 +28,31 @@ func (r *orderRepository) CreateOrder(tx *gorm.DB, o *model.Order) (*model.Order
 	return o, err
 }
 
-func (r *orderRepository) FindAll(tx *gorm.DB, t *time.Time) ([]*model.Order, error) {
-	var orders []*model.Order
+func (r *orderRepository) CountRecords(tx *gorm.DB, t *time.Time) (int, error) {
+	var count int64
 
-	result := tx.Preload("Coupon", func(db *gorm.DB) *gorm.DB {
+	result := tx.Model(&model.Order{}).Where("ordered_date BETWEEN ? AND ?", t, time.Now()).Count(&count)
+	if result.Error != nil && result.RowsAffected == 0 {
+		return 0, new(apperror.OrderNotFoundError)
+	}
+	return int(count), nil
+}
+
+func (r *orderRepository) SumOfTotalPrice(tx *gorm.DB, t *time.Time) (float64, error) {
+	var sumOfTotalPrice float64
+
+	result := tx.Model(&model.Order{}).Where("ordered_date BETWEEN ? AND ?", t, time.Now()).Select("SUM(total_price)").Scan(&sumOfTotalPrice)
+	if result.Error != nil && result.RowsAffected == 0 {
+		return 0, new(apperror.OrderNotFoundError)
+	}
+	return sumOfTotalPrice, nil
+}
+
+func (r *orderRepository) FindAll(tx *gorm.DB, t *time.Time, limit, page int) ([]*model.Order, error) {
+	var orders []*model.Order
+	offset := (page - 1) * limit
+
+	result := tx.Limit(limit).Offset(offset).Preload("Coupon", func(db *gorm.DB) *gorm.DB {
 		return db.Unscoped()
 	}).Preload("Delivery").Preload("PaymentOption").Where("ordered_date BETWEEN ? AND ?", t, time.Now()).Find(&orders)
 	if result.Error != nil && result.RowsAffected == 0 {

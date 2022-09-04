@@ -606,9 +606,19 @@ func TestOrderService_FindAll(t *testing.T) {
 			PromotionRepo:  promoMockRepository,
 		}
 		s := service.NewOrder(cfg)
-		expectedRes := []*dto.OrderRes{orderRes}
-		q := &model.QueryParamOrder{}
-		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), &time.Time{}).Return([]*model.Order{order}, nil)
+		expectedRes := &dto.OrderPaginationRes{
+			CurrentPage:     1,
+			TotalPage:       1,
+			TotalData:       1,
+			Limit:           10,
+			OrderRes:        []*dto.OrderRes{orderRes},
+			SumOfTotalPrice: 1,
+		}
+
+		q := &model.QueryParamOrder{Limit: 10, Page: 1}
+		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), &time.Time{}, 10, 1).Return([]*model.Order{order}, nil)
+		mockRepository.On("CountRecords", mock.AnythingOfType(testutils.GormDBPointerType), &time.Time{}).Return(1, nil)
+		mockRepository.On("SumOfTotalPrice", mock.AnythingOfType(testutils.GormDBPointerType), &time.Time{}).Return(float64(1), nil)
 		orderItemMockRepository.On("FindOrderItemByOrderID", mock.AnythingOfType(testutils.GormDBPointerType), orderID).Return([]*model.OrderItem{orderItemTest}, nil)
 
 		menuRes, err := s.FindAll(q)
@@ -635,11 +645,22 @@ func TestOrderService_FindAll(t *testing.T) {
 			PromotionRepo:  promoMockRepository,
 		}
 		s := service.NewOrder(cfg)
-		expectedRes := []*dto.OrderRes{orderRes}
-		q := &model.QueryParamOrder{
-			Date: "lastMonth",
+		expectedRes := &dto.OrderPaginationRes{
+			CurrentPage:     1,
+			TotalPage:       1,
+			TotalData:       1,
+			Limit:           10,
+			OrderRes:        []*dto.OrderRes{orderRes},
+			SumOfTotalPrice: 1,
 		}
-		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time")).Return([]*model.Order{order}, nil)
+		q := &model.QueryParamOrder{
+			Date:  "lastMonth",
+			Limit: 10,
+			Page:  1,
+		}
+		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time"), 10, 1).Return([]*model.Order{order}, nil)
+		mockRepository.On("CountRecords", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time")).Return(1, nil)
+		mockRepository.On("SumOfTotalPrice", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time")).Return(float64(1), nil)
 		orderItemMockRepository.On("FindOrderItemByOrderID", mock.AnythingOfType(testutils.GormDBPointerType), orderID).Return([]*model.OrderItem{orderItemTest}, nil)
 
 		menuRes, err := s.FindAll(q)
@@ -666,17 +687,97 @@ func TestOrderService_FindAll(t *testing.T) {
 			PromotionRepo:  promoMockRepository,
 		}
 		s := service.NewOrder(cfg)
-		expectedRes := []*dto.OrderRes{orderRes}
-		q := &model.QueryParamOrder{
-			Date: "lastYear",
+		expectedRes := &dto.OrderPaginationRes{
+			CurrentPage:     1,
+			TotalPage:       1,
+			TotalData:       1,
+			Limit:           10,
+			OrderRes:        []*dto.OrderRes{orderRes},
+			SumOfTotalPrice: 1,
 		}
-		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time")).Return([]*model.Order{order}, nil)
+		q := &model.QueryParamOrder{
+			Date:  "lastYear",
+			Limit: 10,
+			Page:  1,
+		}
+		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time"), 10, 1).Return([]*model.Order{order}, nil)
+		mockRepository.On("CountRecords", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time")).Return(1, nil)
+		mockRepository.On("SumOfTotalPrice", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time")).Return(float64(1), nil)
 		orderItemMockRepository.On("FindOrderItemByOrderID", mock.AnythingOfType(testutils.GormDBPointerType), orderID).Return([]*model.OrderItem{orderItemTest}, nil)
 
 		menuRes, err := s.FindAll(q)
 
 		assert.Nil(t, err)
 		assert.Equal(t, expectedRes, menuRes)
+	})
+
+	t.Run("should return error when find all orders failed to count records", func(t *testing.T) {
+		gormDB := testutils.MockDB()
+		mockRepository := new(mocks.OrderRepository)
+		deliveryMockRepository := new(mocks.DeliveryRepository)
+		paymentOptMockRepository := new(mocks.PaymentOptionRepository)
+		couponMockRepository := new(mocks.CouponRepository)
+		orderItemMockRepository := new(mocks.OrderItemRepository)
+		promoMockRepository := new(mocks.PromotionRepository)
+		cfg := &service.OrderConfig{
+			DB:             gormDB,
+			DeliveryRepo:   deliveryMockRepository,
+			PaymentOptRepo: paymentOptMockRepository,
+			CouponRepo:     couponMockRepository,
+			OrderRepo:      mockRepository,
+			OrderItemRepo:  orderItemMockRepository,
+			PromotionRepo:  promoMockRepository,
+		}
+		s := service.NewOrder(cfg)
+		q := &model.QueryParamOrder{
+			Date:  "lastYear",
+			Limit: 10,
+			Page:  1,
+		}
+		dbErr := errors.New("db error")
+		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time"), 10, 1).Return([]*model.Order{order}, nil)
+		mockRepository.On("CountRecords", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time")).Return(0, dbErr)
+		expectedErr := apperror.InternalServerError(dbErr.Error())
+
+		_, err := s.FindAll(q)
+
+		assert.Equal(t, expectedErr, err)
+		assert.ErrorContains(t, err, expectedErr.Error())
+	})
+
+	t.Run("should return error when find all orders failed to count records", func(t *testing.T) {
+		gormDB := testutils.MockDB()
+		mockRepository := new(mocks.OrderRepository)
+		deliveryMockRepository := new(mocks.DeliveryRepository)
+		paymentOptMockRepository := new(mocks.PaymentOptionRepository)
+		couponMockRepository := new(mocks.CouponRepository)
+		orderItemMockRepository := new(mocks.OrderItemRepository)
+		promoMockRepository := new(mocks.PromotionRepository)
+		cfg := &service.OrderConfig{
+			DB:             gormDB,
+			DeliveryRepo:   deliveryMockRepository,
+			PaymentOptRepo: paymentOptMockRepository,
+			CouponRepo:     couponMockRepository,
+			OrderRepo:      mockRepository,
+			OrderItemRepo:  orderItemMockRepository,
+			PromotionRepo:  promoMockRepository,
+		}
+		s := service.NewOrder(cfg)
+		q := &model.QueryParamOrder{
+			Date:  "lastYear",
+			Limit: 10,
+			Page:  1,
+		}
+		dbErr := errors.New("db error")
+		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time"), 10, 1).Return([]*model.Order{order}, nil)
+		mockRepository.On("CountRecords", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time")).Return(1, nil)
+		mockRepository.On("SumOfTotalPrice", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time")).Return(float64(0), dbErr)
+		expectedErr := apperror.InternalServerError(dbErr.Error())
+
+		_, err := s.FindAll(q)
+
+		assert.Equal(t, expectedErr, err)
+		assert.ErrorContains(t, err, expectedErr.Error())
 	})
 
 	t.Run("should return error when failed to find order", func(t *testing.T) {
@@ -698,10 +799,12 @@ func TestOrderService_FindAll(t *testing.T) {
 		}
 		s := service.NewOrder(cfg)
 		q := &model.QueryParamOrder{
-			Date: "lastWeek",
+			Date:  "lastWeek",
+			Limit: 10,
+			Page:  1,
 		}
 		dbErr := errors.New("db error")
-		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time")).Return([]*model.Order{order}, dbErr)
+		mockRepository.On("FindAll", mock.AnythingOfType(testutils.GormDBPointerType), mock.AnythingOfType("*time.Time"), 10, 1).Return([]*model.Order{order}, dbErr)
 		expectedErr := apperror.NotFoundError(dbErr.Error())
 
 		_, err := s.FindAll(q)

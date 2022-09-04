@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "718f2f51-aaa9-4611-a5a8-a3a432a77eda",
+		"_postman_id": "dab105d5-2563-432e-866c-f282513586cb",
 		"name": "Kopi Santai - OpenAPI 3.0",
 		"description": "Digitalent final project about food ordering system named Kopi Santai\n\nContact Support:\n Email: rafly.nagachi@shoppe.com",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -199,7 +199,7 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": "10639812",
+									"value": "-81239654",
 									"description": "(Required) Numeric ID of the user to get"
 								}
 							]
@@ -238,7 +238,7 @@
 									"variable": [
 										{
 											"key": "userId",
-											"value": "10639812",
+											"value": "-81239654",
 											"description": "(Required) Numeric ID of the user to get"
 										}
 									]
@@ -288,7 +288,7 @@
 									"variable": [
 										{
 											"key": "userId",
-											"value": "10639812",
+											"value": "-81239654",
 											"description": "(Required) Numeric ID of the user to get"
 										}
 									]
@@ -338,7 +338,7 @@
 									"variable": [
 										{
 											"key": "userId",
-											"value": "10639812",
+											"value": "-81239654",
 											"description": "(Required) Numeric ID of the user to get"
 										}
 									]
@@ -545,7 +545,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "10639812",
+											"value": "-81239654",
 											"description": "(Required) Numeric ID of the menu to get"
 										}
 									]
@@ -575,7 +575,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "10639812",
+													"value": "-81239654",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -616,7 +616,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "10639812",
+													"value": "-81239654",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -657,7 +657,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "10639812",
+													"value": "-81239654",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -698,7 +698,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "10639812",
+													"value": "-81239654",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -753,7 +753,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "10639812",
+											"value": "-81239654",
 											"description": "(Required) Numeric ID of the menu to get"
 										}
 									]
@@ -792,7 +792,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "10639812",
+													"value": "-81239654",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -842,7 +842,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "10639812",
+													"value": "-81239654",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -892,7 +892,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "10639812",
+													"value": "-81239654",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -942,7 +942,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "10639812",
+													"value": "-81239654",
 													"description": "(Required) Numeric ID of the menu to get"
 												}
 											]
@@ -1676,7 +1676,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/internal/orders?date=lastWeek",
+							"raw": "{{baseUrl}}/internal/orders?date=lastWeek&limit=10&page=1",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -1688,6 +1688,14 @@
 								{
 									"key": "date",
 									"value": "lastWeek"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "1"
 								}
 							]
 						}
@@ -1705,7 +1713,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/internal/orders?date=lastWeek",
+									"raw": "{{baseUrl}}/internal/orders?date=lastWeek&limit=10&page=1",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -1717,6 +1725,14 @@
 										{
 											"key": "date",
 											"value": "lastWeek"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "page",
+											"value": "1"
 										}
 									]
 								}
@@ -1731,7 +1747,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": [\n    {\n      \"id\": 1,\n      \"userID\": 4,\n      \"couponID\": 0,\n      \"orderedDate\": \"2021-08-21T17:59:59Z\",\n      \"totalPrice\": 48000,\n      \"coupon\": null,\n      \"delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"NO DELIVERY YET\"\n      },\n      \"paymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"orderItems\": [\n        {\n          \"menu\": {\n            \"id\": 2,\n            \"categoryID\": 1,\n            \"categoryName\": \"Coffee\",\n            \"deletedAt\": null,\n            \"name\": \"Cappuccino\",\n            \"price\": 24000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 2,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    },\n    {\n      \"id\": 2,\n      \"userID\": 1,\n      \"couponID\": 0,\n      \"orderedDate\": \"2021-08-21T17:59:59Z\",\n      \"totalPrice\": 15000,\n      \"coupon\": null,\n      \"delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"NO DELIVERY YET\"\n      },\n      \"paymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"orderItems\": [\n        {\n          \"menu\": {\n            \"id\": 1,\n            \"categoryID\": 2,\n            \"categoryName\": \"Non-Coffee\",\n            \"deletedAt\": null,\n            \"name\": \"Lemon tea\",\n            \"price\": 15000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    },\n    {\n      \"id\": 3,\n      \"userID\": 1,\n      \"couponID\": 1,\n      \"orderedDate\": \"2021-08-21T17:59:59Z\",\n      \"totalPrice\": 13500,\n      \"coupon\": {\n        \"id\": 1,\n        \"name\": \"Discount 10%\",\n        \"amount\": 10,\n        \"deletedAt\": null\n      },\n      \"delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"NO DELIVERY YET\"\n      },\n      \"paymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"orderItems\": [\n        {\n          \"menu\": {\n            \"id\": 1,\n            \"categoryID\": 2,\n            \"categoryName\": \"Non-Coffee\",\n            \"deletedAt\": null,\n            \"name\": \"Lemon tea\",\n            \"price\": 15000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    },\n    {\n      \"id\": 5,\n      \"userID\": 4,\n      \"couponID\": 1,\n      \"orderedDate\": \"2021-08-21T17:59:59Z\",\n      \"totalPrice\": 13500,\n      \"coupon\": {\n        \"id\": 1,\n        \"name\": \"Discount 10%\",\n        \"amount\": 10,\n        \"deletedAt\": null\n      },\n      \"delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"IN PROCESS\"\n      },\n      \"paymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"orderItems\": [\n        {\n          \"menu\": {\n            \"id\": 1,\n            \"categoryID\": 2,\n            \"categoryName\": \"Non-Coffee\",\n            \"deletedAt\": null,\n            \"name\": \"Lemon tea\",\n            \"price\": 15000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    },\n    {\n      \"id\": 6,\n      \"userID\": 4,\n      \"couponID\": 0,\n      \"orderedDate\": \"2021-08-21T17:59:59Z\",\n      \"totalPrice\": 15000,\n      \"coupon\": null,\n      \"delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"IN PROCESS\"\n      },\n      \"paymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"orderItems\": [\n        {\n          \"menu\": {\n            \"id\": 1,\n            \"categoryID\": 2,\n            \"categoryName\": \"Non-Coffee\",\n            \"deletedAt\": null,\n            \"name\": \"Lemon tea\",\n            \"price\": 15000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    },\n    {\n      \"id\": 7,\n      \"userID\": 4,\n      \"couponID\": 0,\n      \"orderedDate\": \"2021-08-21T17:59:59Z\",\n      \"totalPrice\": 24000,\n      \"coupon\": null,\n      \"delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"IN PROCESS\"\n      },\n      \"paymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"orderItems\": [\n        {\n          \"menu\": {\n            \"id\": 2,\n            \"categoryID\": 1,\n            \"categoryName\": \"Coffee\",\n            \"deletedAt\": null,\n            \"name\": \"Cappuccino\",\n            \"price\": 24000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    },\n    {\n      \"id\": 8,\n      \"userID\": 4,\n      \"couponID\": 0,\n      \"orderedDate\": \"2021-08-21T17:59:59Z\",\n      \"totalPrice\": 24000,\n      \"coupon\": null,\n      \"delivery\": {\n        \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n        \"status\": \"IN PROCESS\"\n      },\n      \"paymentOption\": {\n        \"id\": 1,\n        \"name\": \"Shopeepay\"\n      },\n      \"orderItems\": [\n        {\n          \"menu\": {\n            \"id\": 8,\n            \"categoryID\": 3,\n            \"categoryName\": \"Bread\",\n            \"deletedAt\": null,\n            \"name\": \"Choco Pan De\",\n            \"price\": 24000,\n            \"image\": \"images-byte64\",\n            \"rating\": 0\n          },\n          \"quantity\": 1,\n          \"description\": \"toppings:boba\"\n        }\n      ]\n    }\n  ]\n}"
+							"body": "{\n  \"statusCode\": 200,\n  \"status\": \"OK\",\n  \"data\": {\n    \"currentPage\": 1,\n    \"totalPage\": 1,\n    \"totalData\": 3,\n    \"limit\": 10,\n    \"orderRes\": [\n      {\n        \"id\": 1,\n        \"userID\": 4,\n        \"couponID\": 0,\n        \"orderedDate\": \"2021-08-21T17:59:59Z\",\n        \"totalPrice\": 48000,\n        \"coupon\": null,\n        \"delivery\": {\n          \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n          \"status\": \"NO DELIVERY YET\"\n        },\n        \"paymentOption\": {\n          \"id\": 1,\n          \"name\": \"Shopeepay\"\n        },\n        \"orderItems\": [\n          {\n            \"menu\": {\n              \"id\": 2,\n              \"categoryID\": 1,\n              \"categoryName\": \"Coffee\",\n              \"deletedAt\": null,\n              \"name\": \"Cappuccino\",\n              \"price\": 24000,\n              \"image\": \"images-byte64\",\n              \"rating\": 0\n            },\n            \"quantity\": 2,\n            \"description\": \"toppings:boba\"\n          }\n        ]\n      },\n      {\n        \"id\": 2,\n        \"userID\": 1,\n        \"couponID\": 0,\n        \"orderedDate\": \"2021-08-21T17:59:59Z\",\n        \"totalPrice\": 15000,\n        \"coupon\": null,\n        \"delivery\": {\n          \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n          \"status\": \"NO DELIVERY YET\"\n        },\n        \"paymentOption\": {\n          \"id\": 1,\n          \"name\": \"Shopeepay\"\n        },\n        \"orderItems\": [\n          {\n            \"menu\": {\n              \"id\": 1,\n              \"categoryID\": 2,\n              \"categoryName\": \"Non-Coffee\",\n              \"deletedAt\": null,\n              \"name\": \"Lemon tea\",\n              \"price\": 15000,\n              \"image\": \"images-byte64\",\n              \"rating\": 0\n            },\n            \"quantity\": 1,\n            \"description\": \"toppings:boba\"\n          }\n        ]\n      },\n      {\n        \"id\": 3,\n        \"userID\": 1,\n        \"couponID\": 1,\n        \"orderedDate\": \"2021-08-21T17:59:59Z\",\n        \"totalPrice\": 13500,\n        \"coupon\": {\n          \"id\": 1,\n          \"name\": \"Discount 10%\",\n          \"amount\": 10,\n          \"deletedAt\": null\n        },\n        \"delivery\": {\n          \"deliveryDate\": \"2021-08-21T17:59:59Z\",\n          \"status\": \"NO DELIVERY YET\"\n        },\n        \"paymentOption\": {\n          \"id\": 1,\n          \"name\": \"Shopeepay\"\n        },\n        \"orderItems\": [\n          {\n            \"menu\": {\n              \"id\": 1,\n              \"categoryID\": 2,\n              \"categoryName\": \"Non-Coffee\",\n              \"deletedAt\": null,\n              \"name\": \"Lemon tea\",\n              \"price\": 15000,\n              \"image\": \"images-byte64\",\n              \"rating\": 0\n            },\n            \"quantity\": 1,\n            \"description\": \"toppings:boba\"\n          }\n        ]\n      }\n    ]\n  }\n}"
 						},
 						{
 							"name": "Unauthorized Error",
@@ -1745,7 +1761,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/internal/orders?date=lastWeek",
+									"raw": "{{baseUrl}}/internal/orders?date=lastWeek&limit=10&page=1",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -1757,6 +1773,14 @@
 										{
 											"key": "date",
 											"value": "lastWeek"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "page",
+											"value": "1"
 										}
 									]
 								}
@@ -1785,7 +1809,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/internal/orders?date=lastWeek",
+									"raw": "{{baseUrl}}/internal/orders?date=lastWeek&limit=10&page=1",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -1797,6 +1821,14 @@
 										{
 											"key": "date",
 											"value": "lastWeek"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "page",
+											"value": "1"
 										}
 									]
 								}
@@ -1825,7 +1857,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/internal/orders?date=lastWeek",
+									"raw": "{{baseUrl}}/internal/orders?date=lastWeek&limit=10&page=1",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -1837,6 +1869,14 @@
 										{
 											"key": "date",
 											"value": "lastWeek"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "page",
+											"value": "1"
 										}
 									]
 								}
@@ -1865,7 +1905,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/internal/orders?date=lastWeek",
+									"raw": "{{baseUrl}}/internal/orders?date=lastWeek&limit=10&page=1",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -1877,6 +1917,14 @@
 										{
 											"key": "date",
 											"value": "lastWeek"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "page",
+											"value": "1"
 										}
 									]
 								}
@@ -2421,7 +2469,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "10639812",
+											"value": "-81239654",
 											"description": "(Required) Numeric ID of the orderItem to get"
 										}
 									]
@@ -2451,7 +2499,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "10639812",
+													"value": "-81239654",
 													"description": "(Required) Numeric ID of the orderItem to get"
 												}
 											]
@@ -2492,7 +2540,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "10639812",
+													"value": "-81239654",
 													"description": "(Required) Numeric ID of the orderItem to get"
 												}
 											]
@@ -2533,7 +2581,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "10639812",
+													"value": "-81239654",
 													"description": "(Required) Numeric ID of the orderItem to get"
 												}
 											]
@@ -2574,7 +2622,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "10639812",
+													"value": "-81239654",
 													"description": "(Required) Numeric ID of the orderItem to get"
 												}
 											]
@@ -2615,7 +2663,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "10639812",
+													"value": "-81239654",
 													"description": "(Required) Numeric ID of the orderItem to get"
 												}
 											]
@@ -5478,6 +5526,10 @@
 			"request": {
 				"method": "POST",
 				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
 					{
 						"key": "Content-Type",
 						"value": "application/json"

@@ -5,8 +5,13 @@ import (
 	"time"
 )
 
+const LimitDefaultValue = "10"
+const PageDefaultValue = "1"
+
 type QueryParamOrder struct {
-	Date string
+	Date  string
+	Limit int
+	Page  int
 }
 
 type Order struct {
