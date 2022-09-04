@@ -75,6 +75,8 @@ func (r *gameRepository) FindAll(tx *gorm.DB) ([]*model.GameLeaderboard, error) 
 	sort := "desc"
 	orderStatement := fmt.Sprintf("%s %s", sortBy, sort)
 
-	result := tx.Preload("User").Order(orderStatement).Limit(10).Find(&gameLeaderboards)
+	var ids []uint
+	tx.Table("users_tab").Distinct().Select("id").Where("role = ?", model.AdminRole).Find(&ids)
+	result := tx.Preload("User").Where("user_id NOT IN (?)", ids).Order(orderStatement).Limit(5).Find(&gameLeaderboards)
 	return gameLeaderboards, result.Error
 }
