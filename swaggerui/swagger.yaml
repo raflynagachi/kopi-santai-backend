@@ -1000,6 +1000,7 @@ paths:
                   totalPage: 1
                   totalData: 3
                   limit: 10
+                  sumOfTotalPrice: 230000
                   orderRes:
                     - id: 1
                       userID: 4

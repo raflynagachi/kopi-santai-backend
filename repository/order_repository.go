@@ -13,6 +13,7 @@ type OrderRepository interface {
 	FindOrderByIDAndUserID(tx *gorm.DB, id, userID uint) (*model.Order, error)
 	FindOrderByUserID(tx *gorm.DB, userID uint) ([]*model.Order, error)
 	CountRecords(tx *gorm.DB, t *time.Time) (int, error)
+	SumOfTotalPrice(tx *gorm.DB, t *time.Time) (float64, error)
 	Update(tx *gorm.DB, id uint, ord *model.Order) (*model.Order, error)
 }
 
@@ -35,6 +36,16 @@ func (r *orderRepository) CountRecords(tx *gorm.DB, t *time.Time) (int, error) {
 		return 0, new(apperror.OrderNotFoundError)
 	}
 	return int(count), nil
+}
+
+func (r *orderRepository) SumOfTotalPrice(tx *gorm.DB, t *time.Time) (float64, error) {
+	var sumOfTotalPrice float64
+
+	result := tx.Model(&model.Order{}).Where("ordered_date BETWEEN ? AND ?", t, time.Now()).Select("SUM(total_price)").Scan(&sumOfTotalPrice)
+	if result.Error != nil && result.RowsAffected == 0 {
+		return 0, new(apperror.OrderNotFoundError)
+	}
+	return sumOfTotalPrice, nil
 }
 
 func (r *orderRepository) FindAll(tx *gorm.DB, t *time.Time, limit, page int) ([]*model.Order, error) {

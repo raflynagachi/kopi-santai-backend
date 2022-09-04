@@ -128,6 +128,27 @@ func (_m *OrderRepository) FindOrderByUserID(tx *gorm.DB, userID uint) ([]*model
 	return r0, r1
 }
 
+// SumOfTotalPrice provides a mock function with given fields: tx, t
+func (_m *OrderRepository) SumOfTotalPrice(tx *gorm.DB, t *time.Time) (float64, error) {
+	ret := _m.Called(tx, t)
+
+	var r0 float64
+	if rf, ok := ret.Get(0).(func(*gorm.DB, *time.Time) float64); ok {
+		r0 = rf(tx, t)
+	} else {
+		r0 = ret.Get(0).(float64)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(*gorm.DB, *time.Time) error); ok {
+		r1 = rf(tx, t)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // Update provides a mock function with given fields: tx, id, ord
 func (_m *OrderRepository) Update(tx *gorm.DB, id uint, ord *model.Order) (*model.Order, error) {
 	ret := _m.Called(tx, id, ord)

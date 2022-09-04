@@ -213,6 +213,13 @@ func (s *orderService) FindAll(q *model.QueryParamOrder) (*dto.OrderPaginationRe
 		tx.Rollback()
 		return nil, apperror.InternalServerError(err.Error())
 	}
+
+	sumOfTotalPrice, err := s.orderRepo.SumOfTotalPrice(tx, &t)
+	if err != nil {
+		tx.Rollback()
+		return nil, apperror.InternalServerError(err.Error())
+	}
+
 	totalPages := (count + q.Limit - 1) / q.Limit
 
 	for _, o := range order {
@@ -224,6 +231,6 @@ func (s *orderService) FindAll(q *model.QueryParamOrder) (*dto.OrderPaginationRe
 	}
 	helper.CommitOrRollback(tx, err)
 
-	orderPagRes := new(dto.OrderPaginationRes).From(ordersRes, q.Page, totalPages, count, q.Limit)
+	orderPagRes := new(dto.OrderPaginationRes).From(ordersRes, q.Page, totalPages, count, q.Limit, sumOfTotalPrice)
 	return orderPagRes, nil
 }
