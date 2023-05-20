@@ -2,14 +2,15 @@ package service
 
 import (
 	"fmt"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/repository"
-	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 	"strings"
+
+	"github.com/gin-gonic/gin"
+	"github.com/raflynagachi/kopi-santai-backend/apperror"
+	"github.com/raflynagachi/kopi-santai-backend/dto"
+	"github.com/raflynagachi/kopi-santai-backend/helper"
+	"github.com/raflynagachi/kopi-santai-backend/model"
+	"github.com/raflynagachi/kopi-santai-backend/repository"
+	"gorm.io/gorm"
 )
 
 type MenuService interface {

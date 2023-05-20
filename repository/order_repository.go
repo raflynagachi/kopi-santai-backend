@@ -1,10 +1,11 @@
 package repository
 
 import (
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
-	"gorm.io/gorm"
 	"time"
+
+	"github.com/raflynagachi/kopi-santai-backend/apperror"
+	"github.com/raflynagachi/kopi-santai-backend/model"
+	"gorm.io/gorm"
 )
 
 type OrderRepository interface {

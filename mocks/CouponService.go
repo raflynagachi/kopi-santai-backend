@@ -3,7 +3,7 @@
 package mocks
 
 import (
-	dto "git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
+	dto "github.com/raflynagachi/kopi-santai-backend/dto"
 	gin "github.com/gin-gonic/gin"
 
 	mock "github.com/stretchr/testify/mock"

@@ -3,16 +3,17 @@ package handler_test
 import (
 	"encoding/json"
 	"errors"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper/testutils"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/mocks"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/server"
-	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"
+
+	"github.com/gin-gonic/gin"
+	"github.com/raflynagachi/kopi-santai-backend/apperror"
+	"github.com/raflynagachi/kopi-santai-backend/dto"
+	"github.com/raflynagachi/kopi-santai-backend/helper/testutils"
+	"github.com/raflynagachi/kopi-santai-backend/mocks"
+	"github.com/raflynagachi/kopi-santai-backend/model"
+	"github.com/raflynagachi/kopi-santai-backend/server"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestMenuHandler_FindAll(t *testing.T) {

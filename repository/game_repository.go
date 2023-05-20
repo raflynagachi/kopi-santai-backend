@@ -2,8 +2,9 @@ package repository
 
 import (
 	"fmt"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
+
+	"github.com/raflynagachi/kopi-santai-backend/apperror"
+	"github.com/raflynagachi/kopi-santai-backend/model"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )

@@ -1,13 +1,14 @@
 package server
 
 import (
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/config"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/db"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/repository"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/service"
-	"github.com/go-co-op/gocron"
 	"log"
 	"time"
+
+	"github.com/go-co-op/gocron"
+	"github.com/raflynagachi/kopi-santai-backend/config"
+	"github.com/raflynagachi/kopi-santai-backend/db"
+	"github.com/raflynagachi/kopi-santai-backend/repository"
+	"github.com/raflynagachi/kopi-santai-backend/service"
 )
 
 func Init() {

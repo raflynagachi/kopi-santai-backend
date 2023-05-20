@@ -2,13 +2,14 @@ package service
 
 import (
 	"errors"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/repository"
-	"gorm.io/gorm"
 	"time"
+
+	"github.com/raflynagachi/kopi-santai-backend/apperror"
+	"github.com/raflynagachi/kopi-santai-backend/dto"
+	"github.com/raflynagachi/kopi-santai-backend/helper"
+	"github.com/raflynagachi/kopi-santai-backend/model"
+	"github.com/raflynagachi/kopi-santai-backend/repository"
+	"gorm.io/gorm"
 )
 
 type OrderService interface {

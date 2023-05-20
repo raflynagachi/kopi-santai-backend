@@ -1,13 +1,14 @@
 package server
 
 import (
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/handler"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/middleware"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/service"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/raflynagachi/kopi-santai-backend/apperror"
+	"github.com/raflynagachi/kopi-santai-backend/dto"
+	"github.com/raflynagachi/kopi-santai-backend/handler"
+	"github.com/raflynagachi/kopi-santai-backend/middleware"
+	"github.com/raflynagachi/kopi-santai-backend/service"
 )
 
 type RouterConfig struct {

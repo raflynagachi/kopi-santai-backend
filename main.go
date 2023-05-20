@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/config"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/db"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/server"
+
+	"github.com/raflynagachi/kopi-santai-backend/config"
+	"github.com/raflynagachi/kopi-santai-backend/db"
+	"github.com/raflynagachi/kopi-santai-backend/server"
 )
 
 func main() {

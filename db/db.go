@@ -2,12 +2,13 @@ package db
 
 import (
 	"fmt"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/config"
+	"log"
+	"os"
+
+	"github.com/raflynagachi/kopi-santai-backend/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"log"
-	"os"
 )
 
 var db *gorm.DB

@@ -1,8 +1,8 @@
 package dto
 
 import (
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
+	"github.com/raflynagachi/kopi-santai-backend/helper"
+	"github.com/raflynagachi/kopi-santai-backend/model"
 	"gorm.io/gorm"
 )
 

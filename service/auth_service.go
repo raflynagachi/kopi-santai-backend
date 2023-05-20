@@ -1,16 +1,17 @@
 package service
 
 import (
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/config"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/repository"
+	"time"
+
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/raflynagachi/kopi-santai-backend/apperror"
+	"github.com/raflynagachi/kopi-santai-backend/config"
+	"github.com/raflynagachi/kopi-santai-backend/dto"
+	"github.com/raflynagachi/kopi-santai-backend/helper"
+	"github.com/raflynagachi/kopi-santai-backend/model"
+	"github.com/raflynagachi/kopi-santai-backend/repository"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
-	"time"
 )
 
 type AuthService interface {

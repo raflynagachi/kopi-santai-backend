@@ -2,14 +2,15 @@ package testutils
 
 import (
 	"encoding/json"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/server"
-	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/gin-gonic/gin"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 	"net/http"
 	"net/http/httptest"
 	"strings"
+
+	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/gin-gonic/gin"
+	"github.com/raflynagachi/kopi-santai-backend/server"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 const GormDBPointerType = "*gorm.DB"

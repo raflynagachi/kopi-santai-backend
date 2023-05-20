@@ -2,15 +2,16 @@ package service_test
 
 import (
 	"errors"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/dto"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/helper/testutils"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/mocks"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/service"
+	"testing"
+
+	"github.com/raflynagachi/kopi-santai-backend/apperror"
+	"github.com/raflynagachi/kopi-santai-backend/dto"
+	"github.com/raflynagachi/kopi-santai-backend/helper/testutils"
+	"github.com/raflynagachi/kopi-santai-backend/mocks"
+	"github.com/raflynagachi/kopi-santai-backend/model"
+	"github.com/raflynagachi/kopi-santai-backend/service"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"testing"
 )
 
 func TestReviewService_Create(t *testing.T) {

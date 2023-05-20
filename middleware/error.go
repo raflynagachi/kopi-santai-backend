@@ -2,8 +2,9 @@ package middleware
 
 import (
 	"fmt"
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
+
 	"github.com/gin-gonic/gin"
+	"github.com/raflynagachi/kopi-santai-backend/apperror"
 )
 
 func ErrorHandler(c *gin.Context) {

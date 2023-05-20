@@ -3,7 +3,7 @@
 package mocks
 
 import (
-	model "git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
+	model "github.com/raflynagachi/kopi-santai-backend/model"
 	mock "github.com/stretchr/testify/mock"
 	gorm "gorm.io/gorm"
 

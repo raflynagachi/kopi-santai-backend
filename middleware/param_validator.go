@@ -1,9 +1,10 @@
 package middleware
 
 import (
-	"git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/apperror"
-	"github.com/gin-gonic/gin"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
+	"github.com/raflynagachi/kopi-santai-backend/apperror"
 )
 
 func ParamIDValidator(c *gin.Context) {

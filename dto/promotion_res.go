@@ -1,6 +1,6 @@
 package dto
 
-import "git.garena.com/sea-labs-id/batch-01/rafly-nagachi/final-project-backend/model"
+import "github.com/raflynagachi/kopi-santai-backend/model"
 
 type PromotionRes struct {
 	ID          uint       `json:"id"`
